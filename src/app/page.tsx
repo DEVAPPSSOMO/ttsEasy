@@ -38,6 +38,7 @@ export default function HomePage(): JSX.Element {
   const [readerId, setReaderId] = useState<ReaderId>("natural");
   const [speed, setSpeed] = useState<TtsSpeed>(1);
   const [captchaToken, setCaptchaToken] = useState("");
+  const [captchaWidgetKey, setCaptchaWidgetKey] = useState(0);
   const [isGenerating, setIsGenerating] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -288,6 +289,9 @@ export default function HomePage(): JSX.Element {
       setErrorMessage(message);
       trackEvent("tts_error", { message });
     } finally {
+      // Turnstile tokens are single-use; remount the widget so the next generation gets a fresh token.
+      setCaptchaToken("");
+      setCaptchaWidgetKey((current) => current + 1);
       setIsGenerating(false);
     }
   };
@@ -393,7 +397,7 @@ export default function HomePage(): JSX.Element {
           </div>
         </div>
 
-        <TurnstileBox onToken={setCaptchaToken} />
+        <TurnstileBox key={captchaWidgetKey} onToken={setCaptchaToken} />
 
         {errorMessage ? <p style={{ color: "#b91c1c" }}>{errorMessage}</p> : null}
 
