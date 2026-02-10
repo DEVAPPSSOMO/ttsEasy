@@ -1,0 +1,129 @@
+{
+  "metadata": {
+    "title": "Free Text to Speech Online",
+    "description": "Convert text to natural speech instantly. Automatic language detection, 11 accents, 3 voice styles, free MP3 download. No registration required.",
+    "ogTitle": "TTS Easy - Free Text to Speech Online",
+    "ogDescription": "Convert any text to natural-sounding audio with automatic language detection and 11 accent options."
+  },
+  "home": {
+    "h1": "Free Text to Speech Online - Convert Text to Audio Instantly",
+    "subtitle": "Paste any text, detect language automatically, and listen with natural voices. Download as MP3 for free.",
+    "tryNow": "Try it now"
+  },
+  "ui": {
+    "accentQuestion": "Accent is unclear. Do you want to keep {primary} or switch to {secondary}?",
+    "autoMode": "Auto",
+    "charCount": "Characters",
+    "detecting": "Detecting language...",
+    "disclaimer": "Text is processed in-memory only and is never stored.",
+    "download": "Download MP3",
+    "generating": "Generating...",
+    "headline": "Text to Speech, instantly",
+    "languageSelect": "Language/Accent",
+    "manualMode": "Manual",
+    "pause": "Pause / Resume",
+    "play": "Generate & Play",
+    "readerSelect": "Reader",
+    "speed": "Speed",
+    "subtitle": "Paste any text. We detect language + accent and read it aloud.",
+    "textPlaceholder": "Paste text here...",
+    "detectLabel": "Detected"
+  },
+  "nav": {
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "cookies": "Cookies",
+    "about": "About",
+    "blog": "Blog",
+    "language": "Language"
+  },
+  "features": {
+    "title": "Why Choose TTS Easy?",
+    "items": [
+      {
+        "title": "Instant Language Detection",
+        "description": "Automatic detection of 6 languages as you type. No manual selection needed."
+      },
+      {
+        "title": "11 Accents Supported",
+        "description": "US, UK, Australian English. Mexican, Spanish, Argentine Spanish. Brazilian and European Portuguese. French, German, Italian."
+      },
+      {
+        "title": "3 Voice Styles",
+        "description": "Choose from Natural, Clear, or Expressive voices powered by Google Cloud Text-to-Speech."
+      },
+      {
+        "title": "Free MP3 Download",
+        "description": "Download your generated audio as MP3 instantly. No sign-up or payment required."
+      },
+      {
+        "title": "No Registration Required",
+        "description": "Start converting text to speech immediately. No account, no email, no hassle."
+      },
+      {
+        "title": "Privacy-First",
+        "description": "Your text is processed in-memory and never stored. We respect your privacy by design."
+      }
+    ]
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "items": [
+      {
+        "question": "What is text to speech?",
+        "answer": "Text to speech (TTS) is a technology that converts written text into spoken audio. TTS Easy uses advanced AI voices from Google Cloud to produce natural-sounding speech in multiple languages and accents."
+      },
+      {
+        "question": "Is TTS Easy free to use?",
+        "answer": "Yes, TTS Easy is completely free. You can convert text to speech and download MP3 files without creating an account or paying anything."
+      },
+      {
+        "question": "What languages and accents are supported?",
+        "answer": "TTS Easy supports 6 languages with 11 accent variants: English (US, UK, Australia), Spanish (Mexico, Spain, Argentina), Portuguese (Brazil, Portugal), French (France), German (Germany), and Italian (Italy)."
+      },
+      {
+        "question": "Can I download the audio as MP3?",
+        "answer": "Yes, every generated audio can be downloaded as an MP3 file with a single click. The file is ready for use in videos, presentations, or any other project."
+      },
+      {
+        "question": "Is my text stored or shared?",
+        "answer": "No. Your text is processed in-memory only and is immediately discarded after the audio is generated. We never store, log, or share your text content."
+      },
+      {
+        "question": "How do I change the voice accent?",
+        "answer": "TTS Easy automatically detects the language and accent of your text. You can also switch to Manual mode and select any of the 11 available accents from the dropdown menu."
+      },
+      {
+        "question": "Can I use the audio for YouTube videos?",
+        "answer": "Yes, you can use the generated audio for YouTube videos, podcasts, presentations, e-learning content, and any other personal or commercial project."
+      }
+    ]
+  },
+  "trust": {
+    "poweredBy": "Powered by Google Cloud",
+    "noSignUp": "No sign-up required",
+    "neverStored": "Text never stored"
+  },
+  "about": {
+    "title": "About",
+    "p1": "TTS Easy is a lightweight text-to-speech web app designed for fast language detection, accent selection, and quick MP3 generation.",
+    "p2": "The project prioritizes global usability, transparent privacy defaults, and practical monetization through moderate ad placements."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "p1": "We do not store the text you paste for speech generation. Your text is processed in-memory and discarded after audio is produced.",
+    "p2": "We use analytics and advertising tools (Google Analytics and Google AdSense) to measure traffic and display ads. These tools may use cookies according to their own policies.",
+    "p3": "Abuse prevention data (rate-limit counters and CAPTCHA verification status) is stored only as aggregated security metadata and never contains your raw text."
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "p1": "This service is provided on an as-is basis for converting text to speech. You agree not to use it for abusive, unlawful, or automated scraping behaviors.",
+    "p2": "We may enforce rate limits, CAPTCHA challenges, or temporary blocks to protect service availability and budget.",
+    "p3": "By using this website, you acknowledge that synthesized audio quality depends on selected locale, reader profile, and cloud provider capabilities."
+  },
+  "cookies": {
+    "title": "Cookie Policy",
+    "p1": "This website uses cookies and similar technologies for three purposes: analytics (GA4), ad delivery (AdSense), and fraud prevention.",
+    "p2": "You can control cookies from your browser settings. Blocking cookies may impact ad rendering and some personalization features."
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "metadata": {
+    "title": "Texto a Voz Online Gratis",
+    "description": "Convierte texto a voz natural al instante. Deteccion automatica de idioma, 11 acentos, 3 estilos de voz, descarga MP3 gratis. Sin registro.",
+    "ogTitle": "TTS Easy - Texto a Voz Online Gratis",
+    "ogDescription": "Convierte cualquier texto a audio natural con deteccion automatica de idioma y 11 opciones de acento."
+  },
+  "home": {
+    "h1": "Texto a Voz Online Gratis - Convierte Texto a Audio al Instante",
+    "subtitle": "Pega cualquier texto, detecta el idioma automaticamente y escucha con voces naturales. Descarga como MP3 gratis.",
+    "tryNow": "Pruebalo ahora"
+  },
+  "ui": {
+    "accentQuestion": "Hay duda sobre el acento. ¿Mantener {primary} o cambiar a {secondary}?",
+    "autoMode": "Auto",
+    "charCount": "Caracteres",
+    "detecting": "Detectando idioma...",
+    "disclaimer": "El texto se procesa en memoria y no se guarda.",
+    "download": "Descargar MP3",
+    "generating": "Generando...",
+    "headline": "Texto a Voz al instante",
+    "languageSelect": "Idioma/Acento",
+    "manualMode": "Manual",
+    "pause": "Pausar / Reanudar",
+    "play": "Generar y reproducir",
+    "readerSelect": "Lector",
+    "speed": "Velocidad",
+    "subtitle": "Pega cualquier texto. Detectamos idioma + acento y lo leemos.",
+    "textPlaceholder": "Pega tu texto aqui...",
+    "detectLabel": "Detectado"
+  },
+  "nav": {
+    "privacy": "Privacidad",
+    "terms": "Terminos",
+    "cookies": "Cookies",
+    "about": "Acerca de",
+    "blog": "Blog",
+    "language": "Idioma"
+  },
+  "features": {
+    "title": "¿Por que elegir TTS Easy?",
+    "items": [
+      {
+        "title": "Deteccion Instantanea de Idioma",
+        "description": "Deteccion automatica de 6 idiomas mientras escribes. Sin necesidad de seleccion manual."
+      },
+      {
+        "title": "11 Acentos Disponibles",
+        "description": "Ingles de EE.UU., Reino Unido y Australia. Español de Mexico, España y Argentina. Portugues de Brasil y Portugal. Frances, aleman e italiano."
+      },
+      {
+        "title": "3 Estilos de Voz",
+        "description": "Elige entre voces Natural, Clara o Expresiva impulsadas por Google Cloud Text-to-Speech."
+      },
+      {
+        "title": "Descarga MP3 Gratis",
+        "description": "Descarga tu audio generado como MP3 al instante. Sin registro ni pago requerido."
+      },
+      {
+        "title": "Sin Registro",
+        "description": "Comienza a convertir texto a voz inmediatamente. Sin cuenta, sin email, sin complicaciones."
+      },
+      {
+        "title": "Privacidad Primero",
+        "description": "Tu texto se procesa en memoria y nunca se almacena. Respetamos tu privacidad por diseño."
+      }
+    ]
+  },
+  "faq": {
+    "title": "Preguntas Frecuentes",
+    "items": [
+      {
+        "question": "¿Que es texto a voz?",
+        "answer": "Texto a voz (TTS) es una tecnologia que convierte texto escrito en audio hablado. TTS Easy usa voces avanzadas de IA de Google Cloud para producir habla natural en multiples idiomas y acentos."
+      },
+      {
+        "question": "¿Es TTS Easy gratis?",
+        "answer": "Si, TTS Easy es completamente gratis. Puedes convertir texto a voz y descargar archivos MP3 sin crear una cuenta ni pagar nada."
+      },
+      {
+        "question": "¿Que idiomas y acentos son compatibles?",
+        "answer": "TTS Easy soporta 6 idiomas con 11 variantes de acento: Ingles (EE.UU., Reino Unido, Australia), Español (Mexico, España, Argentina), Portugues (Brasil, Portugal), Frances (Francia), Aleman (Alemania) e Italiano (Italia)."
+      },
+      {
+        "question": "¿Puedo descargar el audio como MP3?",
+        "answer": "Si, cada audio generado puede descargarse como archivo MP3 con un solo clic. El archivo esta listo para usar en videos, presentaciones o cualquier otro proyecto."
+      },
+      {
+        "question": "¿Se almacena o comparte mi texto?",
+        "answer": "No. Tu texto se procesa solo en memoria y se descarta inmediatamente despues de generar el audio. Nunca almacenamos, registramos ni compartimos el contenido de tu texto."
+      },
+      {
+        "question": "¿Como cambio el acento de voz?",
+        "answer": "TTS Easy detecta automaticamente el idioma y acento de tu texto. Tambien puedes cambiar al modo Manual y seleccionar cualquiera de los 11 acentos disponibles en el menu desplegable."
+      },
+      {
+        "question": "¿Puedo usar el audio para videos de YouTube?",
+        "answer": "Si, puedes usar el audio generado para videos de YouTube, podcasts, presentaciones, contenido de e-learning y cualquier otro proyecto personal o comercial."
+      }
+    ]
+  },
+  "trust": {
+    "poweredBy": "Impulsado por Google Cloud",
+    "noSignUp": "Sin registro requerido",
+    "neverStored": "Texto nunca almacenado"
+  },
+  "about": {
+    "title": "Acerca de",
+    "p1": "TTS Easy es una aplicacion web ligera de texto a voz diseñada para deteccion rapida de idioma, seleccion de acento y generacion rapida de MP3.",
+    "p2": "El proyecto prioriza la usabilidad global, valores predeterminados de privacidad transparentes y monetizacion practica a traves de ubicaciones moderadas de anuncios."
+  },
+  "privacy": {
+    "title": "Politica de Privacidad",
+    "p1": "No almacenamos el texto que pegas para la generacion de voz. Tu texto se procesa en memoria y se descarta despues de producir el audio.",
+    "p2": "Usamos herramientas de analisis y publicidad (Google Analytics y Google AdSense) para medir trafico y mostrar anuncios. Estas herramientas pueden usar cookies segun sus propias politicas.",
+    "p3": "Los datos de prevencion de abuso (contadores de limite de tasa y estado de verificacion CAPTCHA) se almacenan solo como metadatos de seguridad agregados y nunca contienen tu texto sin procesar."
+  },
+  "terms": {
+    "title": "Terminos de Servicio",
+    "p1": "Este servicio se proporciona tal cual para convertir texto a voz. Aceptas no usarlo para comportamientos abusivos, ilegales o de scraping automatizado.",
+    "p2": "Podemos aplicar limites de tasa, desafios CAPTCHA o bloqueos temporales para proteger la disponibilidad del servicio y el presupuesto.",
+    "p3": "Al usar este sitio web, reconoces que la calidad del audio sintetizado depende del idioma seleccionado, perfil de lector y capacidades del proveedor en la nube."
+  },
+  "cookies": {
+    "title": "Politica de Cookies",
+    "p1": "Este sitio web usa cookies y tecnologias similares para tres propositos: analisis (GA4), entrega de anuncios (AdSense) y prevencion de fraude.",
+    "p2": "Puedes controlar las cookies desde la configuracion de tu navegador. Bloquear cookies puede afectar la visualizacion de anuncios y algunas funciones de personalizacion."
+  }
+}

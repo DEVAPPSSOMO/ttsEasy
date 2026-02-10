@@ -1,12 +1,15 @@
 "use client";
 
 import { getLocaleLabel } from "@/lib/localeHeuristics";
-import { UiCopy } from "@/lib/i18n";
 import { LocaleCandidate } from "@/lib/types";
+
+interface AccentPromptCopy {
+  accentQuestion: string;
+}
 
 interface AccentPromptProps {
   candidates: LocaleCandidate[];
-  copy: UiCopy;
+  copy: AccentPromptCopy;
   onChoose: (locale: string) => void;
 }
 

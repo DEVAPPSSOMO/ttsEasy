@@ -1,0 +1,129 @@
+{
+  "metadata": {
+    "title": "Sintesi Vocale Online Gratuita",
+    "description": "Converti testo in parlato naturale istantaneamente. Rilevamento automatico della lingua, 11 accenti, 3 stili vocali, download MP3 gratuito. Nessuna registrazione.",
+    "ogTitle": "TTS Easy - Sintesi Vocale Online Gratuita",
+    "ogDescription": "Converti qualsiasi testo in audio naturale con rilevamento automatico della lingua e 11 opzioni di accento."
+  },
+  "home": {
+    "h1": "Sintesi Vocale Online Gratuita - Converti Testo in Audio Istantaneamente",
+    "subtitle": "Incolla qualsiasi testo, rileva la lingua automaticamente e ascolta con voci naturali. Scarica come MP3 gratis.",
+    "tryNow": "Provalo ora"
+  },
+  "ui": {
+    "accentQuestion": "L'accento non e chiaro. Vuoi mantenere {primary} o passare a {secondary}?",
+    "autoMode": "Auto",
+    "charCount": "Caratteri",
+    "detecting": "Rilevamento lingua...",
+    "disclaimer": "Il testo viene elaborato solo in memoria e non viene mai memorizzato.",
+    "download": "Scarica MP3",
+    "generating": "Generazione...",
+    "headline": "Testo a Voce, istantaneamente",
+    "languageSelect": "Lingua/Accento",
+    "manualMode": "Manuale",
+    "pause": "Pausa / Riprendi",
+    "play": "Genera e Riproduci",
+    "readerSelect": "Lettore",
+    "speed": "Velocita",
+    "subtitle": "Incolla qualsiasi testo. Rileviamo lingua + accento e lo leggiamo ad alta voce.",
+    "textPlaceholder": "Incolla il testo qui...",
+    "detectLabel": "Rilevato"
+  },
+  "nav": {
+    "privacy": "Privacy",
+    "terms": "Termini",
+    "cookies": "Cookie",
+    "about": "Info",
+    "blog": "Blog",
+    "language": "Lingua"
+  },
+  "features": {
+    "title": "Perche scegliere TTS Easy?",
+    "items": [
+      {
+        "title": "Rilevamento Istantaneo della Lingua",
+        "description": "Rilevamento automatico di 6 lingue mentre digiti. Nessuna selezione manuale necessaria."
+      },
+      {
+        "title": "11 Accenti Disponibili",
+        "description": "Inglese USA, Regno Unito e Australia. Spagnolo del Messico, Spagna e Argentina. Portoghese del Brasile e Portogallo. Francese, tedesco e italiano."
+      },
+      {
+        "title": "3 Stili Vocali",
+        "description": "Scegli tra voci Naturale, Chiara o Espressiva alimentate da Google Cloud Text-to-Speech."
+      },
+      {
+        "title": "Download MP3 Gratuito",
+        "description": "Scarica il tuo audio generato come MP3 istantaneamente. Nessuna registrazione o pagamento richiesto."
+      },
+      {
+        "title": "Nessuna Registrazione",
+        "description": "Inizia a convertire testo in voce immediatamente. Nessun account, nessuna email, nessuna complicazione."
+      },
+      {
+        "title": "Privacy al Primo Posto",
+        "description": "Il tuo testo viene elaborato in memoria e non viene mai memorizzato. Rispettiamo la tua privacy by design."
+      }
+    ]
+  },
+  "faq": {
+    "title": "Domande Frequenti",
+    "items": [
+      {
+        "question": "Cos'e la sintesi vocale?",
+        "answer": "La sintesi vocale (TTS) e una tecnologia che converte il testo scritto in audio parlato. TTS Easy utilizza voci IA avanzate di Google Cloud per produrre parlato naturale in piu lingue e accenti."
+      },
+      {
+        "question": "TTS Easy e gratuito?",
+        "answer": "Si, TTS Easy e completamente gratuito. Puoi convertire testo in voce e scaricare file MP3 senza creare un account o pagare nulla."
+      },
+      {
+        "question": "Quali lingue e accenti sono supportati?",
+        "answer": "TTS Easy supporta 6 lingue con 11 varianti di accento: Inglese (USA, Regno Unito, Australia), Spagnolo (Messico, Spagna, Argentina), Portoghese (Brasile, Portogallo), Francese (Francia), Tedesco (Germania) e Italiano (Italia)."
+      },
+      {
+        "question": "Posso scaricare l'audio come MP3?",
+        "answer": "Si, ogni audio generato puo essere scaricato come file MP3 con un singolo clic. Il file e pronto per l'uso in video, presentazioni o qualsiasi altro progetto."
+      },
+      {
+        "question": "Il mio testo viene memorizzato o condiviso?",
+        "answer": "No. Il tuo testo viene elaborato solo in memoria e viene immediatamente scartato dopo la generazione dell'audio. Non memorizziamo, registriamo o condividiamo mai il contenuto del tuo testo."
+      },
+      {
+        "question": "Come cambio l'accento della voce?",
+        "answer": "TTS Easy rileva automaticamente la lingua e l'accento del tuo testo. Puoi anche passare alla modalita Manuale e selezionare uno degli 11 accenti disponibili dal menu a discesa."
+      },
+      {
+        "question": "Posso usare l'audio per video YouTube?",
+        "answer": "Si, puoi usare l'audio generato per video YouTube, podcast, presentazioni, contenuti di e-learning e qualsiasi altro progetto personale o commerciale."
+      }
+    ]
+  },
+  "trust": {
+    "poweredBy": "Powered by Google Cloud",
+    "noSignUp": "Nessuna registrazione richiesta",
+    "neverStored": "Testo mai memorizzato"
+  },
+  "about": {
+    "title": "Info",
+    "p1": "TTS Easy e un'applicazione web leggera di sintesi vocale progettata per il rilevamento rapido della lingua, la selezione dell'accento e la generazione rapida di MP3.",
+    "p2": "Il progetto da priorita all'usabilita globale, impostazioni di privacy trasparenti e monetizzazione pratica attraverso posizionamenti pubblicitari moderati."
+  },
+  "privacy": {
+    "title": "Informativa sulla Privacy",
+    "p1": "Non memorizziamo il testo che incolli per la generazione vocale. Il tuo testo viene elaborato in memoria e scartato dopo la produzione dell'audio.",
+    "p2": "Utilizziamo strumenti di analisi e pubblicita (Google Analytics e Google AdSense) per misurare il traffico e visualizzare annunci. Questi strumenti possono utilizzare cookie secondo le proprie politiche.",
+    "p3": "I dati di prevenzione degli abusi (contatori di limite di velocita e stato di verifica CAPTCHA) vengono memorizzati solo come metadati di sicurezza aggregati e non contengono mai il testo grezzo."
+  },
+  "terms": {
+    "title": "Termini di Servizio",
+    "p1": "Questo servizio e fornito cosi com'e per la conversione di testo in voce. Accetti di non utilizzarlo per comportamenti abusivi, illegali o di scraping automatizzato.",
+    "p2": "Potremmo applicare limiti di velocita, sfide CAPTCHA o blocchi temporanei per proteggere la disponibilita del servizio e il budget.",
+    "p3": "Utilizzando questo sito web, riconosci che la qualita dell'audio sintetizzato dipende dalla lingua selezionata, dal profilo del lettore e dalle capacita del provider cloud."
+  },
+  "cookies": {
+    "title": "Politica sui Cookie",
+    "p1": "Questo sito web utilizza cookie e tecnologie simili per tre scopi: analisi (GA4), pubblicazione di annunci (AdSense) e prevenzione delle frodi.",
+    "p2": "Puoi controllare i cookie dalle impostazioni del tuo browser. Il blocco dei cookie puo influire sulla visualizzazione degli annunci e su alcune funzionalita di personalizzazione."
+  }
+}

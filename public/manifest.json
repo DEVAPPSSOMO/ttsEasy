@@ -1,0 +1,16 @@
+{
+  "name": "TTS Easy",
+  "short_name": "TTS Easy",
+  "description": "Free text to speech online with automatic language detection and 11 accents.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6efe1",
+  "theme_color": "#0f8b8d",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}

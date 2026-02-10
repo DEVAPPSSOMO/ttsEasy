@@ -1,11 +1,18 @@
 "use client";
 
 import { getLocaleLabel } from "@/lib/localeHeuristics";
-import { UiCopy } from "@/lib/i18n";
 import { ReaderId, ReaderOption } from "@/lib/types";
 
+interface LanguageBarCopy {
+  detectLabel: string;
+  autoMode: string;
+  manualMode: string;
+  languageSelect: string;
+  readerSelect: string;
+}
+
 interface LanguageBarProps {
-  copy: UiCopy;
+  copy: LanguageBarCopy;
   detectedLocale: string;
   locale: string;
   localeOptions: string[];

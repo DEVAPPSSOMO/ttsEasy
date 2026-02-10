@@ -1,0 +1,129 @@
+{
+  "metadata": {
+    "title": "Kostenlose Text-to-Speech Online",
+    "description": "Verwandeln Sie Text sofort in naturliche Sprache. Automatische Spracherkennung, 11 Akzente, 3 Stimmstile, kostenloser MP3-Download. Keine Registrierung erforderlich.",
+    "ogTitle": "TTS Easy - Kostenlose Text-to-Speech Online",
+    "ogDescription": "Konvertieren Sie beliebigen Text in naturlich klingendes Audio mit automatischer Spracherkennung und 11 Akzentoptionen."
+  },
+  "home": {
+    "h1": "Kostenlose Text-to-Speech Online - Text in Sprache Umwandeln",
+    "subtitle": "Fugen Sie Text ein, erkennen Sie die Sprache automatisch und horen Sie mit naturlichen Stimmen. Kostenlos als MP3 herunterladen.",
+    "tryNow": "Jetzt ausprobieren"
+  },
+  "ui": {
+    "accentQuestion": "Der Akzent ist unklar. Mochten Sie {primary} beibehalten oder zu {secondary} wechseln?",
+    "autoMode": "Auto",
+    "charCount": "Zeichen",
+    "detecting": "Sprache wird erkannt...",
+    "disclaimer": "Text wird nur im Arbeitsspeicher verarbeitet und nie gespeichert.",
+    "download": "MP3 herunterladen",
+    "generating": "Wird generiert...",
+    "headline": "Text zu Sprache, sofort",
+    "languageSelect": "Sprache/Akzent",
+    "manualMode": "Manuell",
+    "pause": "Pause / Fortsetzen",
+    "play": "Generieren & Abspielen",
+    "readerSelect": "Vorleser",
+    "speed": "Geschwindigkeit",
+    "subtitle": "Fugen Sie Text ein. Wir erkennen Sprache + Akzent und lesen vor.",
+    "textPlaceholder": "Text hier einfugen...",
+    "detectLabel": "Erkannt"
+  },
+  "nav": {
+    "privacy": "Datenschutz",
+    "terms": "AGB",
+    "cookies": "Cookies",
+    "about": "Uber uns",
+    "blog": "Blog",
+    "language": "Sprache"
+  },
+  "features": {
+    "title": "Warum TTS Easy wahlen?",
+    "items": [
+      {
+        "title": "Sofortige Spracherkennung",
+        "description": "Automatische Erkennung von 6 Sprachen wahrend Sie tippen. Keine manuelle Auswahl notig."
+      },
+      {
+        "title": "11 Akzente verfugbar",
+        "description": "US-, britisches und australisches Englisch. Mexikanisches, spanisches und argentinisches Spanisch. Brasilianisches und europaisches Portugiesisch. Franzosisch, Deutsch und Italienisch."
+      },
+      {
+        "title": "3 Stimmstile",
+        "description": "Wahlen Sie zwischen naturlichen, klaren oder expressiven Stimmen, powered by Google Cloud Text-to-Speech."
+      },
+      {
+        "title": "Kostenloser MP3-Download",
+        "description": "Laden Sie Ihr generiertes Audio sofort als MP3 herunter. Keine Registrierung oder Zahlung erforderlich."
+      },
+      {
+        "title": "Keine Registrierung",
+        "description": "Beginnen Sie sofort mit der Text-zu-Sprache-Konvertierung. Kein Konto, keine E-Mail, kein Aufwand."
+      },
+      {
+        "title": "Datenschutz zuerst",
+        "description": "Ihr Text wird im Arbeitsspeicher verarbeitet und nie gespeichert. Wir respektieren Ihre Privatsphare by Design."
+      }
+    ]
+  },
+  "faq": {
+    "title": "Haufig gestellte Fragen",
+    "items": [
+      {
+        "question": "Was ist Text-to-Speech?",
+        "answer": "Text-to-Speech (TTS) ist eine Technologie, die geschriebenen Text in gesprochenes Audio umwandelt. TTS Easy verwendet fortschrittliche KI-Stimmen von Google Cloud, um naturlich klingende Sprache in mehreren Sprachen und Akzenten zu erzeugen."
+      },
+      {
+        "question": "Ist TTS Easy kostenlos?",
+        "answer": "Ja, TTS Easy ist vollig kostenlos. Sie konnen Text in Sprache umwandeln und MP3-Dateien herunterladen, ohne ein Konto zu erstellen oder etwas zu bezahlen."
+      },
+      {
+        "question": "Welche Sprachen und Akzente werden unterstutzt?",
+        "answer": "TTS Easy unterstutzt 6 Sprachen mit 11 Akzentvarianten: Englisch (USA, Grossbritannien, Australien), Spanisch (Mexiko, Spanien, Argentinien), Portugiesisch (Brasilien, Portugal), Franzosisch (Frankreich), Deutsch (Deutschland) und Italienisch (Italien)."
+      },
+      {
+        "question": "Kann ich das Audio als MP3 herunterladen?",
+        "answer": "Ja, jedes generierte Audio kann mit einem Klick als MP3-Datei heruntergeladen werden. Die Datei ist sofort einsatzbereit fur Videos, Prasentationen oder andere Projekte."
+      },
+      {
+        "question": "Wird mein Text gespeichert oder geteilt?",
+        "answer": "Nein. Ihr Text wird nur im Arbeitsspeicher verarbeitet und sofort nach der Audiogenerierung verworfen. Wir speichern, protokollieren oder teilen niemals Ihren Textinhalt."
+      },
+      {
+        "question": "Wie andere ich den Stimmakzent?",
+        "answer": "TTS Easy erkennt automatisch die Sprache und den Akzent Ihres Textes. Sie konnen auch in den manuellen Modus wechseln und einen der 11 verfugbaren Akzente aus dem Dropdown-Menu auswahlen."
+      },
+      {
+        "question": "Kann ich das Audio fur YouTube-Videos verwenden?",
+        "answer": "Ja, Sie konnen das generierte Audio fur YouTube-Videos, Podcasts, Prasentationen, E-Learning-Inhalte und alle anderen personlichen oder kommerziellen Projekte verwenden."
+      }
+    ]
+  },
+  "trust": {
+    "poweredBy": "Powered by Google Cloud",
+    "noSignUp": "Keine Registrierung notig",
+    "neverStored": "Text wird nie gespeichert"
+  },
+  "about": {
+    "title": "Uber uns",
+    "p1": "TTS Easy ist eine leichtgewichtige Text-zu-Sprache-Webanwendung fur schnelle Spracherkennung, Akzentauswahl und schnelle MP3-Generierung.",
+    "p2": "Das Projekt priorisiert globale Benutzerfreundlichkeit, transparente Datenschutzstandards und praktische Monetarisierung durch moderate Anzeigenplatzierungen."
+  },
+  "privacy": {
+    "title": "Datenschutzrichtlinie",
+    "p1": "Wir speichern den Text, den Sie fur die Sprachgenerierung einfugen, nicht. Ihr Text wird im Arbeitsspeicher verarbeitet und nach der Audioproduktion verworfen.",
+    "p2": "Wir verwenden Analyse- und Werbewerkzeuge (Google Analytics und Google AdSense) zur Verkehrsmessung und Anzeigenschaltung. Diese Werkzeuge konnen Cookies gemaess ihren eigenen Richtlinien verwenden.",
+    "p3": "Missbrauchsverhinderungsdaten (Rate-Limit-Zahler und CAPTCHA-Verifizierungsstatus) werden nur als aggregierte Sicherheitsmetadaten gespeichert und enthalten niemals Ihren Rohtext."
+  },
+  "terms": {
+    "title": "Nutzungsbedingungen",
+    "p1": "Dieser Dienst wird wie besehen fur die Umwandlung von Text in Sprache bereitgestellt. Sie stimmen zu, ihn nicht fur missbrauchliches, rechtswidriges oder automatisiertes Scraping-Verhalten zu nutzen.",
+    "p2": "Wir konnen Ratenbegrenzungen, CAPTCHA-Herausforderungen oder temporare Sperren durchsetzen, um die Dienstverfugbarkeit und das Budget zu schutzen.",
+    "p3": "Durch die Nutzung dieser Website erkennen Sie an, dass die Qualitat des synthetisierten Audios von der gewahlten Sprache, dem Leserprofil und den Fahigkeiten des Cloud-Anbieters abhangt."
+  },
+  "cookies": {
+    "title": "Cookie-Richtlinie",
+    "p1": "Diese Website verwendet Cookies und ahnliche Technologien fur drei Zwecke: Analyse (GA4), Anzeigenschaltung (AdSense) und Betrugspravention.",
+    "p2": "Sie konnen Cookies uber Ihre Browsereinstellungen steuern. Das Blockieren von Cookies kann die Anzeigendarstellung und einige Personalisierungsfunktionen beeintrachtigen."
+  }
+}

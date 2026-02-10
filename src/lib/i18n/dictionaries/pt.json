@@ -1,0 +1,129 @@
+{
+  "metadata": {
+    "title": "Texto para Fala Online Gratis",
+    "description": "Converta texto em fala natural instantaneamente. Deteccao automatica de idioma, 11 sotaques, 3 estilos de voz, download de MP3 gratis. Sem cadastro.",
+    "ogTitle": "TTS Easy - Texto para Fala Online Gratis",
+    "ogDescription": "Converta qualquer texto em audio natural com deteccao automatica de idioma e 11 opcoes de sotaque."
+  },
+  "home": {
+    "h1": "Texto para Fala Online Gratis - Converta Texto em Audio Instantaneamente",
+    "subtitle": "Cole qualquer texto, detecte o idioma automaticamente e ouca com vozes naturais. Baixe como MP3 gratis.",
+    "tryNow": "Experimente agora"
+  },
+  "ui": {
+    "accentQuestion": "O sotaque nao esta claro. Deseja manter {primary} ou mudar para {secondary}?",
+    "autoMode": "Auto",
+    "charCount": "Caracteres",
+    "detecting": "Detectando idioma...",
+    "disclaimer": "O texto e processado apenas na memoria e nunca e armazenado.",
+    "download": "Baixar MP3",
+    "generating": "Gerando...",
+    "headline": "Texto para Fala, instantaneamente",
+    "languageSelect": "Idioma/Sotaque",
+    "manualMode": "Manual",
+    "pause": "Pausar / Retomar",
+    "play": "Gerar e Reproduzir",
+    "readerSelect": "Leitor",
+    "speed": "Velocidade",
+    "subtitle": "Cole qualquer texto. Detectamos idioma + sotaque e lemos em voz alta.",
+    "textPlaceholder": "Cole seu texto aqui...",
+    "detectLabel": "Detectado"
+  },
+  "nav": {
+    "privacy": "Privacidade",
+    "terms": "Termos",
+    "cookies": "Cookies",
+    "about": "Sobre",
+    "blog": "Blog",
+    "language": "Idioma"
+  },
+  "features": {
+    "title": "Por que escolher o TTS Easy?",
+    "items": [
+      {
+        "title": "Deteccao Instantanea de Idioma",
+        "description": "Deteccao automatica de 6 idiomas enquanto voce digita. Sem necessidade de selecao manual."
+      },
+      {
+        "title": "11 Sotaques Disponiveis",
+        "description": "Ingles dos EUA, Reino Unido e Australia. Espanhol do Mexico, Espanha e Argentina. Portugues do Brasil e Portugal. Frances, alemao e italiano."
+      },
+      {
+        "title": "3 Estilos de Voz",
+        "description": "Escolha entre vozes Natural, Clara ou Expressiva alimentadas pelo Google Cloud Text-to-Speech."
+      },
+      {
+        "title": "Download de MP3 Gratis",
+        "description": "Baixe seu audio gerado como MP3 instantaneamente. Sem cadastro ou pagamento necessario."
+      },
+      {
+        "title": "Sem Cadastro",
+        "description": "Comece a converter texto em fala imediatamente. Sem conta, sem email, sem complicacao."
+      },
+      {
+        "title": "Privacidade em Primeiro Lugar",
+        "description": "Seu texto e processado na memoria e nunca e armazenado. Respeitamos sua privacidade por design."
+      }
+    ]
+  },
+  "faq": {
+    "title": "Perguntas Frequentes",
+    "items": [
+      {
+        "question": "O que e texto para fala?",
+        "answer": "Texto para fala (TTS) e uma tecnologia que converte texto escrito em audio falado. O TTS Easy usa vozes avancadas de IA do Google Cloud para produzir fala natural em varios idiomas e sotaques."
+      },
+      {
+        "question": "O TTS Easy e gratis?",
+        "answer": "Sim, o TTS Easy e completamente gratis. Voce pode converter texto em fala e baixar arquivos MP3 sem criar conta ou pagar nada."
+      },
+      {
+        "question": "Quais idiomas e sotaques sao suportados?",
+        "answer": "O TTS Easy suporta 6 idiomas com 11 variantes de sotaque: Ingles (EUA, Reino Unido, Australia), Espanhol (Mexico, Espanha, Argentina), Portugues (Brasil, Portugal), Frances (Franca), Alemao (Alemanha) e Italiano (Italia)."
+      },
+      {
+        "question": "Posso baixar o audio como MP3?",
+        "answer": "Sim, cada audio gerado pode ser baixado como arquivo MP3 com um unico clique. O arquivo esta pronto para uso em videos, apresentacoes ou qualquer outro projeto."
+      },
+      {
+        "question": "Meu texto e armazenado ou compartilhado?",
+        "answer": "Nao. Seu texto e processado apenas na memoria e descartado imediatamente apos a geracao do audio. Nunca armazenamos, registramos ou compartilhamos o conteudo do seu texto."
+      },
+      {
+        "question": "Como mudo o sotaque da voz?",
+        "answer": "O TTS Easy detecta automaticamente o idioma e sotaque do seu texto. Voce tambem pode mudar para o modo Manual e selecionar qualquer um dos 11 sotaques disponiveis no menu suspenso."
+      },
+      {
+        "question": "Posso usar o audio para videos do YouTube?",
+        "answer": "Sim, voce pode usar o audio gerado para videos do YouTube, podcasts, apresentacoes, conteudo de e-learning e qualquer outro projeto pessoal ou comercial."
+      }
+    ]
+  },
+  "trust": {
+    "poweredBy": "Powered by Google Cloud",
+    "noSignUp": "Sem cadastro necessario",
+    "neverStored": "Texto nunca armazenado"
+  },
+  "about": {
+    "title": "Sobre",
+    "p1": "TTS Easy e um aplicativo web leve de texto para fala projetado para deteccao rapida de idioma, selecao de sotaque e geracao rapida de MP3.",
+    "p2": "O projeto prioriza usabilidade global, padroes de privacidade transparentes e monetizacao pratica atraves de posicionamentos moderados de anuncios."
+  },
+  "privacy": {
+    "title": "Politica de Privacidade",
+    "p1": "Nao armazenamos o texto que voce cola para geracao de fala. Seu texto e processado na memoria e descartado apos o audio ser produzido.",
+    "p2": "Usamos ferramentas de analise e publicidade (Google Analytics e Google AdSense) para medir trafego e exibir anuncios. Essas ferramentas podem usar cookies de acordo com suas proprias politicas.",
+    "p3": "Dados de prevencao de abuso (contadores de limite de taxa e status de verificacao CAPTCHA) sao armazenados apenas como metadados de seguranca agregados e nunca contem seu texto bruto."
+  },
+  "terms": {
+    "title": "Termos de Servico",
+    "p1": "Este servico e fornecido como esta para conversao de texto em fala. Voce concorda em nao usa-lo para comportamentos abusivos, ilegais ou de scraping automatizado.",
+    "p2": "Podemos aplicar limites de taxa, desafios CAPTCHA ou bloqueios temporarios para proteger a disponibilidade do servico e o orcamento.",
+    "p3": "Ao usar este site, voce reconhece que a qualidade do audio sintetizado depende do idioma selecionado, perfil do leitor e capacidades do provedor de nuvem."
+  },
+  "cookies": {
+    "title": "Politica de Cookies",
+    "p1": "Este site usa cookies e tecnologias similares para tres propositos: analise (GA4), entrega de anuncios (AdSense) e prevencao de fraude.",
+    "p2": "Voce pode controlar cookies nas configuracoes do seu navegador. Bloquear cookies pode afetar a exibicao de anuncios e alguns recursos de personalizacao."
+  }
+}

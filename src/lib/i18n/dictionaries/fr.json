@@ -1,0 +1,129 @@
+{
+  "metadata": {
+    "title": "Synthese Vocale en Ligne Gratuite",
+    "description": "Convertissez du texte en parole naturelle instantanement. Detection automatique de la langue, 11 accents, 3 styles de voix, telechargement MP3 gratuit. Sans inscription.",
+    "ogTitle": "TTS Easy - Synthese Vocale en Ligne Gratuite",
+    "ogDescription": "Convertissez n'importe quel texte en audio naturel avec detection automatique de la langue et 11 options d'accent."
+  },
+  "home": {
+    "h1": "Synthese Vocale en Ligne Gratuite - Convertir du Texte en Audio Instantanement",
+    "subtitle": "Collez du texte, detectez la langue automatiquement et ecoutez avec des voix naturelles. Telechargez en MP3 gratuitement.",
+    "tryNow": "Essayez maintenant"
+  },
+  "ui": {
+    "accentQuestion": "L'accent n'est pas clair. Souhaitez-vous garder {primary} ou passer a {secondary} ?",
+    "autoMode": "Auto",
+    "charCount": "Caracteres",
+    "detecting": "Detection de la langue...",
+    "disclaimer": "Le texte est traite en memoire uniquement et n'est jamais stocke.",
+    "download": "Telecharger MP3",
+    "generating": "Generation...",
+    "headline": "Texte en Parole, instantanement",
+    "languageSelect": "Langue/Accent",
+    "manualMode": "Manuel",
+    "pause": "Pause / Reprendre",
+    "play": "Generer et Lire",
+    "readerSelect": "Lecteur",
+    "speed": "Vitesse",
+    "subtitle": "Collez du texte. Nous detectons la langue + l'accent et le lisons a voix haute.",
+    "textPlaceholder": "Collez votre texte ici...",
+    "detectLabel": "Detecte"
+  },
+  "nav": {
+    "privacy": "Confidentialite",
+    "terms": "Conditions",
+    "cookies": "Cookies",
+    "about": "A propos",
+    "blog": "Blog",
+    "language": "Langue"
+  },
+  "features": {
+    "title": "Pourquoi choisir TTS Easy ?",
+    "items": [
+      {
+        "title": "Detection Instantanee de la Langue",
+        "description": "Detection automatique de 6 langues pendant que vous tapez. Aucune selection manuelle necessaire."
+      },
+      {
+        "title": "11 Accents Disponibles",
+        "description": "Anglais des USA, Royaume-Uni et Australie. Espagnol du Mexique, Espagne et Argentine. Portugais du Bresil et Portugal. Francais, allemand et italien."
+      },
+      {
+        "title": "3 Styles de Voix",
+        "description": "Choisissez parmi les voix Naturelle, Claire ou Expressive alimentees par Google Cloud Text-to-Speech."
+      },
+      {
+        "title": "Telechargement MP3 Gratuit",
+        "description": "Telechargez votre audio genere en MP3 instantanement. Sans inscription ni paiement requis."
+      },
+      {
+        "title": "Sans Inscription",
+        "description": "Commencez a convertir du texte en parole immediatement. Pas de compte, pas d'email, pas de tracas."
+      },
+      {
+        "title": "Confidentialite d'abord",
+        "description": "Votre texte est traite en memoire et n'est jamais stocke. Nous respectons votre vie privee par conception."
+      }
+    ]
+  },
+  "faq": {
+    "title": "Questions Frequemment Posees",
+    "items": [
+      {
+        "question": "Qu'est-ce que la synthese vocale ?",
+        "answer": "La synthese vocale (TTS) est une technologie qui convertit le texte ecrit en audio parle. TTS Easy utilise des voix IA avancees de Google Cloud pour produire une parole naturelle dans plusieurs langues et accents."
+      },
+      {
+        "question": "TTS Easy est-il gratuit ?",
+        "answer": "Oui, TTS Easy est entierement gratuit. Vous pouvez convertir du texte en parole et telecharger des fichiers MP3 sans creer de compte ni rien payer."
+      },
+      {
+        "question": "Quelles langues et accents sont pris en charge ?",
+        "answer": "TTS Easy prend en charge 6 langues avec 11 variantes d'accent : Anglais (USA, Royaume-Uni, Australie), Espagnol (Mexique, Espagne, Argentine), Portugais (Bresil, Portugal), Francais (France), Allemand (Allemagne) et Italien (Italie)."
+      },
+      {
+        "question": "Puis-je telecharger l'audio en MP3 ?",
+        "answer": "Oui, chaque audio genere peut etre telecharge en fichier MP3 en un seul clic. Le fichier est pret a l'emploi dans des videos, presentations ou tout autre projet."
+      },
+      {
+        "question": "Mon texte est-il stocke ou partage ?",
+        "answer": "Non. Votre texte est traite uniquement en memoire et est immediatement supprime apres la generation de l'audio. Nous ne stockons, n'enregistrons ni ne partageons jamais le contenu de votre texte."
+      },
+      {
+        "question": "Comment changer l'accent de la voix ?",
+        "answer": "TTS Easy detecte automatiquement la langue et l'accent de votre texte. Vous pouvez egalement passer en mode Manuel et selectionner l'un des 11 accents disponibles dans le menu deroulant."
+      },
+      {
+        "question": "Puis-je utiliser l'audio pour des videos YouTube ?",
+        "answer": "Oui, vous pouvez utiliser l'audio genere pour des videos YouTube, des podcasts, des presentations, du contenu e-learning et tout autre projet personnel ou commercial."
+      }
+    ]
+  },
+  "trust": {
+    "poweredBy": "Propulse par Google Cloud",
+    "noSignUp": "Sans inscription requise",
+    "neverStored": "Texte jamais stocke"
+  },
+  "about": {
+    "title": "A propos",
+    "p1": "TTS Easy est une application web legere de synthese vocale concue pour la detection rapide de la langue, la selection d'accent et la generation rapide de MP3.",
+    "p2": "Le projet donne la priorite a l'utilisabilite mondiale, aux parametres de confidentialite transparents et a la monetisation pratique par des placements publicitaires moderes."
+  },
+  "privacy": {
+    "title": "Politique de Confidentialite",
+    "p1": "Nous ne stockons pas le texte que vous collez pour la generation vocale. Votre texte est traite en memoire et supprime apres la production de l'audio.",
+    "p2": "Nous utilisons des outils d'analyse et de publicite (Google Analytics et Google AdSense) pour mesurer le trafic et afficher des annonces. Ces outils peuvent utiliser des cookies selon leurs propres politiques.",
+    "p3": "Les donnees de prevention d'abus (compteurs de limite de debit et statut de verification CAPTCHA) sont stockees uniquement comme metadonnees de securite agregees et ne contiennent jamais votre texte brut."
+  },
+  "terms": {
+    "title": "Conditions d'Utilisation",
+    "p1": "Ce service est fourni en l'etat pour la conversion de texte en parole. Vous acceptez de ne pas l'utiliser pour des comportements abusifs, illegaux ou de scraping automatise.",
+    "p2": "Nous pouvons appliquer des limites de debit, des defis CAPTCHA ou des blocages temporaires pour proteger la disponibilite du service et le budget.",
+    "p3": "En utilisant ce site web, vous reconnaissez que la qualite de l'audio synthetise depend de la langue selectionnee, du profil du lecteur et des capacites du fournisseur cloud."
+  },
+  "cookies": {
+    "title": "Politique de Cookies",
+    "p1": "Ce site web utilise des cookies et des technologies similaires a trois fins : analyse (GA4), diffusion de publicites (AdSense) et prevention de la fraude.",
+    "p2": "Vous pouvez controler les cookies depuis les parametres de votre navigateur. Le blocage des cookies peut affecter le rendu des publicites et certaines fonctionnalites de personnalisation."
+  }
+}

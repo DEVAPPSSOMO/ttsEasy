@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AccentPrompt } from "@/components/AccentPrompt";
 import { AdSlot } from "@/components/AdSlot";
@@ -8,7 +7,6 @@ import { LanguageBar } from "@/components/LanguageBar";
 import { TurnstileBox } from "@/components/TurnstileBox";
 import { trackEvent } from "@/lib/analytics";
 import { getSupportedManualLocales, normalizeLocale } from "@/lib/localeHeuristics";
-import { getUiCopy, resolveUiLanguage } from "@/lib/i18n";
 import { DetectLanguageResponse, ReaderId, ReaderOption, TtsSpeed } from "@/lib/types";
 
 const SPEED_OPTIONS: TtsSpeed[] = [0.75, 1, 1.25, 1.5, 2];
@@ -21,12 +19,34 @@ function parseApiError(value: unknown): string {
   return candidate.message || candidate.error || "Unexpected error.";
 }
 
-export default function HomePage(): JSX.Element {
+interface TtsAppProps {
+  locale: string;
+  copy: {
+    accentQuestion: string;
+    autoMode: string;
+    charCount: string;
+    detecting: string;
+    disclaimer: string;
+    download: string;
+    generating: string;
+    headline: string;
+    languageSelect: string;
+    manualMode: string;
+    pause: string;
+    play: string;
+    readerSelect: string;
+    speed: string;
+    subtitle: string;
+    textPlaceholder: string;
+    detectLabel: string;
+  };
+}
+
+export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const detectAbortRef = useRef<AbortController | null>(null);
   const detectTimerRef = useRef<NodeJS.Timeout | null>(null);
-  // Monotonic counter to ignore stale detection responses (typing can reorder requests).
   const detectRequestRef = useRef(0);
 
   const [uiLocale, setUiLocale] = useState("en-US");
@@ -43,9 +63,6 @@ export default function HomePage(): JSX.Element {
   const [isGenerating, setIsGenerating] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
-
-  const uiLanguage = resolveUiLanguage(uiLocale);
-  const copy = getUiCopy(uiLanguage);
 
   useEffect(() => {
     setUiLocale(typeof navigator === "undefined" ? "en-US" : navigator.language || "en-US");
@@ -94,15 +111,10 @@ export default function HomePage(): JSX.Element {
 
       try {
         const response = await fetch("/api/language/detect", {
-          body: JSON.stringify({
-            text: normalized,
-            uiLocale
-          }),
-          headers: {
-            "content-type": "application/json"
-          },
+          body: JSON.stringify({ text: normalized, uiLocale }),
+          headers: { "content-type": "application/json" },
           method: "POST",
-          signal: controller.signal
+          signal: controller.signal,
         });
 
         if (!response.ok) {
@@ -110,9 +122,7 @@ export default function HomePage(): JSX.Element {
         }
 
         const result = (await response.json()) as DetectLanguageResponse;
-        if (requestId !== detectRequestRef.current) {
-          return;
-        }
+        if (requestId !== detectRequestRef.current) return;
 
         setDetected(result);
         if (mode === "auto") {
@@ -122,19 +132,17 @@ export default function HomePage(): JSX.Element {
         trackEvent("language_detected", {
           confidence: result.languageConfidence,
           locale: result.locale,
-          reason: result.reason
+          reason: result.reason,
         });
 
         if (result.localeAmbiguous) {
           trackEvent("locale_ambiguous_prompt_shown", {
             locale: result.locale,
-            localeConfidence: result.localeConfidence
+            localeConfidence: result.localeConfidence,
           });
         }
       } catch (error) {
-        if (controller.signal.aborted) {
-          return;
-        }
+        if (controller.signal.aborted) return;
         setErrorMessage(error instanceof Error ? error.message : "Detection failed.");
       } finally {
         if (requestId === detectRequestRef.current) {
@@ -150,13 +158,10 @@ export default function HomePage(): JSX.Element {
       if (detectTimerRef.current) {
         clearTimeout(detectTimerRef.current);
       }
-
       if (immediate) {
-        // Paste should feel instant; typing is debounced.
         void runDetection(value);
         return;
       }
-
       detectTimerRef.current = setTimeout(() => {
         void runDetection(value);
       }, 200);
@@ -166,26 +171,20 @@ export default function HomePage(): JSX.Element {
 
   useEffect(() => {
     let cancelled = false;
-    const locale = effectiveLocale || "en-US";
+    const loc = effectiveLocale || "en-US";
 
     const loadReaders = async (): Promise<void> => {
       try {
-        const response = await fetch(`/api/readers?locale=${encodeURIComponent(locale)}`);
-        if (!response.ok) {
-          throw new Error(`Unable to load readers (${response.status})`);
-        }
+        const response = await fetch(`/api/readers?locale=${encodeURIComponent(loc)}`);
+        if (!response.ok) throw new Error(`Unable to load readers (${response.status})`);
         const payload = (await response.json()) as { readers: ReaderOption[] };
-        if (cancelled) {
-          return;
-        }
+        if (cancelled) return;
 
         const nextReaders = payload.readers ?? [];
         setReaders(nextReaders);
-        if (!nextReaders.some((reader) => reader.id === readerId)) {
-          const defaultReader = nextReaders.find((reader) => reader.id === "natural") ?? nextReaders[0];
-          if (defaultReader) {
-            setReaderId(defaultReader.id);
-          }
+        if (!nextReaders.some((r) => r.id === readerId)) {
+          const defaultReader = nextReaders.find((r) => r.id === "natural") ?? nextReaders[0];
+          if (defaultReader) setReaderId(defaultReader.id);
         }
       } catch (error) {
         if (!cancelled) {
@@ -195,9 +194,7 @@ export default function HomePage(): JSX.Element {
     };
 
     void loadReaders();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [effectiveLocale, readerId]);
 
   useEffect(() => {
@@ -228,10 +225,10 @@ export default function HomePage(): JSX.Element {
     }
   };
 
-  const handleLocaleManualSelect = (locale: string): void => {
+  const handleLocaleManualSelect = (loc: string): void => {
     setMode("manual");
-    setManualLocale(locale);
-    trackEvent("locale_manual_selected", { locale });
+    setManualLocale(loc);
+    trackEvent("locale_manual_selected", { locale: loc });
   };
 
   const handleGenerateAudio = async (): Promise<void> => {
@@ -252,12 +249,10 @@ export default function HomePage(): JSX.Element {
           localeSource: mode,
           readerId,
           speed,
-          text: cleanText
+          text: cleanText,
         }),
-        headers: {
-          "content-type": "application/json"
-        },
-        method: "POST"
+        headers: { "content-type": "application/json" },
+        method: "POST",
       });
 
       if (!response.ok) {
@@ -268,9 +263,7 @@ export default function HomePage(): JSX.Element {
       const blob = await response.blob();
       const nextAudioUrl = URL.createObjectURL(blob);
       setAudioUrl((current) => {
-        if (current) {
-          URL.revokeObjectURL(current);
-        }
+        if (current) URL.revokeObjectURL(current);
         return nextAudioUrl;
       });
 
@@ -284,14 +277,13 @@ export default function HomePage(): JSX.Element {
         locale: effectiveLocale,
         localeSource: mode,
         readerId,
-        speed
+        speed,
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unable to generate speech.";
       setErrorMessage(message);
       trackEvent("tts_error", { message });
     } finally {
-      // Turnstile tokens are single-use; remount the widget so the next generation gets a fresh token.
       setCaptchaToken("");
       setCaptchaWidgetKey((current) => current + 1);
       setIsGenerating(false);
@@ -300,9 +292,7 @@ export default function HomePage(): JSX.Element {
 
   const handlePauseResume = async (): Promise<void> => {
     const audio = audioRef.current;
-    if (!audio) {
-      return;
-    }
+    if (!audio) return;
     if (audio.paused) {
       await audio.play().catch(() => undefined);
     } else {
@@ -311,9 +301,7 @@ export default function HomePage(): JSX.Element {
   };
 
   const handleDownload = (): void => {
-    if (!audioUrl) {
-      return;
-    }
+    if (!audioUrl) return;
     const link = document.createElement("a");
     link.href = audioUrl;
     link.download = `tts-${effectiveLocale}.mp3`;
@@ -323,102 +311,83 @@ export default function HomePage(): JSX.Element {
 
   const requiresCaptcha = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
   const canGenerate =
-    Boolean(text.trim()) &&
-    !isGenerating &&
-    // If CAPTCHA is enabled, require a token from Turnstile before allowing generation.
-    (!requiresCaptcha || Boolean(captchaToken));
+    Boolean(text.trim()) && !isGenerating && (!requiresCaptcha || Boolean(captchaToken));
 
   return (
-    <main className="page-shell">
-      <div className="hero">
-        <h1>{copy.headline}</h1>
-        <p>{copy.subtitle}</p>
+    <section className="workspace">
+      <LanguageBar
+        copy={copy}
+        detectedLocale={detectedLocale}
+        locale={effectiveLocale}
+        localeOptions={localeOptions}
+        mode={mode}
+        onLocaleChange={handleLocaleManualSelect}
+        onModeChange={handleModeChange}
+        onReaderChange={setReaderId}
+        readerId={readerId}
+        readers={readers}
+      />
+
+      <textarea
+        className="text-input"
+        onChange={(event) => handleTextChange(event.target.value)}
+        onPaste={handlePaste}
+        placeholder={copy.textPlaceholder}
+        ref={textAreaRef}
+        value={text}
+      />
+
+      <div className="textarea-meta">
+        <span>
+          {copy.charCount}: {text.length}
+        </span>
+        {isDetecting ? <span className="detecting">{copy.detecting}</span> : null}
       </div>
 
-      <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOP} />
-
-      <section className="workspace">
-        <LanguageBar
+      {detected?.localeAmbiguous && mode === "auto" ? (
+        <AccentPrompt
+          candidates={detected.localeCandidates}
           copy={copy}
-          detectedLocale={detectedLocale}
-          locale={effectiveLocale}
-          localeOptions={localeOptions}
-          mode={mode}
-          onLocaleChange={handleLocaleManualSelect}
-          onModeChange={handleModeChange}
-          onReaderChange={setReaderId}
-          readerId={readerId}
-          readers={readers}
+          onChoose={handleLocaleManualSelect}
         />
+      ) : null}
 
-        <textarea
-          className="text-input"
-          onChange={(event) => handleTextChange(event.target.value)}
-          onPaste={handlePaste}
-          placeholder={copy.textPlaceholder}
-          ref={textAreaRef}
-          value={text}
-        />
-
-        <div className="textarea-meta">
-          <span>
-            {copy.charCount}: {text.length}
-          </span>
-          {isDetecting ? <span className="detecting">{copy.detecting}</span> : null}
+      <div className="controls">
+        <button disabled={!canGenerate} onClick={() => void handleGenerateAudio()} type="button">
+          {isGenerating ? copy.generating : copy.play}
+        </button>
+        <button className="secondary" disabled={!audioUrl} onClick={() => void handlePauseResume()} type="button">
+          {copy.pause}
+        </button>
+        <button className="neutral" disabled={!audioUrl} onClick={handleDownload} type="button">
+          {copy.download}
+        </button>
+        <div className="speed-group">
+          <span>{copy.speed}</span>
+          {SPEED_OPTIONS.map((value) => (
+            <button
+              className={speed === value ? "active" : ""}
+              key={value}
+              onClick={() => setSpeed(value)}
+              type="button"
+            >
+              {value}x
+            </button>
+          ))}
         </div>
+      </div>
 
-        {detected?.localeAmbiguous && mode === "auto" ? (
-          <AccentPrompt
-            candidates={detected.localeCandidates}
-            copy={copy}
-            onChoose={handleLocaleManualSelect}
-          />
-        ) : null}
+      <TurnstileBox key={captchaWidgetKey} onToken={setCaptchaToken} />
 
-        <div className="controls">
-          <button disabled={!canGenerate} onClick={() => void handleGenerateAudio()} type="button">
-            {isGenerating ? copy.generating : copy.play}
-          </button>
-          <button className="secondary" disabled={!audioUrl} onClick={() => void handlePauseResume()} type="button">
-            {copy.pause}
-          </button>
-          <button className="neutral" disabled={!audioUrl} onClick={handleDownload} type="button">
-            {copy.download}
-          </button>
-          <div className="speed-group">
-            <span>{copy.speed}</span>
-            {SPEED_OPTIONS.map((value) => (
-              <button
-                className={speed === value ? "active" : ""}
-                key={value}
-                onClick={() => setSpeed(value)}
-                type="button"
-              >
-                {value}x
-              </button>
-            ))}
-          </div>
-        </div>
+      {errorMessage ? <p style={{ color: "#b91c1c" }}>{errorMessage}</p> : null}
 
-        <TurnstileBox key={captchaWidgetKey} onToken={setCaptchaToken} />
+      <div className="audio-panel">
+        {audioUrl ? <audio controls ref={audioRef} src={audioUrl} /> : <audio controls ref={audioRef} />}
+      </div>
 
-        {errorMessage ? <p style={{ color: "#b91c1c" }}>{errorMessage}</p> : null}
+      <p className="privacy-line">{copy.disclaimer}</p>
 
-        <div className="audio-panel">{audioUrl ? <audio controls ref={audioRef} src={audioUrl} /> : <audio controls ref={audioRef} />}</div>
-
-        <p className="privacy-line">{copy.disclaimer}</p>
-
-        <AdSlot className="ad-grid" slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MID} />
-      </section>
-
-      <AdSlot className="ad-sticky-mobile" slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_STICKY} />
-
-      <nav className="legal-links">
-        <Link href="/privacy">{copy.privacy}</Link>
-        <Link href="/terms">{copy.terms}</Link>
-        <Link href="/cookies">{copy.cookies}</Link>
-        <Link href="/about">About</Link>
-      </nav>
-    </main>
+      <AdSlot className="ad-grid" slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MID} />
+    </section>
   );
 }
