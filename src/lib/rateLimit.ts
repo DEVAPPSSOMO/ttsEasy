@@ -24,6 +24,8 @@ function getRedisClient(): Redis | null {
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
   if (!url || !token) {
+    // Dev-friendly fallback when Upstash isn't configured.
+    // In production this is NOT a strong protection because each serverless instance has its own memory.
     redisClient = null;
     return redisClient;
   }
@@ -33,6 +35,7 @@ function getRedisClient(): Redis | null {
 }
 
 export function getClientIp(headers: Headers): string {
+  // Vercel (and most CDNs) set x-forwarded-for. We take the left-most IP.
   const xff = headers.get("x-forwarded-for");
   if (xff) {
     return xff.split(",")[0]?.trim() || "unknown";
@@ -78,6 +81,7 @@ export async function checkRateLimit(
   const redis = getRedisClient();
 
   if (!redis) {
+    // Local/dev fallback.
     return runInMemoryLimit(key, windowMs, limit);
   }
 

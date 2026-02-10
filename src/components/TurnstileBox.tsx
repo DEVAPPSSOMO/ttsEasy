@@ -24,6 +24,8 @@ export function TurnstileBox({ onToken }: TurnstileBoxProps): JSX.Element {
 
   useEffect(() => {
     if (!siteKey) {
+      // Dev-friendly: if no site key is configured, behave as "captcha already passed".
+      // The backend also bypasses verification in non-production when TURNSTILE_SECRET_KEY is missing.
       onToken("dev-bypass-token");
       return;
     }
@@ -39,6 +41,8 @@ export function TurnstileBox({ onToken }: TurnstileBoxProps): JSX.Element {
         window.turnstile.remove(widgetIdRef.current);
       }
 
+      // We render explicitly so the parent can remount this component after each /api/tts attempt.
+      // Turnstile tokens are single-use; remounting forces a fresh token.
       widgetIdRef.current = window.turnstile.render(containerRef.current, {
         callback: (token: string) => onToken(token),
         "error-callback": () => onToken(""),

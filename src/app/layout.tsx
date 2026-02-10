@@ -18,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
 
         {gaId ? (
           <>
+            {/* GA4 is loaded only when NEXT_PUBLIC_GA_ID is provided. */}
             <Script
               id="ga-loader"
               src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
                 function gtag(){dataLayer.push(arguments);}
                 window.gtag = gtag;
                 gtag('js', new Date());
+                // Reduce PII risk by anonymizing IPs at collection time.
                 gtag('config', '${gaId}', { anonymize_ip: true });
               `}
             </Script>
@@ -36,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
         ) : null}
 
         {adSenseClient ? (
+          // AdSense is loaded only when NEXT_PUBLIC_ADSENSE_CLIENT is provided.
           <Script
             async
             crossOrigin="anonymous"

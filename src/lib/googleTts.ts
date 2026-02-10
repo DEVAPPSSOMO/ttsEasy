@@ -1,11 +1,21 @@
 import { TextToSpeechClient } from "@google-cloud/text-to-speech";
 import { ReaderOption, TtsSpeed } from "@/lib/types";
 
+// Google Cloud Text-to-Speech integration.
+//
+// Why env-based credentials:
+// - In Vercel/serverless environments you usually don't have "default application credentials".
+// - We pass a service account (project id + client email + private key) via env vars.
+//
+// Private key formatting:
+// - Many dashboards store multiline values with escaped newlines (`\\n`).
+// - The SDK expects real newlines, so we unescape before constructing the client.
 const GOOGLE_LOCALE_MAP: Record<string, string> = {
   "es-AR": "es-US",
   "es-MX": "es-US"
 };
 
+// Cache the client per runtime instance to avoid re-creating it on every request.
 let client: TextToSpeechClient | null = null;
 
 function getTtsClient(): TextToSpeechClient {
@@ -33,6 +43,7 @@ function getTtsClient(): TextToSpeechClient {
 }
 
 function chunkText(text: string, maxLength = 4200): string[] {
+  // Chunking keeps us under typical API limits and avoids edge-cases with very long inputs.
   if (text.length <= maxLength) {
     return [text];
   }
@@ -69,6 +80,7 @@ function chunkText(text: string, maxLength = 4200): string[] {
 }
 
 function mapLocaleToGoogle(locale: string): string {
+  // Some locales are served by `es-US` voices in our voice matrix.
   return GOOGLE_LOCALE_MAP[locale] ?? locale;
 }
 
@@ -113,6 +125,7 @@ async function synthesizeChunk(
   };
 
   try {
+    // Prefer an explicit voice name (best quality/consistency).
     const [response] = await clientInstance.synthesizeSpeech({
       ...requestBase,
       voice: {
@@ -122,6 +135,7 @@ async function synthesizeChunk(
     });
     return audioToBuffer(response.audioContent);
   } catch (error) {
+    // Fallback: request only by languageCode if a specific voice fails (regional availability, etc).
     const [fallbackResponse] = await clientInstance.synthesizeSpeech(requestBase);
     return audioToBuffer(fallbackResponse.audioContent);
   }

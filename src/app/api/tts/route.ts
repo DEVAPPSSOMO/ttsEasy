@@ -6,6 +6,7 @@ import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 import { verifyTurnstileToken } from "@/lib/turnstile";
 import { TtsRequest } from "@/lib/types";
 
+// This route uses the Google Cloud Node SDK, so it must run on the Node.js runtime (not Edge).
 export const runtime = "nodejs";
 
 function sanitizeFilename(value: string): string {
@@ -56,6 +57,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 
   const ip = getClientIp(request.headers);
+
+  // Order matters:
+  // 1) Rate limit + CAPTCHA first to reject abuse early (before any paid TTS work).
+  // 2) Budget guard next to cap monthly cost.
+  // 3) Only then call Google TTS.
   const limit = await checkRateLimit(ip, {
     maxRequests: 15,
     prefix: "tts-generate",

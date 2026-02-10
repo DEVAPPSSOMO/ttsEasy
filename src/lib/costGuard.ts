@@ -15,6 +15,8 @@ export interface BudgetCheckResult {
   monthlyLimitUsd: number;
 }
 
+// Approximate pricing model (USD per 1M characters) used by the budget guard.
+// This is a safety rail, not a billing system: treat it as an estimate.
 const PRICE_PER_MILLION: Record<ReaderTier, number> = {
   neural2: 16,
   standard: 4,
@@ -43,6 +45,8 @@ function getRedisClient(): Redis | null {
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
   if (!url || !token) {
+    // Dev fallback when Upstash isn't configured.
+    // In production, without Redis you lose a consistent monthly budget across instances.
     redisClient = null;
     return redisClient;
   }
@@ -94,6 +98,7 @@ export async function registerUsage(characters: number, tier: ReaderTier): Promi
   const cost = estimateTtsCostUsd(characters, tier);
   const redis = getRedisClient();
   if (!redis) {
+    // Dev-only fallback.
     const current = memoryBudgetByMonth.get(monthKey) ?? { chars: 0, cost: 0 };
     memoryBudgetByMonth.set(monthKey, {
       chars: current.chars + characters,
@@ -107,6 +112,7 @@ export async function registerUsage(characters: number, tier: ReaderTier): Promi
   await Promise.all([
     redis.incrby(charsKey, characters),
     redis.incrbyfloat(costKey, cost),
+    // Keep some history without growing unbounded.
     redis.expire(charsKey, 60 * 60 * 24 * 90),
     redis.expire(costKey, 60 * 60 * 24 * 90)
   ]);

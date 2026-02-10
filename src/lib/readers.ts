@@ -1,6 +1,13 @@
 import { getDefaultLocale, languageFromLocale, normalizeLocale } from "@/lib/localeHeuristics";
 import { ReaderId, ReaderOption, ReaderTier } from "@/lib/types";
 
+// "Readers" are curated voice presets for the UI.
+//
+// Rationale:
+// - Keep UX simple (3 choices) while still mapping to concrete Google voice names.
+// - Attach a "tier" so the budget guard can estimate cost per reader.
+//
+// Note: voice availability can vary by region/API changes; update VOICE_MATRIX if needed.
 const READER_LABELS: Record<ReaderId, string> = {
   claro: "Claro",
   expresivo: "Expresivo",

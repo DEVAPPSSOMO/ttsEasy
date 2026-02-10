@@ -1,5 +1,9 @@
 import { LocaleCandidate } from "@/lib/types";
 
+// Locale helpers used by both client + server:
+// - normalize BCP-47 tags
+// - map language -> default locale
+// - score accent/region variants (en/es/pt) using small keyword heuristics
 const DEFAULT_LOCALE_BY_LANGUAGE: Record<string, string> = {
   de: "de-DE",
   en: "en-US",

@@ -26,6 +26,7 @@ export default function HomePage(): JSX.Element {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const detectAbortRef = useRef<AbortController | null>(null);
   const detectTimerRef = useRef<NodeJS.Timeout | null>(null);
+  // Monotonic counter to ignore stale detection responses (typing can reorder requests).
   const detectRequestRef = useRef(0);
 
   const [uiLocale, setUiLocale] = useState("en-US");
@@ -151,6 +152,7 @@ export default function HomePage(): JSX.Element {
       }
 
       if (immediate) {
+        // Paste should feel instant; typing is debounced.
         void runDetection(value);
         return;
       }
@@ -323,6 +325,7 @@ export default function HomePage(): JSX.Element {
   const canGenerate =
     Boolean(text.trim()) &&
     !isGenerating &&
+    // If CAPTCHA is enabled, require a token from Turnstile before allowing generation.
     (!requiresCaptcha || Boolean(captchaToken));
 
   return (

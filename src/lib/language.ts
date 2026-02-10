@@ -6,6 +6,12 @@ import {
 } from "@/lib/localeHeuristics";
 import { DetectLanguageRequest, DetectLanguageResponse } from "@/lib/types";
 
+// Lightweight language + locale detection.
+//
+// Design goals:
+// - Fast and deterministic (no network, no ML model).
+// - "Good enough" for a consumer MVP (paste/typing scenarios).
+// - Provide confidence + candidates so the UI can ask when accent is ambiguous.
 const STOP_WORDS: Record<string, Set<string>> = {
   de: new Set(["der", "die", "und", "das", "ist", "nicht", "ein", "ich", "zu", "den", "von", "mit", "auf", "sie", "im"]),
   en: new Set(["the", "and", "is", "are", "you", "for", "with", "not", "this", "that", "from", "have", "your", "be", "on", "in", "of"]),
