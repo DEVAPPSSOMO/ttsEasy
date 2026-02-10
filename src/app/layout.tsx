@@ -2,7 +2,8 @@ import Script from "next/script";
 import "./globals.css";
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
-const adSenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
+// Defaulted so AdSense ownership verification works even if the env var isn't set yet.
+const adSenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT || "ca-pub-2239304413098384";
 
 export default function RootLayout({ children }: { children: React.ReactNode }): JSX.Element {
   return (
@@ -15,6 +16,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
         <link rel="dns-prefetch" href="https://challenges.cloudflare.com" />
         <link rel="manifest" href="/manifest.json" />
+
+        <script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adSenseClient}`}
+          crossOrigin="anonymous"
+        />
       </head>
       <body>
         {children}
@@ -36,16 +43,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
               `}
             </Script>
           </>
-        ) : null}
-
-        {adSenseClient ? (
-          <Script
-            async
-            crossOrigin="anonymous"
-            id="adsense-loader"
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adSenseClient}`}
-            strategy="afterInteractive"
-          />
         ) : null}
       </body>
     </html>
