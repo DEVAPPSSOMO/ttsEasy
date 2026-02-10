@@ -18,6 +18,7 @@ interface AdSlotProps {
 export function AdSlot({ className, format = "auto", slot }: AdSlotProps): JSX.Element | null {
   const adRef = useRef<HTMLModElement | null>(null);
   const client = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
+  const isProd = process.env.NODE_ENV === "production";
 
   useEffect(() => {
     if (!client || !slot || !adRef.current) {
@@ -34,6 +35,9 @@ export function AdSlot({ className, format = "auto", slot }: AdSlotProps): JSX.E
   }, [client, slot]);
 
   if (!client || !slot) {
+    // In production we prefer rendering nothing over a visible placeholder box.
+    if (isProd) return null;
+
     return (
       <div className={`ad-placeholder ${className ?? ""}`}>
         <span>Ad slot placeholder</span>

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { LOCALES } from "@/lib/i18n/config";
+import { LOCALES, type Locale } from "@/lib/i18n/config";
+import { getPostSlugs } from "@/lib/blog";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
 
@@ -56,6 +57,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
       entries.push({
         url: `${siteUrl}/${locale}/use-cases/${slug}`,
+        lastModified: new Date(),
+        alternates: { languages },
+      });
+    }
+  }
+
+  const blogSlugs = new Set<string>();
+  for (const locale of LOCALES) {
+    for (const slug of getPostSlugs(locale as Locale)) {
+      blogSlugs.add(slug);
+    }
+  }
+
+  for (const slug of blogSlugs) {
+    for (const locale of LOCALES) {
+      const languages: Record<string, string> = {};
+      for (const alt of LOCALES) {
+        languages[alt] = `${siteUrl}/${alt}/blog/${slug}`;
+      }
+      languages["x-default"] = `${siteUrl}/en/blog/${slug}`;
+
+      entries.push({
+        url: `${siteUrl}/${locale}/blog/${slug}`,
         lastModified: new Date(),
         alternates: { languages },
       });

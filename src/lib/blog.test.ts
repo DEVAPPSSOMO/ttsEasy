@@ -19,9 +19,9 @@ describe("blog", () => {
       expect(posts.length).toBeGreaterThanOrEqual(3);
     });
 
-    it("returns empty array for locale without posts", () => {
+    it("returns French blog posts", () => {
       const posts = getAllPosts("fr");
-      expect(posts).toEqual([]);
+      expect(posts.length).toBeGreaterThanOrEqual(3);
     });
 
     it("each post has required fields", () => {
@@ -88,8 +88,9 @@ describe("blog", () => {
       expect(slugs.length).toBeGreaterThanOrEqual(3);
     });
 
-    it("returns empty array for locale without posts", () => {
-      expect(getPostSlugs("de")).toEqual([]);
+    it("returns slug strings for German posts", () => {
+      const slugs = getPostSlugs("de");
+      expect(slugs.length).toBeGreaterThanOrEqual(3);
     });
 
     it("slugs match getAllPosts slugs", () => {

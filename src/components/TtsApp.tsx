@@ -5,7 +5,7 @@ import { AccentPrompt } from "@/components/AccentPrompt";
 import { AdSlot } from "@/components/AdSlot";
 import { LanguageBar } from "@/components/LanguageBar";
 import { TurnstileBox } from "@/components/TurnstileBox";
-import { trackEvent } from "@/lib/analytics";
+import { trackEvent, trackTextInputStarted, trackAudioPlayDuration, trackCaptchaCompleted } from "@/lib/analytics";
 import { getSupportedManualLocales, normalizeLocale } from "@/lib/localeHeuristics";
 import { DetectLanguageResponse, ReaderId, ReaderOption, TtsSpeed } from "@/lib/types";
 
@@ -60,6 +60,7 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
   const [speed, setSpeed] = useState<TtsSpeed>(1);
   const [captchaToken, setCaptchaToken] = useState("");
   const [captchaWidgetKey, setCaptchaWidgetKey] = useState(0);
+  const captchaStartRef = useRef<number>(Date.now());
   const [isGenerating, setIsGenerating] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
@@ -204,6 +205,7 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
   }, [speed]);
 
   const handleTextChange = (value: string): void => {
+    if (value.length > 0) trackTextInputStarted();
     setText(value);
     scheduleDetection(value, false);
   };
@@ -286,6 +288,7 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
     } finally {
       setCaptchaToken("");
       setCaptchaWidgetKey((current) => current + 1);
+      captchaStartRef.current = Date.now();
       setIsGenerating(false);
     }
   };
@@ -377,12 +380,31 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
         </div>
       </div>
 
-      <TurnstileBox key={captchaWidgetKey} onToken={setCaptchaToken} />
+      <TurnstileBox key={captchaWidgetKey} onToken={(token) => {
+        trackCaptchaCompleted(Date.now() - captchaStartRef.current);
+        setCaptchaToken(token);
+      }} />
 
       {errorMessage ? <p style={{ color: "#b91c1c" }}>{errorMessage}</p> : null}
 
       <div className="audio-panel">
-        {audioUrl ? <audio controls ref={audioRef} src={audioUrl} /> : <audio controls ref={audioRef} />}
+        {audioUrl ? (
+          <audio
+            controls
+            onEnded={(e) => {
+              const el = e.currentTarget;
+              trackAudioPlayDuration(el.currentTime, el.duration);
+            }}
+            onPause={(e) => {
+              const el = e.currentTarget;
+              if (!el.ended) trackAudioPlayDuration(el.currentTime, el.duration);
+            }}
+            ref={audioRef}
+            src={audioUrl}
+          />
+        ) : (
+          <audio controls ref={audioRef} />
+        )}
       </div>
 
       <p className="privacy-line">{copy.disclaimer}</p>

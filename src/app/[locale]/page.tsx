@@ -8,6 +8,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { Features } from "@/components/Features";
 import { Faq } from "@/components/Faq";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { ScrollTracker } from "@/components/ScrollTracker";
 
 interface HomePageProps {
   params: { locale: string };
@@ -21,6 +22,7 @@ export default async function HomePage({ params }: HomePageProps) {
 
   return (
     <main className="page-shell">
+      <ScrollTracker />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -46,6 +48,8 @@ export default async function HomePage({ params }: HomePageProps) {
       <AdSlot className="ad-sticky-mobile" slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_STICKY} />
 
       <Features title={dict.features.title} items={dict.features.items} />
+
+      <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT} />
 
       <Faq title={dict.faq.title} items={dict.faq.items} />
 

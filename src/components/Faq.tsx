@@ -1,3 +1,7 @@
+"use client";
+
+import { trackFaqInteraction } from "@/lib/analytics";
+
 interface FaqItem {
   question: string;
   answer: string;
@@ -13,7 +17,11 @@ export function Faq({ title, items }: FaqProps): JSX.Element {
     <section className="faq-section">
       <h2>{title}</h2>
       {items.map((item) => (
-        <details key={item.question}>
+        <details key={item.question} onToggle={(e) => {
+          if ((e.currentTarget as HTMLDetailsElement).open) {
+            trackFaqInteraction(item.question);
+          }
+        }}>
           <summary>{item.question}</summary>
           <p>{item.answer}</p>
         </details>

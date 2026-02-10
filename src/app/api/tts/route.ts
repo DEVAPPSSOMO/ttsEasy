@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getCachedAudio, setCachedAudio } from "@/lib/audioCache";
 import { checkBudget, registerUsage } from "@/lib/costGuard";
 import { synthesizeTextToMp3 } from "@/lib/googleTts";
 import { getReaderById } from "@/lib/readers";
@@ -105,14 +106,24 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    const audioBuffer = await synthesizeTextToMp3({
-      locale: payload.locale,
-      reader,
-      speed: payload.speed,
-      text
-    });
+    const cached = await getCachedAudio(text, payload.locale, payload.readerId, payload.speed);
+    let audioBuffer: Buffer;
+    let fromCache = false;
 
-    await registerUsage(text.length, reader.tier);
+    if (cached) {
+      audioBuffer = cached;
+      fromCache = true;
+    } else {
+      audioBuffer = await synthesizeTextToMp3({
+        locale: payload.locale,
+        reader,
+        speed: payload.speed,
+        text
+      });
+      await registerUsage(text.length, reader.tier);
+      void setCachedAudio(text, payload.locale, payload.readerId, payload.speed, audioBuffer);
+    }
+
     const filename = sanitizeFilename(`tts-${payload.locale}-${Date.now()}.mp3`);
 
     return new NextResponse(new Uint8Array(audioBuffer), {
@@ -121,7 +132,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         "content-disposition": `attachment; filename="${filename}"`,
         "content-length": String(audioBuffer.length),
         "content-type": "audio/mpeg",
-        "x-estimated-cost-usd": String(budget.estimatedRequestCostUsd.toFixed(6))
+        "x-audio-cache": fromCache ? "hit" : "miss",
+        "x-estimated-cost-usd": fromCache ? "0" : String(budget.estimatedRequestCostUsd.toFixed(6))
       },
       status: 200
     });
