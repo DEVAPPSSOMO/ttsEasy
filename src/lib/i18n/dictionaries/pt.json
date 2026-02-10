@@ -27,7 +27,10 @@
     "speed": "Velocidade",
     "subtitle": "Cole qualquer texto. Detectamos idioma + sotaque e lemos em voz alta.",
     "textPlaceholder": "Cole seu texto aqui...",
-    "detectLabel": "Detectado"
+    "detectLabel": "Detectado",
+    "historyTitle": "Conversoes recentes",
+    "historyClear": "Limpar historico",
+    "historyEmpty": "Sem historico"
   },
   "nav": {
     "privacy": "Privacidade",

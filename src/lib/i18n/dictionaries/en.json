@@ -27,7 +27,10 @@
     "speed": "Speed",
     "subtitle": "Paste any text. We detect language + accent and read it aloud.",
     "textPlaceholder": "Paste text here...",
-    "detectLabel": "Detected"
+    "detectLabel": "Detected",
+    "historyTitle": "Recent conversions",
+    "historyClear": "Clear history",
+    "historyEmpty": "No history yet"
   },
   "nav": {
     "privacy": "Privacy",

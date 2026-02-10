@@ -27,7 +27,10 @@
     "speed": "Geschwindigkeit",
     "subtitle": "Fugen Sie Text ein. Wir erkennen Sprache + Akzent und lesen vor.",
     "textPlaceholder": "Text hier einfugen...",
-    "detectLabel": "Erkannt"
+    "detectLabel": "Erkannt",
+    "historyTitle": "Letzte Konvertierungen",
+    "historyClear": "Verlauf loschen",
+    "historyEmpty": "Kein Verlauf"
   },
   "nav": {
     "privacy": "Datenschutz",

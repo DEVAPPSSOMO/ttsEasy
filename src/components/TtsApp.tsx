@@ -3,9 +3,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AccentPrompt } from "@/components/AccentPrompt";
 import { AdSlot } from "@/components/AdSlot";
+import { History } from "@/components/History";
 import { LanguageBar } from "@/components/LanguageBar";
 import { TurnstileBox } from "@/components/TurnstileBox";
 import { trackEvent, trackTextInputStarted, trackAudioPlayDuration, trackCaptchaCompleted } from "@/lib/analytics";
+import { addHistoryEntry, type HistoryEntry } from "@/lib/history";
 import { getSupportedManualLocales, normalizeLocale } from "@/lib/localeHeuristics";
 import { DetectLanguageResponse, ReaderId, ReaderOption, TtsSpeed } from "@/lib/types";
 
@@ -39,6 +41,9 @@ interface TtsAppProps {
     subtitle: string;
     textPlaceholder: string;
     detectLabel: string;
+    historyTitle: string;
+    historyClear: string;
+    historyEmpty: string;
   };
 }
 
@@ -64,6 +69,7 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
   const [isGenerating, setIsGenerating] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [historyKey, setHistoryKey] = useState(0);
 
   useEffect(() => {
     setUiLocale(typeof navigator === "undefined" ? "en-US" : navigator.language || "en-US");
@@ -227,6 +233,15 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
     }
   };
 
+  const handleHistorySelect = (entry: HistoryEntry): void => {
+    setText(entry.text);
+    setMode("manual");
+    setManualLocale(entry.locale);
+    setReaderId(entry.readerId as ReaderId);
+    setSpeed(entry.speed as TtsSpeed);
+    scheduleDetection(entry.text, true);
+  };
+
   const handleLocaleManualSelect = (loc: string): void => {
     setMode("manual");
     setManualLocale(loc);
@@ -281,6 +296,8 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
         readerId,
         speed,
       });
+      addHistoryEntry(cleanText, effectiveLocale, readerId, speed);
+      setHistoryKey((k) => k + 1);
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unable to generate speech.";
       setErrorMessage(message);
@@ -406,6 +423,8 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
           <audio controls ref={audioRef} />
         )}
       </div>
+
+      <History key={historyKey} copy={copy} onSelect={handleHistorySelect} />
 
       <p className="privacy-line">{copy.disclaimer}</p>
 

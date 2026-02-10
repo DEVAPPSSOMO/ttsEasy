@@ -27,7 +27,10 @@
     "speed": "Vitesse",
     "subtitle": "Collez du texte. Nous detectons la langue + l'accent et le lisons a voix haute.",
     "textPlaceholder": "Collez votre texte ici...",
-    "detectLabel": "Detecte"
+    "detectLabel": "Detecte",
+    "historyTitle": "Conversions recentes",
+    "historyClear": "Effacer l'historique",
+    "historyEmpty": "Aucun historique"
   },
   "nav": {
     "privacy": "Confidentialite",

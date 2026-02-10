@@ -27,7 +27,10 @@
     "speed": "Velocita",
     "subtitle": "Incolla qualsiasi testo. Rileviamo lingua + accento e lo leggiamo ad alta voce.",
     "textPlaceholder": "Incolla il testo qui...",
-    "detectLabel": "Rilevato"
+    "detectLabel": "Rilevato",
+    "historyTitle": "Conversioni recenti",
+    "historyClear": "Cancella cronologia",
+    "historyEmpty": "Nessuna cronologia"
   },
   "nav": {
     "privacy": "Privacy",

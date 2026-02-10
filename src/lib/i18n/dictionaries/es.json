@@ -27,7 +27,10 @@
     "speed": "Velocidad",
     "subtitle": "Pega cualquier texto. Detectamos idioma + acento y lo leemos.",
     "textPlaceholder": "Pega tu texto aqui...",
-    "detectLabel": "Detectado"
+    "detectLabel": "Detectado",
+    "historyTitle": "Conversiones recientes",
+    "historyClear": "Borrar historial",
+    "historyEmpty": "Sin historial"
   },
   "nav": {
     "privacy": "Privacidad",
