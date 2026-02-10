@@ -30,7 +30,8 @@
     "detectLabel": "Erkannt",
     "historyTitle": "Letzte Konvertierungen",
     "historyClear": "Verlauf loschen",
-    "historyEmpty": "Kein Verlauf"
+    "historyEmpty": "Kein Verlauf",
+    "share": "Teilen"
   },
   "nav": {
     "privacy": "Datenschutz",

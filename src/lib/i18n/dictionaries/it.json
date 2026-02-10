@@ -30,7 +30,8 @@
     "detectLabel": "Rilevato",
     "historyTitle": "Conversioni recenti",
     "historyClear": "Cancella cronologia",
-    "historyEmpty": "Nessuna cronologia"
+    "historyEmpty": "Nessuna cronologia",
+    "share": "Condividi"
   },
   "nav": {
     "privacy": "Privacy",

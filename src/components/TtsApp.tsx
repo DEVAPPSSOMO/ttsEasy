@@ -44,6 +44,7 @@ interface TtsAppProps {
     historyTitle: string;
     historyClear: string;
     historyEmpty: string;
+    share: string;
   };
 }
 
@@ -70,6 +71,7 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [historyKey, setHistoryKey] = useState(0);
+  const [shareUrl, setShareUrl] = useState<string | null>(null);
 
   useEffect(() => {
     setUiLocale(typeof navigator === "undefined" ? "en-US" : navigator.language || "en-US");
@@ -320,6 +322,27 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
     }
   };
 
+  const handleShare = async (): Promise<void> => {
+    const cleanText = text.trim();
+    if (!cleanText) return;
+    try {
+      const res = await fetch("/api/share", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ text: cleanText.slice(0, 500), locale: effectiveLocale, readerId, speed }),
+      });
+      if (!res.ok) return;
+      const { url } = (await res.json()) as { url: string };
+      setShareUrl(url);
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(url);
+      }
+      trackEvent("share_created", { locale: effectiveLocale });
+    } catch {
+      // silent fail
+    }
+  };
+
   const handleDownload = (): void => {
     if (!audioUrl) return;
     const link = document.createElement("a");
@@ -381,6 +404,9 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
         </button>
         <button className="neutral" disabled={!audioUrl} onClick={handleDownload} type="button">
           {copy.download}
+        </button>
+        <button className="neutral" disabled={!audioUrl} onClick={() => void handleShare()} type="button">
+          {shareUrl ? "Link copied!" : copy.share}
         </button>
         <div className="speed-group">
           <span>{copy.speed}</span>

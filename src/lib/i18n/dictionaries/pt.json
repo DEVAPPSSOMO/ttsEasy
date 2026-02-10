@@ -30,7 +30,8 @@
     "detectLabel": "Detectado",
     "historyTitle": "Conversoes recentes",
     "historyClear": "Limpar historico",
-    "historyEmpty": "Sem historico"
+    "historyEmpty": "Sem historico",
+    "share": "Compartilhar"
   },
   "nav": {
     "privacy": "Privacidade",

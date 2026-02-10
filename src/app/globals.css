@@ -680,6 +680,28 @@ a {
   padding: 0 2rem;
 }
 
+/* Share player */
+.share-player {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+}
+
+.share-text {
+  border-left: 3px solid var(--accent);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0 0 1rem;
+  padding-left: 1rem;
+}
+
+.share-meta {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
 @media (max-width: 900px) {
   .page-shell {
     padding-bottom: 6rem;

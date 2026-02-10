@@ -30,7 +30,8 @@
     "detectLabel": "Detectado",
     "historyTitle": "Conversiones recientes",
     "historyClear": "Borrar historial",
-    "historyEmpty": "Sin historial"
+    "historyEmpty": "Sin historial",
+    "share": "Compartir"
   },
   "nav": {
     "privacy": "Privacidad",
