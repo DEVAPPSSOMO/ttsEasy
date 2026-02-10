@@ -75,6 +75,26 @@ const VOICE_MATRIX: Record<string, Record<ReaderId, string>> = {
     claro: "pt-PT-Standard-A",
     expresivo: "pt-PT-Wavenet-C",
     natural: "pt-PT-Standard-B"
+  },
+  "ja-JP": {
+    claro: "ja-JP-Standard-A",
+    expresivo: "ja-JP-Wavenet-B",
+    natural: "ja-JP-Standard-B"
+  },
+  "ko-KR": {
+    claro: "ko-KR-Standard-A",
+    expresivo: "ko-KR-Wavenet-B",
+    natural: "ko-KR-Standard-B"
+  },
+  "zh-CN": {
+    claro: "cmn-CN-Standard-A",
+    expresivo: "cmn-CN-Wavenet-B",
+    natural: "cmn-CN-Standard-B"
+  },
+  "ar-XA": {
+    claro: "ar-XA-Standard-A",
+    expresivo: "ar-XA-Wavenet-B",
+    natural: "ar-XA-Standard-B"
   }
 };
 
@@ -86,6 +106,14 @@ function fallbackLocaleForLanguage(language: string): string {
       return "en-US";
     case "pt":
       return "pt-BR";
+    case "ja":
+      return "ja-JP";
+    case "ko":
+      return "ko-KR";
+    case "zh":
+      return "zh-CN";
+    case "ar":
+      return "ar-XA";
     default:
       return getDefaultLocale(language);
   }

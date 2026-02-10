@@ -18,7 +18,11 @@ const STOP_WORDS: Record<string, Set<string>> = {
   es: new Set(["de", "la", "que", "el", "en", "y", "los", "del", "se", "las", "por", "para", "una", "con", "no", "su", "al", "lo"]),
   fr: new Set(["de", "la", "le", "et", "les", "des", "en", "une", "un", "pour", "pas", "dans", "est", "vous", "avec"]),
   it: new Set(["di", "che", "e", "la", "il", "per", "non", "una", "con", "del", "gli", "le", "un", "in", "sono"]),
-  pt: new Set(["de", "que", "o", "e", "do", "da", "em", "para", "um", "uma", "não", "com", "os", "as", "por", "se"])
+  pt: new Set(["de", "que", "o", "e", "do", "da", "em", "para", "um", "uma", "não", "com", "os", "as", "por", "se"]),
+  ja: new Set(["の", "に", "は", "を", "た", "が", "で", "て", "と", "し", "れ", "さ", "ある", "いる", "する", "です", "ます"]),
+  ko: new Set(["의", "에", "을", "를", "이", "가", "는", "은", "한", "하", "있", "되", "그", "것", "수", "입니다"]),
+  zh: new Set(["的", "是", "了", "在", "不", "有", "和", "人", "这", "中", "大", "为", "上", "个", "到", "说", "我", "他"]),
+  ar: new Set(["في", "من", "على", "إلى", "أن", "هذا", "مع", "لا", "هو", "ما", "هي", "كان", "عن", "لم", "بعد"])
 };
 
 const LANGUAGE_CLUES: Record<string, RegExp[]> = {
@@ -27,7 +31,11 @@ const LANGUAGE_CLUES: Record<string, RegExp[]> = {
   es: [/[¿¡ñ]/gi, /\b(usted|ustedes|vosotros|vale|hola)\b/gi],
   fr: [/[àâçéèêëîïôùûüÿœ]/gi],
   it: [/[àèéìíîòóù]/gi],
-  pt: [/[ãõç]/gi, /\b(não|você|obrigado|obrigada)\b/gi]
+  pt: [/[ãõç]/gi, /\b(não|você|obrigado|obrigada)\b/gi],
+  ja: [/[\u3040-\u309F]/g, /[\u30A0-\u30FF]/g],
+  ko: [/[\uAC00-\uD7AF]/g, /[\u1100-\u11FF]/g],
+  zh: [/[\u4E00-\u9FFF]/g],
+  ar: [/[\u0600-\u06FF]/g]
 };
 
 const ACCENT_AWARE_LANGUAGES = new Set(["en", "es", "pt"]);

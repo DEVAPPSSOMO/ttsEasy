@@ -5,12 +5,16 @@ import { LocaleCandidate } from "@/lib/types";
 // - map language -> default locale
 // - score accent/region variants (en/es/pt) using small keyword heuristics
 const DEFAULT_LOCALE_BY_LANGUAGE: Record<string, string> = {
+  ar: "ar-XA",
   de: "de-DE",
   en: "en-US",
   es: "es-MX",
   fr: "fr-FR",
   it: "it-IT",
-  pt: "pt-BR"
+  ja: "ja-JP",
+  ko: "ko-KR",
+  pt: "pt-BR",
+  zh: "zh-CN"
 };
 
 const LANGUAGE_VARIANTS: Record<string, string[]> = {
@@ -30,7 +34,11 @@ const LOCALE_LABELS: Record<string, string> = {
   "fr-FR": "Français (France)",
   "it-IT": "Italiano (Italia)",
   "pt-BR": "Português (Brasil)",
-  "pt-PT": "Português (Portugal)"
+  "pt-PT": "Português (Portugal)",
+  "ja-JP": "日本語 (日本)",
+  "ko-KR": "한국어 (대한민국)",
+  "zh-CN": "中文 (中国)",
+  "ar-XA": "العربية"
 };
 
 const LOCALE_HINTS: Record<string, RegExp[]> = {
@@ -86,7 +94,11 @@ export function getSupportedManualLocales(): string[] {
     "pt-PT",
     "fr-FR",
     "de-DE",
-    "it-IT"
+    "it-IT",
+    "ja-JP",
+    "ko-KR",
+    "zh-CN",
+    "ar-XA"
   ];
 }
 
