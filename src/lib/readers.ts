@@ -17,59 +17,59 @@ const READER_LABELS: Record<ReaderId, string> = {
 const READER_TIERS: Record<ReaderId, ReaderTier> = {
   claro: "standard",
   expresivo: "wavenet",
-  natural: "neural2"
+  natural: "standard"
 };
 
 const VOICE_MATRIX: Record<string, Record<ReaderId, string>> = {
   "de-DE": {
     claro: "de-DE-Standard-A",
     expresivo: "de-DE-Wavenet-B",
-    natural: "de-DE-Neural2-B"
+    natural: "de-DE-Standard-B"
   },
   "en-AU": {
     claro: "en-AU-Standard-A",
     expresivo: "en-AU-Wavenet-D",
-    natural: "en-AU-Neural2-A"
+    natural: "en-AU-Standard-D"
   },
   "en-GB": {
     claro: "en-GB-Standard-A",
     expresivo: "en-GB-Wavenet-B",
-    natural: "en-GB-Neural2-A"
+    natural: "en-GB-Standard-B"
   },
   "en-US": {
     claro: "en-US-Standard-C",
     expresivo: "en-US-Wavenet-D",
-    natural: "en-US-Neural2-F"
+    natural: "en-US-Standard-F"
   },
   "es-AR": {
     claro: "es-US-Standard-C",
     expresivo: "es-US-Wavenet-C",
-    natural: "es-US-Neural2-B"
+    natural: "es-US-Standard-B"
   },
   "es-ES": {
     claro: "es-ES-Standard-A",
     expresivo: "es-ES-Wavenet-C",
-    natural: "es-ES-Neural2-B"
+    natural: "es-ES-Standard-B"
   },
   "es-MX": {
     claro: "es-US-Standard-B",
     expresivo: "es-US-Wavenet-B",
-    natural: "es-US-Neural2-A"
+    natural: "es-US-Standard-A"
   },
   "fr-FR": {
     claro: "fr-FR-Standard-A",
     expresivo: "fr-FR-Wavenet-C",
-    natural: "fr-FR-Neural2-C"
+    natural: "fr-FR-Standard-C"
   },
   "it-IT": {
     claro: "it-IT-Standard-A",
     expresivo: "it-IT-Wavenet-D",
-    natural: "it-IT-Neural2-A"
+    natural: "it-IT-Standard-D"
   },
   "pt-BR": {
     claro: "pt-BR-Standard-A",
     expresivo: "pt-BR-Wavenet-B",
-    natural: "pt-BR-Neural2-A"
+    natural: "pt-BR-Standard-B"
   },
   "pt-PT": {
     claro: "pt-PT-Standard-A",
