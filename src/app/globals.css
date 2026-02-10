@@ -680,6 +680,43 @@ a {
   padding: 0 2rem;
 }
 
+/* Tool workspace */
+.tool-workspace {
+  background: linear-gradient(180deg, rgba(255, 248, 235, 0.95), rgba(255, 241, 210, 0.86));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.5rem;
+}
+
+.counter-stats,
+.detect-result {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: grid;
+  gap: 0.2rem;
+  min-width: 100px;
+  padding: 0.8rem 1rem;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
 /* Share player */
 .share-player {
   background: var(--surface);

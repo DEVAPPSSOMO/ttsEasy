@@ -4,7 +4,7 @@ import { getPostSlugs } from "@/lib/blog";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
 
-const staticPages = ["", "/about", "/privacy", "/terms", "/cookies", "/blog"];
+const staticPages = ["", "/about", "/privacy", "/terms", "/cookies", "/blog", "/tools/character-counter", "/tools/language-detector"];
 
 const useCaseSlugs = [
   "text-to-speech-for-youtube",
