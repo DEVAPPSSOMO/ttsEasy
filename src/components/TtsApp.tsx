@@ -389,29 +389,65 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
         readers={readers}
       />
 
-      <textarea
-        className="text-input"
-        onChange={(event) => handleTextChange(event.target.value)}
-        onPaste={handlePaste}
-        placeholder={copy.textPlaceholder}
-        ref={textAreaRef}
-        value={text}
-      />
-
-      <div className="textarea-meta">
-        <span>
-          {copy.charCount}: {text.length}
-        </span>
-        {isDetecting ? <span className="detecting">{copy.detecting}</span> : null}
-      </div>
-
-      {detected?.localeAmbiguous && mode === "auto" ? (
-        <AccentPrompt
-          candidates={detected.localeCandidates}
-          copy={copy}
-          onChoose={handleLocaleManualSelect}
+      <div className="composer-stack">
+        <textarea
+          className="text-input"
+          onChange={(event) => handleTextChange(event.target.value)}
+          onPaste={handlePaste}
+          placeholder={copy.textPlaceholder}
+          ref={textAreaRef}
+          value={text}
         />
-      ) : null}
+
+        <div className="textarea-meta">
+          <span>
+            {copy.charCount}: {text.length}
+          </span>
+          {isDetecting ? <span className="detecting">{copy.detecting}</span> : null}
+        </div>
+
+        {detected?.localeAmbiguous && mode === "auto" ? (
+          <AccentPrompt
+            candidates={detected.localeCandidates}
+            copy={copy}
+            onChoose={handleLocaleManualSelect}
+          />
+        ) : null}
+
+        <div className="audio-panel">
+          {audioUrl ? (
+            <audio
+              controls
+              onEnded={(e) => {
+                const el = e.currentTarget;
+                trackAudioPlayDuration(el.currentTime, el.duration);
+              }}
+              onPause={(e) => {
+                const el = e.currentTarget;
+                if (!el.ended) trackAudioPlayDuration(el.currentTime, el.duration);
+              }}
+              ref={audioRef}
+              src={audioUrl}
+            />
+          ) : (
+            <audio controls ref={audioRef} />
+          )}
+        </div>
+
+        <div className="speed-group player-speed">
+          <span>{copy.speed}</span>
+          {SPEED_OPTIONS.map((value) => (
+            <button
+              className={speed === value ? "active" : ""}
+              key={value}
+              onClick={() => setSpeed(value)}
+              type="button"
+            >
+              {value}x
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="controls">
         <button className="btn-generate" disabled={!canGenerate} onClick={() => void handleGenerateAudio()} type="button">
@@ -431,19 +467,6 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
         <button className="neutral" disabled={!audioUrl} onClick={() => void handleShare()} type="button">
           {shareUrl ? "Link copied!" : copy.share}
         </button>
-        <div className="speed-group">
-          <span>{copy.speed}</span>
-          {SPEED_OPTIONS.map((value) => (
-            <button
-              className={speed === value ? "active" : ""}
-              key={value}
-              onClick={() => setSpeed(value)}
-              type="button"
-            >
-              {value}x
-            </button>
-          ))}
-        </div>
       </div>
 
       <TurnstileBox key={captchaWidgetKey} onToken={(token) => {
@@ -452,26 +475,6 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
       }} />
 
       {errorMessage ? <p style={{ color: "#b91c1c" }}>{errorMessage}</p> : null}
-
-      <div className="audio-panel">
-        {audioUrl ? (
-          <audio
-            controls
-            onEnded={(e) => {
-              const el = e.currentTarget;
-              trackAudioPlayDuration(el.currentTime, el.duration);
-            }}
-            onPause={(e) => {
-              const el = e.currentTarget;
-              if (!el.ended) trackAudioPlayDuration(el.currentTime, el.duration);
-            }}
-            ref={audioRef}
-            src={audioUrl}
-          />
-        ) : (
-          <audio controls ref={audioRef} />
-        )}
-      </div>
 
       <History key={historyKey} copy={copy} onSelect={handleHistorySelect} />
 

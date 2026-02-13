@@ -371,6 +371,15 @@ h4 {
   font-weight: 600;
 }
 
+.composer-stack {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.composer-stack .accent-prompt {
+  margin: 0.25rem 0 0.1rem;
+}
+
 .accent-prompt {
   align-items: center;
   background: rgba(175, 110, 60, 0.12);
@@ -467,8 +476,11 @@ h4 {
   border-radius: 12px;
   display: inline-flex;
   gap: 0.35rem;
-  margin-left: auto;
   padding: 0.25rem;
+}
+
+.player-speed {
+  margin-top: 0.15rem;
 }
 
 .speed-group span {
@@ -499,7 +511,7 @@ h4 {
   background: rgba(255, 255, 255, 0.65);
   border: 1px solid var(--border);
   border-radius: 12px;
-  margin-top: 1rem;
+  margin-top: 0;
   padding: 0.7rem;
 }
 
