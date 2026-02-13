@@ -1,13 +1,13 @@
 {
   "metadata": {
     "title": "Kostenlose Text-to-Speech Online",
-    "description": "Verwandeln Sie Text sofort in naturliche Sprache. Automatische Spracherkennung, 11 Akzente, 3 Stimmstile, kostenloser MP3-Download. Keine Registrierung erforderlich.",
+    "description": "Verwandeln Sie Text in naturliche Sprache und laden Sie MP3 sofort herunter. Automatische Spracherkennung, 11 Akzente, 3 Stimmstile und keine Registrierung.",
     "ogTitle": "TTS Easy - Kostenlose Text-to-Speech Online",
-    "ogDescription": "Konvertieren Sie beliebigen Text in naturlich klingendes Audio mit automatischer Spracherkennung und 11 Akzentoptionen."
+    "ogDescription": "Erstellen Sie naturlich klingendes Audio und laden Sie MP3-Dateien mit einem Klick herunter, inklusive automatischer Spracherkennung und Akzentsteuerung."
   },
   "home": {
-    "h1": "Kostenlose Text-to-Speech Online - Text in Sprache Umwandeln",
-    "subtitle": "Fugen Sie Text ein, erkennen Sie die Sprache automatisch und horen Sie mit naturlichen Stimmen. Kostenlos als MP3 herunterladen.",
+    "h1": "Kostenlose Text-to-Speech mit MP3-Download - Text in Sprache Umwandeln",
+    "subtitle": "Fugen Sie Text ein, erzeugen Sie naturliches Audio und laden Sie Ihr MP3 mit einem Klick herunter. Keine Registrierung erforderlich.",
     "tryNow": "Jetzt ausprobieren"
   },
   "ui": {
@@ -18,19 +18,23 @@
     "disclaimer": "Text wird nur im Arbeitsspeicher verarbeitet und nie gespeichert.",
     "download": "MP3 herunterladen",
     "generating": "Wird generiert...",
-    "headline": "Text zu Sprache, sofort",
+    "headline": "Text-zu-Sprache in Studioqualitat",
     "languageSelect": "Sprache/Akzent",
     "manualMode": "Manuell",
     "pause": "Pause / Fortsetzen",
     "play": "Generieren & Abspielen",
     "readerSelect": "Vorleser",
     "speed": "Geschwindigkeit",
-    "subtitle": "Fugen Sie Text ein. Wir erkennen Sprache + Akzent und lesen vor.",
+    "subtitle": "Erzeugen Sie naturliche Sprachaufnahmen und laden Sie Ihr MP3 mit einem Klick herunter.",
     "textPlaceholder": "Text hier einfugen...",
     "detectLabel": "Erkannt",
     "historyTitle": "Letzte Konvertierungen",
     "historyClear": "Verlauf loschen",
     "historyEmpty": "Kein Verlauf",
+    "mp3CalloutTitle": "MP3 in Sekunden erzeugen und herunterladen",
+    "mp3CalloutSubtitle": "Verwandeln Sie jedes Skript in eine MP3-Datei fur Videos, Schulungen oder Social Media.",
+    "mp3Ready": "MP3 bereit zum Herunterladen",
+    "mp3Waiting": "Audio erzeugen, um MP3 freizuschalten",
     "share": "Teilen"
   },
   "nav": {

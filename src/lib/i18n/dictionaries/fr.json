@@ -1,13 +1,13 @@
 {
   "metadata": {
     "title": "Synthese Vocale en Ligne Gratuite",
-    "description": "Convertissez du texte en parole naturelle instantanement. Detection automatique de la langue, 11 accents, 3 styles de voix, telechargement MP3 gratuit. Sans inscription.",
+    "description": "Convertissez du texte en parole naturelle et telechargez un MP3 instantanement. Detection automatique de la langue, 11 accents, 3 styles de voix et sans inscription.",
     "ogTitle": "TTS Easy - Synthese Vocale en Ligne Gratuite",
-    "ogDescription": "Convertissez n'importe quel texte en audio naturel avec detection automatique de la langue et 11 options d'accent."
+    "ogDescription": "Creez un audio naturel et telechargez des fichiers MP3 en un clic avec detection automatique de la langue et controle des accents."
   },
   "home": {
-    "h1": "Synthese Vocale en Ligne Gratuite - Convertir du Texte en Audio Instantanement",
-    "subtitle": "Collez du texte, detectez la langue automatiquement et ecoutez avec des voix naturelles. Telechargez en MP3 gratuitement.",
+    "h1": "Synthese Vocale et Telechargement MP3 Gratuit - Convertir du Texte en Audio Instantanement",
+    "subtitle": "Collez du texte, generez une voix naturelle et telechargez votre MP3 en un clic. Sans inscription.",
     "tryNow": "Essayez maintenant"
   },
   "ui": {
@@ -18,19 +18,23 @@
     "disclaimer": "Le texte est traite en memoire uniquement et n'est jamais stocke.",
     "download": "Telecharger MP3",
     "generating": "Generation...",
-    "headline": "Texte en Parole, instantanement",
+    "headline": "Synthese vocale qualite studio",
     "languageSelect": "Langue/Accent",
     "manualMode": "Manuel",
     "pause": "Pause / Reprendre",
     "play": "Generer et Lire",
     "readerSelect": "Lecteur",
     "speed": "Vitesse",
-    "subtitle": "Collez du texte. Nous detectons la langue + l'accent et le lisons a voix haute.",
+    "subtitle": "Generez des voix naturelles et telechargez votre MP3 en un clic.",
     "textPlaceholder": "Collez votre texte ici...",
     "detectLabel": "Detecte",
     "historyTitle": "Conversions recentes",
     "historyClear": "Effacer l'historique",
     "historyEmpty": "Aucun historique",
+    "mp3CalloutTitle": "Generez et telechargez un MP3 en quelques secondes",
+    "mp3CalloutSubtitle": "Transformez n'importe quel script en fichier MP3 pret pour des videos, cours ou reseaux sociaux.",
+    "mp3Ready": "MP3 pret a telecharger",
+    "mp3Waiting": "Generez l'audio pour activer le MP3",
     "share": "Partager"
   },
   "nav": {

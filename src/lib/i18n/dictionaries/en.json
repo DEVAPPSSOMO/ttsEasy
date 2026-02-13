@@ -1,13 +1,13 @@
 {
   "metadata": {
     "title": "Free Text to Speech Online",
-    "description": "Convert text to natural speech instantly. Automatic language detection, 11 accents, 3 voice styles, free MP3 download. No registration required.",
+    "description": "Convert text to natural speech and download MP3 instantly. Automatic language detection, 11 accents, 3 voice styles, and no registration required.",
     "ogTitle": "TTS Easy - Free Text to Speech Online",
-    "ogDescription": "Convert any text to natural-sounding audio with automatic language detection and 11 accent options."
+    "ogDescription": "Create natural voice audio and download MP3 files in one click with automatic language detection and accent control."
   },
   "home": {
-    "h1": "Free Text to Speech Online - Convert Text to Audio Instantly",
-    "subtitle": "Paste any text, detect language automatically, and listen with natural voices. Download as MP3 for free.",
+    "h1": "Free Text to Speech and MP3 Download - Convert Text to Audio Instantly",
+    "subtitle": "Paste any text, generate natural voice audio, and download your MP3 in one click. No registration required.",
     "tryNow": "Try it now"
   },
   "ui": {
@@ -18,19 +18,23 @@
     "disclaimer": "Text is processed in-memory only and is never stored.",
     "download": "Download MP3",
     "generating": "Generating...",
-    "headline": "Text to Speech, instantly",
+    "headline": "Studio-grade text to speech",
     "languageSelect": "Language/Accent",
     "manualMode": "Manual",
     "pause": "Pause / Resume",
     "play": "Generate & Play",
     "readerSelect": "Reader",
     "speed": "Speed",
-    "subtitle": "Paste any text. We detect language + accent and read it aloud.",
+    "subtitle": "Generate natural voiceovers and download your MP3 in one click.",
     "textPlaceholder": "Paste text here...",
     "detectLabel": "Detected",
     "historyTitle": "Recent conversions",
     "historyClear": "Clear history",
     "historyEmpty": "No history yet",
+    "mp3CalloutTitle": "Generate and download MP3 in seconds",
+    "mp3CalloutSubtitle": "Turn any script into a polished MP3 file ready for videos, lessons, or social media.",
+    "mp3Ready": "MP3 ready to download",
+    "mp3Waiting": "Generate audio to unlock MP3",
     "share": "Share"
   },
   "nav": {

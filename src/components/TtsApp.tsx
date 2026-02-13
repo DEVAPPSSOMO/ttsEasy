@@ -44,6 +44,10 @@ interface TtsAppProps {
     historyTitle: string;
     historyClear: string;
     historyEmpty: string;
+    mp3CalloutTitle: string;
+    mp3CalloutSubtitle: string;
+    mp3Ready: string;
+    mp3Waiting: string;
     share: string;
   };
 }
@@ -355,9 +359,23 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
   const requiresCaptcha = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
   const canGenerate =
     Boolean(text.trim()) && !isGenerating && (!requiresCaptcha || Boolean(captchaToken));
+  const isAudioReady = Boolean(audioUrl);
 
   return (
     <section className="workspace">
+      <header className="workspace-header">
+        <div className="workspace-copy">
+          <p className="workspace-kicker">{copy.headline}</p>
+          <h2>{copy.mp3CalloutTitle}</h2>
+          <p>{copy.subtitle}</p>
+        </div>
+        <div className={isAudioReady ? "mp3-callout ready" : "mp3-callout"}>
+          <span className="mp3-pill">{copy.download}</span>
+          <p>{copy.mp3CalloutSubtitle}</p>
+          <strong>{isAudioReady ? copy.mp3Ready : copy.mp3Waiting}</strong>
+        </div>
+      </header>
+
       <LanguageBar
         copy={copy}
         detectedLocale={detectedLocale}
@@ -396,14 +414,19 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
       ) : null}
 
       <div className="controls">
-        <button disabled={!canGenerate} onClick={() => void handleGenerateAudio()} type="button">
+        <button className="btn-generate" disabled={!canGenerate} onClick={() => void handleGenerateAudio()} type="button">
           {isGenerating ? copy.generating : copy.play}
+        </button>
+        <button
+          className={isAudioReady ? "cta-download ready" : "cta-download"}
+          disabled={!audioUrl}
+          onClick={handleDownload}
+          type="button"
+        >
+          {copy.download}
         </button>
         <button className="secondary" disabled={!audioUrl} onClick={() => void handlePauseResume()} type="button">
           {copy.pause}
-        </button>
-        <button className="neutral" disabled={!audioUrl} onClick={handleDownload} type="button">
-          {copy.download}
         </button>
         <button className="neutral" disabled={!audioUrl} onClick={() => void handleShare()} type="button">
           {shareUrl ? "Link copied!" : copy.share}

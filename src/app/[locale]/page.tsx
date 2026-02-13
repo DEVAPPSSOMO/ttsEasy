@@ -37,8 +37,21 @@ export default async function HomePage({ params }: HomePageProps) {
       />
 
       <div className="hero">
-        <h1>{dict.home.h1}</h1>
-        <p>{dict.home.subtitle}</p>
+        <div className="hero-copy">
+          <p className="hero-kicker">{dict.ui.download}</p>
+          <h1>{dict.home.h1}</h1>
+          <p>{dict.home.subtitle}</p>
+          <div className="hero-meta">
+            <span>{dict.trust.poweredBy}</span>
+            <span>{dict.trust.noSignUp}</span>
+            <span>{dict.trust.neverStored}</span>
+          </div>
+        </div>
+        <aside className="hero-aside" aria-label={dict.features.items[3]?.title ?? dict.ui.download}>
+          <p className="hero-aside-label">{dict.ui.download}</p>
+          <p className="hero-aside-title">{dict.features.items[3]?.title ?? dict.ui.download}</p>
+          <p className="hero-aside-copy">{dict.features.items[3]?.description ?? dict.home.subtitle}</p>
+        </aside>
       </div>
 
       <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOP} />
@@ -52,12 +65,6 @@ export default async function HomePage({ params }: HomePageProps) {
       <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT} />
 
       <Faq title={dict.faq.title} items={dict.faq.items} />
-
-      <div className="trust-signals">
-        <span>{dict.trust.poweredBy}</span>
-        <span>{dict.trust.noSignUp}</span>
-        <span>{dict.trust.neverStored}</span>
-      </div>
 
       <footer className="site-footer">
         <nav className="legal-links">

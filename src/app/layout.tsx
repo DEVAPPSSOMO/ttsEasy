@@ -1,9 +1,20 @@
 import Script from "next/script";
+import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
 // Defaulted so AdSense ownership verification works even if the env var isn't set yet.
 const adSenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT || "ca-pub-2239304413098384";
+const displayFont = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["600", "700"],
+});
+const uiFont = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-ui",
+  weight: ["400", "500", "600", "700"],
+});
 
 export default function RootLayout({ children }: { children: React.ReactNode }): JSX.Element {
   return (
@@ -23,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
           crossOrigin="anonymous"
         />
       </head>
-      <body>
+      <body className={`${displayFont.variable} ${uiFont.variable}`}>
         {children}
 
         {gaId ? (

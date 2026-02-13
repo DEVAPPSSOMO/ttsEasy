@@ -1,13 +1,13 @@
 {
   "metadata": {
     "title": "Sintesi Vocale Online Gratuita",
-    "description": "Converti testo in parlato naturale istantaneamente. Rilevamento automatico della lingua, 11 accenti, 3 stili vocali, download MP3 gratuito. Nessuna registrazione.",
+    "description": "Converti testo in parlato naturale e scarica MP3 istantaneamente. Rilevamento automatico della lingua, 11 accenti, 3 stili vocali e nessuna registrazione.",
     "ogTitle": "TTS Easy - Sintesi Vocale Online Gratuita",
-    "ogDescription": "Converti qualsiasi testo in audio naturale con rilevamento automatico della lingua e 11 opzioni di accento."
+    "ogDescription": "Crea audio naturale e scarica file MP3 con un clic grazie al rilevamento automatico della lingua e al controllo degli accenti."
   },
   "home": {
-    "h1": "Sintesi Vocale Online Gratuita - Converti Testo in Audio Istantaneamente",
-    "subtitle": "Incolla qualsiasi testo, rileva la lingua automaticamente e ascolta con voci naturali. Scarica come MP3 gratis.",
+    "h1": "Sintesi Vocale e Download MP3 Gratuito - Converti Testo in Audio Istantaneamente",
+    "subtitle": "Incolla qualsiasi testo, genera audio con voce naturale e scarica il tuo MP3 con un clic. Nessuna registrazione.",
     "tryNow": "Provalo ora"
   },
   "ui": {
@@ -18,19 +18,23 @@
     "disclaimer": "Il testo viene elaborato solo in memoria e non viene mai memorizzato.",
     "download": "Scarica MP3",
     "generating": "Generazione...",
-    "headline": "Testo a Voce, istantaneamente",
+    "headline": "Sintesi vocale di qualita studio",
     "languageSelect": "Lingua/Accento",
     "manualMode": "Manuale",
     "pause": "Pausa / Riprendi",
     "play": "Genera e Riproduci",
     "readerSelect": "Lettore",
     "speed": "Velocita",
-    "subtitle": "Incolla qualsiasi testo. Rileviamo lingua + accento e lo leggiamo ad alta voce.",
+    "subtitle": "Genera voci naturali e scarica il tuo MP3 con un clic.",
     "textPlaceholder": "Incolla il testo qui...",
     "detectLabel": "Rilevato",
     "historyTitle": "Conversioni recenti",
     "historyClear": "Cancella cronologia",
     "historyEmpty": "Nessuna cronologia",
+    "mp3CalloutTitle": "Genera e scarica MP3 in pochi secondi",
+    "mp3CalloutSubtitle": "Trasforma qualsiasi script in un file MP3 pronto per video, lezioni o social media.",
+    "mp3Ready": "MP3 pronto da scaricare",
+    "mp3Waiting": "Genera audio per sbloccare MP3",
     "share": "Condividi"
   },
   "nav": {

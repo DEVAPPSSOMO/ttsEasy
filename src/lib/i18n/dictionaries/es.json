@@ -1,13 +1,13 @@
 {
   "metadata": {
     "title": "Texto a Voz Online Gratis",
-    "description": "Convierte texto a voz natural al instante. Deteccion automatica de idioma, 11 acentos, 3 estilos de voz, descarga MP3 gratis. Sin registro.",
+    "description": "Convierte texto en voz natural y descarga MP3 al instante. Deteccion automatica de idioma, 11 acentos, 3 estilos de voz y sin registro.",
     "ogTitle": "TTS Easy - Texto a Voz Online Gratis",
-    "ogDescription": "Convierte cualquier texto a audio natural con deteccion automatica de idioma y 11 opciones de acento."
+    "ogDescription": "Crea audio natural y descarga archivos MP3 con un clic usando deteccion automatica de idioma y control de acento."
   },
   "home": {
-    "h1": "Texto a Voz Online Gratis - Convierte Texto a Audio al Instante",
-    "subtitle": "Pega cualquier texto, detecta el idioma automaticamente y escucha con voces naturales. Descarga como MP3 gratis.",
+    "h1": "Texto a Voz Online y Descarga MP3 Gratis - Convierte Texto a Audio al Instante",
+    "subtitle": "Pega cualquier texto, genera audio con voz natural y descarga tu MP3 con un clic. Sin registro.",
     "tryNow": "Pruebalo ahora"
   },
   "ui": {
@@ -18,19 +18,23 @@
     "disclaimer": "El texto se procesa en memoria y no se guarda.",
     "download": "Descargar MP3",
     "generating": "Generando...",
-    "headline": "Texto a Voz al instante",
+    "headline": "Texto a voz con calidad estudio",
     "languageSelect": "Idioma/Acento",
     "manualMode": "Manual",
     "pause": "Pausar / Reanudar",
     "play": "Generar y reproducir",
     "readerSelect": "Lector",
     "speed": "Velocidad",
-    "subtitle": "Pega cualquier texto. Detectamos idioma + acento y lo leemos.",
+    "subtitle": "Genera voces naturales y descarga tu MP3 con un clic.",
     "textPlaceholder": "Pega tu texto aqui...",
     "detectLabel": "Detectado",
     "historyTitle": "Conversiones recientes",
     "historyClear": "Borrar historial",
     "historyEmpty": "Sin historial",
+    "mp3CalloutTitle": "Genera y descarga MP3 en segundos",
+    "mp3CalloutSubtitle": "Convierte cualquier guion en un archivo MP3 listo para videos, clases o redes sociales.",
+    "mp3Ready": "MP3 listo para descargar",
+    "mp3Waiting": "Genera audio para habilitar MP3",
     "share": "Compartir"
   },
   "nav": {

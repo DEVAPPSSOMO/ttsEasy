@@ -1,13 +1,13 @@
 {
   "metadata": {
     "title": "Texto para Fala Online Gratis",
-    "description": "Converta texto em fala natural instantaneamente. Deteccao automatica de idioma, 11 sotaques, 3 estilos de voz, download de MP3 gratis. Sem cadastro.",
+    "description": "Converta texto em fala natural e baixe MP3 instantaneamente. Deteccao automatica de idioma, 11 sotaques, 3 estilos de voz e sem cadastro.",
     "ogTitle": "TTS Easy - Texto para Fala Online Gratis",
-    "ogDescription": "Converta qualquer texto em audio natural com deteccao automatica de idioma e 11 opcoes de sotaque."
+    "ogDescription": "Crie audio natural e baixe arquivos MP3 com um clique usando deteccao automatica de idioma e controle de sotaque."
   },
   "home": {
-    "h1": "Texto para Fala Online Gratis - Converta Texto em Audio Instantaneamente",
-    "subtitle": "Cole qualquer texto, detecte o idioma automaticamente e ouca com vozes naturais. Baixe como MP3 gratis.",
+    "h1": "Texto para Fala e Download MP3 Gratis - Converta Texto em Audio Instantaneamente",
+    "subtitle": "Cole qualquer texto, gere audio com voz natural e baixe seu MP3 com um clique. Sem cadastro.",
     "tryNow": "Experimente agora"
   },
   "ui": {
@@ -18,19 +18,23 @@
     "disclaimer": "O texto e processado apenas na memoria e nunca e armazenado.",
     "download": "Baixar MP3",
     "generating": "Gerando...",
-    "headline": "Texto para Fala, instantaneamente",
+    "headline": "Texto para fala com qualidade de estudio",
     "languageSelect": "Idioma/Sotaque",
     "manualMode": "Manual",
     "pause": "Pausar / Retomar",
     "play": "Gerar e Reproduzir",
     "readerSelect": "Leitor",
     "speed": "Velocidade",
-    "subtitle": "Cole qualquer texto. Detectamos idioma + sotaque e lemos em voz alta.",
+    "subtitle": "Gere locucoes naturais e baixe seu MP3 com um clique.",
     "textPlaceholder": "Cole seu texto aqui...",
     "detectLabel": "Detectado",
     "historyTitle": "Conversoes recentes",
     "historyClear": "Limpar historico",
     "historyEmpty": "Sem historico",
+    "mp3CalloutTitle": "Gere e baixe MP3 em segundos",
+    "mp3CalloutSubtitle": "Transforme qualquer roteiro em um arquivo MP3 pronto para videos, aulas ou redes sociais.",
+    "mp3Ready": "MP3 pronto para baixar",
+    "mp3Waiting": "Gere audio para liberar o MP3",
     "share": "Compartilhar"
   },
   "nav": {

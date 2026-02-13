@@ -51,6 +51,14 @@ describe("getDictionary", () => {
       expect(typeof dict.ui.subtitle).toBe("string");
       expect(typeof dict.ui.textPlaceholder).toBe("string");
       expect(typeof dict.ui.detectLabel).toBe("string");
+      expect(typeof dict.ui.historyTitle).toBe("string");
+      expect(typeof dict.ui.historyClear).toBe("string");
+      expect(typeof dict.ui.historyEmpty).toBe("string");
+      expect(typeof dict.ui.mp3CalloutTitle).toBe("string");
+      expect(typeof dict.ui.mp3CalloutSubtitle).toBe("string");
+      expect(typeof dict.ui.mp3Ready).toBe("string");
+      expect(typeof dict.ui.mp3Waiting).toBe("string");
+      expect(typeof dict.ui.share).toBe("string");
 
       // nav
       expect(typeof dict.nav.privacy).toBe("string");
