@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isApiVariant } from "@/lib/appVariant";
 import { LOCALES, DEFAULT_LOCALE, isValidLocale } from "@/lib/i18n/config";
 
 const PUBLIC_FILE = /\.(.*)$/;
+const PORTAL_ACCESS_COOKIE = "tts_portal_access_token";
 
 function getPreferredLocale(request: NextRequest): string {
   const acceptLanguage = request.headers.get("accept-language");
@@ -25,6 +27,7 @@ function getPreferredLocale(request: NextRequest): string {
 
 export function middleware(request: NextRequest): NextResponse | undefined {
   const { pathname } = request.nextUrl;
+  const apiVariant = isApiVariant();
 
   if (
     pathname.startsWith("/api/") ||
@@ -36,6 +39,20 @@ export function middleware(request: NextRequest): NextResponse | undefined {
     pathname === "/og-image.png" ||
     PUBLIC_FILE.test(pathname)
   ) {
+    return;
+  }
+
+  if (apiVariant) {
+    if (pathname === "/dashboard" || pathname.startsWith("/dashboard/")) {
+      const accessCookie = request.cookies.get(PORTAL_ACCESS_COOKIE)?.value;
+      if (!accessCookie) {
+        const redirect = request.nextUrl.clone();
+        redirect.pathname = "/auth/login";
+        redirect.search = "";
+        redirect.searchParams.set("next", pathname);
+        return NextResponse.redirect(redirect);
+      }
+    }
     return;
   }
 

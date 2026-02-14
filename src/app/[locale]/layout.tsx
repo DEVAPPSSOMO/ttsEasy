@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { isApiVariant } from "@/lib/appVariant";
 import { LOCALES, isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 
@@ -75,6 +76,10 @@ export async function generateMetadata({
 }
 
 export default function LocaleLayout({ children, params }: LocaleLayoutProps): JSX.Element {
+  if (isApiVariant()) {
+    notFound();
+  }
+
   const { locale } = params;
   if (!isValidLocale(locale)) {
     notFound();

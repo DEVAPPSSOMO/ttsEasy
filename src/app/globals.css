@@ -1096,3 +1096,257 @@ h4 {
     transition-duration: 0s !important;
   }
 }
+
+/* API portal */
+.portal-shell {
+  background: radial-gradient(circle at 10% -20%, #fff2d9 0%, transparent 40%),
+    radial-gradient(circle at 90% 0%, #d7f0ff 0%, transparent 35%),
+    #f8fafc;
+  color: #1f2937;
+  min-height: 100vh;
+}
+
+.portal-header,
+.portal-footer,
+.portal-main {
+  margin: 0 auto;
+  max-width: 1080px;
+  width: min(94vw, 1080px);
+}
+
+.portal-header {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1.4rem 0;
+}
+
+.portal-logo {
+  color: #0f172a;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.portal-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+.portal-nav a,
+.portal-footer a {
+  color: #334155;
+  text-decoration: none;
+}
+
+.portal-main {
+  padding-bottom: 2rem;
+}
+
+.portal-section {
+  padding: 1.2rem 0 2rem;
+}
+
+.portal-hero h1,
+.portal-section h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  margin: 0.4rem 0 0.8rem;
+}
+
+.portal-eyebrow {
+  color: #0f766e;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.portal-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin: 1.1rem 0;
+}
+
+.portal-btn-primary,
+.portal-btn-secondary,
+.portal-card button,
+.portal-form button,
+.portal-actions-row button {
+  appearance: none;
+  border: 0;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  padding: 0.62rem 1rem;
+}
+
+.portal-btn-primary,
+.portal-card button,
+.portal-form button,
+.portal-actions-row button {
+  background: #0f172a;
+  color: #f8fafc;
+}
+
+.portal-btn-secondary {
+  background: #e2e8f0;
+  color: #0f172a;
+  text-decoration: none;
+}
+
+.portal-grid-3 {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 1rem;
+}
+
+.portal-grid-3 article,
+.portal-card {
+  background: #ffffff;
+  border: 1px solid #dce5ef;
+  border-radius: 1rem;
+  box-shadow: 0 6px 16px -14px rgba(15, 23, 42, 0.45);
+  padding: 1rem;
+}
+
+.portal-card-head {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.portal-code {
+  background: #0b1220;
+  border-radius: 0.85rem;
+  color: #d9edff;
+  margin: 0.8rem 0;
+  overflow: auto;
+  padding: 0.9rem;
+}
+
+.portal-list {
+  padding-left: 1.2rem;
+}
+
+.portal-footer {
+  border-top: 1px solid #dce5ef;
+  margin-top: 2rem;
+  padding: 1rem 0 1.6rem;
+}
+
+.portal-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.portal-form {
+  background: #ffffff;
+  border: 1px solid #dce5ef;
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.7rem;
+  max-width: 420px;
+  padding: 1rem;
+}
+
+.portal-form input,
+.portal-actions-row input,
+.portal-actions-row select {
+  border: 1px solid #cfd9e7;
+  border-radius: 0.65rem;
+  font: inherit;
+  padding: 0.55rem 0.65rem;
+}
+
+.portal-success {
+  color: #0f766e;
+  font-weight: 600;
+}
+
+.portal-error {
+  color: #be123c;
+  font-weight: 600;
+}
+
+.portal-flash-secret {
+  background: #fff8df;
+  border: 1px solid #f6d767;
+  border-radius: 0.8rem;
+  display: grid;
+  gap: 0.6rem;
+  margin: 0.9rem 0;
+  padding: 0.8rem;
+}
+
+.portal-flash-secret code {
+  overflow-wrap: anywhere;
+}
+
+.portal-table-wrap {
+  overflow-x: auto;
+}
+
+.portal-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.portal-table th,
+.portal-table td {
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.92rem;
+  padding: 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.portal-actions-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin: 0.8rem 0;
+}
+
+.portal-pill-ok,
+.portal-pill-warn {
+  border-radius: 999px;
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+}
+
+.portal-pill-ok {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.portal-pill-warn {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+@media (max-width: 900px) {
+  .portal-grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .portal-nav {
+    justify-content: flex-start;
+  }
+
+  .portal-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

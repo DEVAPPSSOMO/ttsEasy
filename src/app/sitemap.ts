@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { getAppVariant } from "@/lib/appVariant";
 import { LOCALES, type Locale } from "@/lib/i18n/config";
 import { getPostSlugs } from "@/lib/blog";
 
@@ -29,6 +30,14 @@ const useCaseSlugs = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  if (getAppVariant() === "api") {
+    const now = new Date();
+    return ["", "/pricing", "/docs", "/faq", "/status", "/auth/login"].map((path) => ({
+      lastModified: now,
+      url: `${siteUrl}${path}`,
+    }));
+  }
+
   const entries: MetadataRoute.Sitemap = [];
 
   for (const page of staticPages) {

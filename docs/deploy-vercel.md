@@ -1,120 +1,114 @@
-# Deploy en Vercel (producción)
+# Deploy en Vercel (producción dual: web pública + portal API)
 
-Checklist y pasos recomendados para desplegar TTS Easy en Vercel con:
+Guía para desplegar el mismo repositorio en **dos proyectos Vercel**:
 
-- Google Cloud Text-to-Speech
-- Cloudflare Turnstile
-- Upstash Redis (rate limit + budget)
-- Dominio propio
+1. `tts-easy-public` -> `ttseasy.com`, `www.ttseasy.com`
+2. `tts-easy-api` -> `api.ttseasy.com`
 
-## 0) Preparación
+## 0) Objetivo operativo
 
-- Repositorio en GitHub conectado a Vercel.
-- Variables de entorno listas (ver `.env.example`).
+- Mantener la web pública actual separada del portal API.
+- Ejecutar auth/dashboard/API portal sólo en `api.ttseasy.com`.
+- Mantener endpoints M2M `/api/v1/*` para clientes integradores.
 
-## 1) Crear el proyecto en Vercel
+## 1) Crear los 2 proyectos en Vercel
 
-1. Importa el repo (Framework: Next.js).
-2. Asegúrate de desplegar desde `main` (o tu rama de producción).
-3. En "Environment Variables", define todas las variables necesarias en **Production** y, si quieres previews funcionales, también en **Preview**.
+### 1.1 Proyecto público
 
-Nota importante:
+- Nombre recomendado: `tts-easy-public`
+- Environment Variable clave: `APP_VARIANT=public`
+- Dominios: `ttseasy.com`, `www.ttseasy.com`
 
-- Cuando cambias variables en Vercel, normalmente necesitas un **redeploy** para que apliquen.
+### 1.2 Proyecto API portal
 
-## 2) Configurar Google Cloud Text-to-Speech
+- Nombre recomendado: `tts-easy-api`
+- Environment Variable clave: `APP_VARIANT=api`
+- Dominio: `api.ttseasy.com`
 
-### 2.1 Crear proyecto y habilitar API
+## 2) Variables mínimas por proyecto
 
-1. Crea/selecciona un proyecto en Google Cloud.
-2. Habilita la API **Cloud Text-to-Speech**.
-
-### 2.2 Crear service account y key
-
-1. Crea un **Service Account** para el backend.
-2. Otórgale permisos para usar la API.
-   - Si no sabes cuáles son mínimos: empieza por permisos tipo *Service Usage Consumer*.
-   - Si recibes errores de permisos, añade el rol específico de Text-to-Speech (por ejemplo `roles/texttospeech.user`).
-3. Genera una key JSON del service account.
-
-### 2.3 Variables en Vercel
-
-En Vercel (Production):
-
-- `GOOGLE_CLOUD_PROJECT_ID`: el ID del proyecto.
-- `GOOGLE_CLOUD_CLIENT_EMAIL`: email del service account.
-- `GOOGLE_CLOUD_PRIVATE_KEY`: private key del JSON.
-
-Notas:
-
-- Pega el private key completo, incluyendo `-----BEGIN PRIVATE KEY-----`.
-- Si la key se pega con `\\n`, el backend la convierte a saltos de línea reales (`src/lib/googleTts.ts`).
-
-## 3) Configurar Upstash (Redis REST)
-
-Crear base de datos en Upstash y copiar:
+## 2.1 Compartidas (ambos proyectos)
 
 - `UPSTASH_REDIS_REST_URL`
 - `UPSTASH_REDIS_REST_TOKEN`
+- `GOOGLE_CLOUD_PROJECT_ID`
+- `GOOGLE_CLOUD_CLIENT_EMAIL`
+- `GOOGLE_CLOUD_PRIVATE_KEY`
 
-Por qué es importante:
+## 2.2 API portal (`tts-easy-api`) obligatorias
 
-- Sin Upstash, el rate limit y el budget guard funcionan "en memoria" y no son consistentes en producción.
+- `NEXT_PUBLIC_SITE_URL=https://api.ttseasy.com`
+- `NEXT_PUBLIC_API_BASE_URL=https://api.ttseasy.com`
+- `API_BILLING_PREPAID_ENABLED=true`
+- `API_BILLING_DB_ENABLED=true`
+- `API_BILLING_LEGACY_FALLBACK_ENABLED=true` (migración temporal)
+- `API_KEY_HASH_PEPPER=<secreto fuerte>`
+- `SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `STRIPE_SECRET_KEY`
+- `STRIPE_WEBHOOK_SECRET`
+- `STRIPE_ACCOUNT_COUNTRY=ES`
 
-## 4) Configurar Cloudflare Turnstile
+## 2.3 Público (`tts-easy-public`) recomendadas
 
-1. Crea un widget de Turnstile.
-2. Añade los hostnames:
-   - el dominio final (por ejemplo `www.tudominio.com`)
-   - y, si lo usas, el raíz (`tudominio.com`)
-   - y, mientras pruebes, tu `*.vercel.app` de producción
-3. Copia:
-   - `NEXT_PUBLIC_TURNSTILE_SITE_KEY` (pública, va al cliente)
-   - `TURNSTILE_SECRET_KEY` (privada, solo backend)
+- `NEXT_PUBLIC_SITE_URL=https://ttseasy.com`
+- `NEXT_PUBLIC_API_BASE_URL=https://api.ttseasy.com`
+- Analytics/Ads opcionales (`NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_ADSENSE_*`)
 
-Notas:
+## 3) Supabase (auth + DB)
 
-- Tokens de Turnstile son **single-use**.
-- Si ves `captcha_failed` con `timeout-or-duplicate`, normalmente es token expirado o reutilizado.
+1. Crear proyecto Supabase (UE recomendado para ES/UE).
+2. Ejecutar el esquema de `docs/supabase-schema.sql`.
+3. Configurar Auth:
+   - Site URL: `https://api.ttseasy.com`
+   - Redirect URLs: `https://api.ttseasy.com/auth/callback`
+4. Configurar SMTP de Supabase con Resend:
+   - Dominio validado (SPF + DKIM)
+   - Remitente de login mágico
 
-## 5) Conectar dominio
+## 4) Stripe (prepago)
 
-En Vercel:
+1. Cuenta de empresa (ES), modo live.
+2. Stripe Tax activado (tax inclusive en checkout).
+3. Métodos activos: card + wallets (Apple/Google Pay según disponibilidad).
+4. Webhook endpoint:
+   - URL: `https://api.ttseasy.com/api/v1/payments/stripe/webhook`
+   - Eventos: `checkout.session.completed`, `charge.refunded`, `payment_intent.payment_failed`
 
-1. Project Settings -> Domains.
-2. "Add Existing" y añade:
-   - `tudominio.com`
-   - `www.tudominio.com`
-3. Decide si quieres redirigir raíz -> www (recomendado) o al revés.
+## 5) DNS
 
-DNS:
+- `ttseasy.com` y `www.ttseasy.com` -> proyecto `tts-easy-public`
+- `api.ttseasy.com` -> proyecto `tts-easy-api`
 
-- Si tu dominio está en Vercel (comprado en Vercel), Vercel gestiona DNS directamente.
-- Si tu dominio está fuera, Vercel te indicará registros A/CNAME/ALIAS a crear en tu registrador.
+Vercel emitirá automáticamente SSL cuando DNS esté correcto.
 
-SSL:
+## 6) Validación post deploy
 
-- Vercel genera certificado automáticamente cuando DNS está correcto.
+### 6.1 Público
 
-## 6) Validación post-deploy
+- Home y páginas locales cargan.
+- `/api/tts` funciona con Turnstile.
 
-Checklist:
+### 6.2 API portal
 
-1. `GET /api/health` responde `200`.
-2. En la UI:
-   - la detección funciona,
-   - el selector de lectores carga,
-   - el botón "Generar y reproducir" se habilita tras Turnstile,
-   - y se obtiene audio.
-3. Repite 2-3 veces seguidas:
-   - no debe aparecer `captcha_failed` por token duplicado.
+- `/` landing API visible.
+- `/auth/login` envía magic link.
+- callback autentica y permite entrar a `/dashboard`.
+- `/api/portal/me` responde 200 con sesión.
+- `/api/v1/tts` acepta Bearer API key creada en dashboard.
 
-## 7) Operación y mantenimiento
+### 6.3 Billing
 
-- Rotación de credenciales:
-  - Si rotas la key del service account, actualiza las variables en Vercel y redeploy.
-- Budget:
-  - Ajusta `MONTHLY_BUDGET_USD` según tu tolerancia de gasto.
-- Turnstile:
-  - Si cambias de dominio o añades subdominios, actualiza hostnames permitidos.
+- Recarga 5€ mínima aceptada.
+- Webhook acredita wallet una sola vez (dedup).
+- `402 insufficient_balance` cuando corresponde.
 
+## 7) Rollout recomendado
+
+1. Activar `API_BILLING_DB_ENABLED=true` sólo en `tts-easy-api`.
+2. Mantener `API_BILLING_LEGACY_FALLBACK_ENABLED=true` durante migración de claves.
+3. Migrar claves legacy y monitorizar `legacy_fallback_lookup_rate`.
+4. Apagar fallback cuando el uso de env keys sea residual.

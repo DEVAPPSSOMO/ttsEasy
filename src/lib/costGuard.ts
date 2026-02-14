@@ -20,7 +20,7 @@ export interface BudgetCheckResult {
 const PRICE_PER_MILLION: Record<ReaderTier, number> = {
   neural2: 16,
   standard: 4,
-  wavenet: 16
+  wavenet: 4
 };
 
 const memoryBudgetByMonth = new Map<string, UsageCounters>();

@@ -3,6 +3,7 @@ import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
+const isApiVariant = (process.env.APP_VARIANT ?? "").trim().toLowerCase() === "api";
 // Defaulted so AdSense ownership verification works even if the env var isn't set yet.
 const adSenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT || "ca-pub-2239304413098384";
 const displayFont = Playfair_Display({
@@ -21,18 +22,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
     <html>
       <head>
         <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+        {isApiVariant ? null : <link rel="preconnect" href="https://pagead2.googlesyndication.com" />}
         <link rel="preconnect" href="https://challenges.cloudflare.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+        {isApiVariant ? null : <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />}
         <link rel="dns-prefetch" href="https://challenges.cloudflare.com" />
         <link rel="manifest" href="/manifest.json" />
 
-        <script
-          async
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adSenseClient}`}
-          crossOrigin="anonymous"
-        />
+        {isApiVariant ? null : (
+          <script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adSenseClient}`}
+            crossOrigin="anonymous"
+          />
+        )}
       </head>
       <body className={`${displayFont.variable} ${uiFont.variable}`}>
         {children}
@@ -56,9 +59,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
           </>
         ) : null}
 
-        <Script id="sw-register" strategy="afterInteractive">
-          {`if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{})}`}
-        </Script>
+        {isApiVariant ? null : (
+          <Script id="sw-register" strategy="afterInteractive">
+            {`if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{})}`}
+          </Script>
+        )}
       </body>
     </html>
   );
