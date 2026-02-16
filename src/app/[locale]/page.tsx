@@ -58,7 +58,11 @@ export default async function HomePage({ params }: HomePageProps) {
 
       <TtsApp locale={locale} copy={dict.ui} />
 
-      <AdSlot className="ad-sticky-mobile" slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_STICKY} />
+      <AdSlot
+        behavior="mobileSticky"
+        className="ad-sticky-mobile"
+        slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_STICKY}
+      />
 
       <Features title={dict.features.title} items={dict.features.items} />
 

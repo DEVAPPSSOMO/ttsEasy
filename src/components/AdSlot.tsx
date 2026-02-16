@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { trackEvent } from "@/lib/analytics";
 
 declare global {
@@ -10,15 +10,57 @@ declare global {
 }
 
 interface AdSlotProps {
+  behavior?: "default" | "mobileSticky";
   className?: string;
   format?: string;
   slot?: string;
 }
 
-export function AdSlot({ className, format = "auto", slot }: AdSlotProps): JSX.Element | null {
+type MobileStickyState = "pending" | "filled" | "hidden";
+
+const MOBILE_STICKY_TIMEOUT_MS = 3000;
+
+export function AdSlot({ behavior = "default", className, format = "auto", slot }: AdSlotProps): JSX.Element | null {
   const adRef = useRef<HTMLModElement | null>(null);
+  const [mobileStickyState, setMobileStickyState] = useState<MobileStickyState>("pending");
   const client = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
   const isProd = process.env.NODE_ENV === "production";
+  const isMobileSticky = behavior === "mobileSticky";
+
+  useEffect(() => {
+    if (!isMobileSticky || !client || !slot || !adRef.current) {
+      return;
+    }
+
+    const adElement = adRef.current;
+    setMobileStickyState("pending");
+
+    const updateFromAdStatus = () => {
+      const adStatus = adElement.getAttribute("data-ad-status");
+      if (adStatus === "filled") {
+        setMobileStickyState("filled");
+      } else if (adStatus === "unfilled") {
+        setMobileStickyState("hidden");
+      }
+    };
+
+    updateFromAdStatus();
+
+    const observer = new MutationObserver(updateFromAdStatus);
+    observer.observe(adElement, {
+      attributeFilter: ["data-ad-status"],
+      attributes: true,
+    });
+
+    const timeoutId = window.setTimeout(() => {
+      setMobileStickyState((currentState) => (currentState === "pending" ? "hidden" : currentState));
+    }, MOBILE_STICKY_TIMEOUT_MS);
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(timeoutId);
+    };
+  }, [isMobileSticky, client, slot]);
 
   useEffect(() => {
     if (!client || !slot || !adRef.current) {
@@ -35,6 +77,8 @@ export function AdSlot({ className, format = "auto", slot }: AdSlotProps): JSX.E
   }, [client, slot]);
 
   if (!client || !slot) {
+    if (isMobileSticky) return null;
+
     // In production we prefer rendering nothing over a visible placeholder box.
     if (isProd) return null;
 
@@ -52,6 +96,7 @@ export function AdSlot({ className, format = "auto", slot }: AdSlotProps): JSX.E
       data-ad-client={client}
       data-ad-format={format}
       data-ad-slot={slot}
+      data-slot-state={isMobileSticky ? mobileStickyState : undefined}
       data-full-width-responsive="true"
       ref={adRef}
       style={{ display: "block" }}
