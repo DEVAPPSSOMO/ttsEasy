@@ -6,6 +6,8 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getPostBySlug, getPostSlugs } from "@/lib/blog";
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo/jsonLd";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { PageViewTracker } from "@/components/PageViewTracker";
+import { TrackedCtaLink } from "@/components/TrackedCtaLink";
 
 interface Props {
   params: { locale: string; slug: string };
@@ -30,6 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return {};
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
+  const ogImage = `${siteUrl}/og-image.png`;
 
   const languages: Record<string, string> = {};
   for (const loc of LOCALES) {
@@ -53,6 +56,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "article",
       publishedTime: post.date,
       url: `${siteUrl}/${locale}/blog/${slug}`,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images: [ogImage],
     },
   };
 }
@@ -69,6 +86,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <article className="blog-post">
+      <PageViewTracker locale={locale} pageType="blog" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -101,8 +119,16 @@ export default async function BlogPostPage({ params }: Props) {
       </div>
       <div className="post-content" dangerouslySetInnerHTML={{ __html: post.content }} />
 
+      <p style={{ marginTop: "2rem" }}>
+        <TrackedCtaLink className="landing-cta" href={`/${locale}`} locale={locale} pageType="blog">
+          {dict.home.tryNow}
+        </TrackedCtaLink>
+      </p>
+
       <nav className="legal-links" style={{ marginTop: "2rem" }}>
         <Link href={`/${locale}/blog`}>{dict.nav.blog}</Link>
+        <Link href={`/${locale}/compare`}>Compare</Link>
+        <Link href={`/${locale}/use-cases`}>Use Cases</Link>
         <Link href={`/${locale}`}>TTS Easy</Link>
       </nav>
       <LanguageSwitcher currentLocale={locale as Locale} currentPath={`/${locale}/blog/${slug}`} label={dict.nav.language} />

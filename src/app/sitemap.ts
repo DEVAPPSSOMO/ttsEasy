@@ -2,31 +2,23 @@ import type { MetadataRoute } from "next";
 import { getAppVariant } from "@/lib/appVariant";
 import { LOCALES, type Locale } from "@/lib/i18n/config";
 import { getPostSlugs } from "@/lib/blog";
+import { LANDING_PAGES, getLandingLocalizedLocales } from "@/lib/landing-pages";
+import { getCompareLocalizedLocales, getCompareSlugs } from "@/lib/compare-pages";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
 
-const staticPages = ["", "/about", "/privacy", "/terms", "/cookies", "/blog", "/tools/character-counter", "/tools/language-detector"];
-
-const useCaseSlugs = [
-  "text-to-speech-for-youtube",
-  "tts-for-podcasts",
-  "tts-for-accessibility",
-  "tts-for-students",
-  "tts-for-discord",
-  "tts-for-presentations",
-  "text-to-speech-for-ebooks",
-  "tts-for-language-learning",
-  "free-text-to-speech-online",
-  "text-to-speech-spanish",
-  "text-to-speech-portuguese",
-  "text-to-speech-french",
-  "text-to-speech-german",
-  "text-to-speech-italian",
-  "text-to-speech-british",
-  "text-to-speech-australian",
-  "texto-a-voz-mexicano",
-  "texto-a-voz-argentino",
-  "texto-a-voz-espanol",
+const staticPages = [
+  "",
+  "/about",
+  "/privacy",
+  "/terms",
+  "/cookies",
+  "/blog",
+  "/use-cases",
+  "/tools",
+  "/compare",
+  "/tools/character-counter",
+  "/tools/language-detector",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -56,39 +48,63 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  for (const slug of useCaseSlugs) {
-    for (const locale of LOCALES) {
+  for (const page of LANDING_PAGES) {
+    const localizedLocales = getLandingLocalizedLocales(page.slug);
+    if (localizedLocales.length === 0) continue;
+
+    for (const locale of localizedLocales) {
       const languages: Record<string, string> = {};
-      for (const alt of LOCALES) {
-        languages[alt] = `${siteUrl}/${alt}/use-cases/${slug}`;
+      for (const alt of localizedLocales) {
+        languages[alt] = `${siteUrl}/${alt}/use-cases/${page.slug}`;
       }
-      languages["x-default"] = `${siteUrl}/en/use-cases/${slug}`;
+      languages["x-default"] = `${siteUrl}/${localizedLocales[0]}/use-cases/${page.slug}`;
 
       entries.push({
-        url: `${siteUrl}/${locale}/use-cases/${slug}`,
+        url: `${siteUrl}/${locale}/use-cases/${page.slug}`,
         lastModified: new Date(),
         alternates: { languages },
       });
     }
   }
 
-  const blogSlugs = new Set<string>();
+  const blogSlugLocales = new Map<string, Locale[]>();
   for (const locale of LOCALES) {
     for (const slug of getPostSlugs(locale as Locale)) {
-      blogSlugs.add(slug);
+      const localesForSlug = blogSlugLocales.get(slug) ?? [];
+      localesForSlug.push(locale as Locale);
+      blogSlugLocales.set(slug, localesForSlug);
     }
   }
 
-  for (const slug of blogSlugs) {
-    for (const locale of LOCALES) {
+  for (const [slug, localizedLocales] of blogSlugLocales.entries()) {
+    for (const locale of localizedLocales) {
       const languages: Record<string, string> = {};
-      for (const alt of LOCALES) {
+      for (const alt of localizedLocales) {
         languages[alt] = `${siteUrl}/${alt}/blog/${slug}`;
       }
-      languages["x-default"] = `${siteUrl}/en/blog/${slug}`;
+      languages["x-default"] = `${siteUrl}/${localizedLocales[0]}/blog/${slug}`;
 
       entries.push({
         url: `${siteUrl}/${locale}/blog/${slug}`,
+        lastModified: new Date(),
+        alternates: { languages },
+      });
+    }
+  }
+
+  for (const slug of getCompareSlugs()) {
+    const localizedLocales = getCompareLocalizedLocales(slug);
+    if (localizedLocales.length === 0) continue;
+
+    for (const locale of localizedLocales) {
+      const languages: Record<string, string> = {};
+      for (const alt of localizedLocales) {
+        languages[alt] = `${siteUrl}/${alt}/compare/${slug}`;
+      }
+      languages["x-default"] = `${siteUrl}/${localizedLocales[0]}/compare/${slug}`;
+
+      entries.push({
+        url: `${siteUrl}/${locale}/compare/${slug}`,
         lastModified: new Date(),
         alternates: { languages },
       });

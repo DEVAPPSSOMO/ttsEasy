@@ -3,6 +3,8 @@ import {
   LANDING_PAGES,
   getLandingPage,
   getLandingContent,
+  getLandingLocalizedLocales,
+  hasLandingLocalizedContent,
   type LandingPage,
 } from "./landing-pages";
 
@@ -121,6 +123,12 @@ describe("landing-pages", () => {
       const content = getLandingContent("tts-for-students", "fr");
       expect(content.h1.length).toBeGreaterThan(0);
       expect(content.benefits.length).toBeGreaterThan(0);
+    });
+
+    it("reports localized locales only when content exists", () => {
+      expect(getLandingLocalizedLocales("text-to-speech-for-youtube")).toEqual(["en", "es"]);
+      expect(hasLandingLocalizedContent("text-to-speech-for-youtube", "en")).toBe(true);
+      expect(hasLandingLocalizedContent("text-to-speech-for-youtube", "fr")).toBe(false);
     });
   });
 });

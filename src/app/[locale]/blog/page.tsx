@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { isValidLocale, type Locale } from "@/lib/i18n/config";
+import { LOCALES, isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getAllPosts } from "@/lib/blog";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { PageViewTracker } from "@/components/PageViewTracker";
 
 interface Props {
   params: { locale: string };
@@ -15,11 +16,32 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!isValidLocale(locale)) return {};
   const dict = await getDictionary(locale);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
+  const ogImage = `${siteUrl}/og-image.png`;
+  const languages: Record<string, string> = {};
+  for (const loc of LOCALES) {
+    languages[loc] = `${siteUrl}/${loc}/blog`;
+  }
+  languages["x-default"] = `${siteUrl}/en/blog`;
 
   return {
     title: `${dict.nav.blog} | TTS Easy`,
+    description: dict.metadata.description,
     alternates: {
       canonical: `${siteUrl}/${locale}/blog`,
+      languages,
+    },
+    openGraph: {
+      title: `${dict.nav.blog} | TTS Easy`,
+      description: dict.metadata.description,
+      type: "website",
+      url: `${siteUrl}/${locale}/blog`,
+      images: [{ url: ogImage, width: 1200, height: 630, alt: "TTS Easy" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${dict.nav.blog} | TTS Easy`,
+      description: dict.metadata.description,
+      images: [ogImage],
     },
   };
 }
@@ -33,6 +55,7 @@ export default async function BlogIndex({ params }: Props) {
 
   return (
     <main className="blog-index">
+      <PageViewTracker locale={locale} pageType="blog" />
       <h1>{dict.nav.blog}</h1>
       <div className="blog-list">
         {posts.length === 0 ? (
@@ -53,6 +76,9 @@ export default async function BlogIndex({ params }: Props) {
       </div>
       <nav className="legal-links" style={{ marginTop: "2rem" }}>
         <Link href={`/${locale}`}>TTS Easy</Link>
+        <Link href={`/${locale}/use-cases`}>Use Cases</Link>
+        <Link href={`/${locale}/tools`}>Tools</Link>
+        <Link href={`/${locale}/compare`}>Compare</Link>
       </nav>
       <LanguageSwitcher currentLocale={locale as Locale} currentPath={`/${locale}/blog`} label={dict.nav.language} />
     </main>

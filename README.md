@@ -179,6 +179,12 @@ Notas:
 - `docs/deploy-vercel.md`: paso a paso para desplegar en Vercel con Google Cloud + Upstash + Turnstile.
 - `docs/supabase-schema.sql`: esquema base (accounts, api_keys, account_profile + RLS) para producción.
 - `docs/troubleshooting.md`: checklist de diagnóstico por error.
+- `docs/growth/operating-dashboard.md`: dashboard semanal SEO/SEM/social con KPIs y guardrails.
+- `docs/growth/analytics-taxonomy.md`: eventos y parámetros estándar para medir el embudo.
+- `docs/growth/sem-playbook.md`: reglas operativas y kill-rules de SEM (fase de validación).
+- `docs/growth/social-playbook.md`: sistema de ejecución de contenido corto orgánico.
+- `docs/growth/editorial-contract.md`: contrato mínimo para nuevas URLs indexables.
+- `docs/growth/step1-production-setup.md`: guía ejecutable del paso 1 (env vars + deploy gate).
 
 ## Eventos (GA4)
 

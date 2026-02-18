@@ -6,7 +6,18 @@ import { AdSlot } from "@/components/AdSlot";
 import { History } from "@/components/History";
 import { LanguageBar } from "@/components/LanguageBar";
 import { TurnstileBox } from "@/components/TurnstileBox";
-import { trackEvent, trackTextInputStarted, trackAudioPlayDuration, trackCaptchaCompleted } from "@/lib/analytics";
+import {
+  trackEvent,
+  trackTextInputStarted,
+  trackAudioPlayDuration,
+  trackCaptchaCompleted,
+  trackLandingView,
+  trackCtaGenerateClick,
+  trackTtsSuccess,
+  trackMp3Download,
+  trackShareCreated,
+  type PageType,
+} from "@/lib/analytics";
 import { addHistoryEntry, type HistoryEntry } from "@/lib/history";
 import { getSupportedManualLocales, normalizeLocale } from "@/lib/localeHeuristics";
 import { DetectLanguageResponse, ReaderId, ReaderOption, TtsSpeed } from "@/lib/types";
@@ -23,6 +34,7 @@ function parseApiError(value: unknown): string {
 
 interface TtsAppProps {
   locale: string;
+  pageType?: PageType;
   copy: {
     accentQuestion: string;
     autoMode: string;
@@ -52,7 +64,7 @@ interface TtsAppProps {
   };
 }
 
-export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
+export function TtsApp({ locale, pageType = "home", copy }: TtsAppProps): JSX.Element {
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const detectAbortRef = useRef<AbortController | null>(null);
@@ -80,6 +92,10 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
   useEffect(() => {
     setUiLocale(typeof navigator === "undefined" ? "en-US" : navigator.language || "en-US");
   }, []);
+
+  useEffect(() => {
+    trackLandingView({ locale, pageType });
+  }, [locale, pageType]);
 
   useEffect(() => {
     return () => {
@@ -261,6 +277,10 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
       return;
     }
 
+    trackCtaGenerateClick(
+      { locale, pageType },
+      { locale_selected: effectiveLocale, reader_id: readerId, speed }
+    );
     setIsGenerating(true);
     setErrorMessage("");
 
@@ -296,12 +316,15 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
         await audioRef.current.play().catch(() => undefined);
       }
 
-      trackEvent("tts_success", {
-        locale: effectiveLocale,
-        localeSource: mode,
-        readerId,
-        speed,
-      });
+      trackTtsSuccess(
+        { locale, pageType },
+        {
+          locale_selected: effectiveLocale,
+          locale_source: mode,
+          reader_id: readerId,
+          speed,
+        }
+      );
       addHistoryEntry(cleanText, effectiveLocale, readerId, speed);
       setHistoryKey((k) => k + 1);
     } catch (error) {
@@ -341,7 +364,7 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
       if (navigator.clipboard) {
         await navigator.clipboard.writeText(url);
       }
-      trackEvent("share_created", { locale: effectiveLocale });
+      trackShareCreated({ locale, pageType }, { locale_selected: effectiveLocale });
     } catch {
       // silent fail
     }
@@ -353,7 +376,7 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
     link.href = audioUrl;
     link.download = `tts-${effectiveLocale}.mp3`;
     link.click();
-    trackEvent("mp3_download", { locale: effectiveLocale });
+    trackMp3Download({ locale, pageType }, { locale_selected: effectiveLocale });
   };
 
   const requiresCaptcha = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
@@ -480,7 +503,7 @@ export function TtsApp({ locale, copy }: TtsAppProps): JSX.Element {
 
       <p className="privacy-line">{copy.disclaimer}</p>
 
-      <AdSlot className="ad-grid" slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MID} />
+      <AdSlot className="ad-grid" locale={locale} pageType={pageType} slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MID} />
     </section>
   );
 }

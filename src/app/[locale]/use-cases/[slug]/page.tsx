@@ -3,7 +3,12 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { LOCALES, isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { LANDING_PAGES, getLandingPage, getLandingContent } from "@/lib/landing-pages";
+import {
+  LANDING_PAGES,
+  getLandingPage,
+  getLandingContent,
+  getLandingLocalizedLocales,
+} from "@/lib/landing-pages";
 import { faqJsonLd, breadcrumbJsonLd } from "@/lib/seo/jsonLd";
 import { TtsApp } from "@/components/TtsApp";
 import { Faq } from "@/components/Faq";
@@ -32,24 +37,44 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const content = getLandingContent(slug, locale as Locale);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
+  const ogImage = `${siteUrl}/og-image.png`;
+  const localizedLocales = getLandingLocalizedLocales(slug);
+  const isLocalized = localizedLocales.includes(locale as Locale);
+  const canonicalLocale = isLocalized ? locale : (localizedLocales[0] ?? "en");
 
   const languages: Record<string, string> = {};
-  for (const loc of LOCALES) {
+  for (const loc of localizedLocales) {
     languages[loc] = `${siteUrl}/${loc}/use-cases/${slug}`;
   }
-  languages["x-default"] = `${siteUrl}/en/use-cases/${slug}`;
+  languages["x-default"] = `${siteUrl}/${canonicalLocale}/use-cases/${slug}`;
 
   return {
     title: content.h1,
     description: content.intro[0],
     alternates: {
-      canonical: `${siteUrl}/${locale}/use-cases/${slug}`,
+      canonical: `${siteUrl}/${canonicalLocale}/use-cases/${slug}`,
       languages,
     },
+    robots: isLocalized ? undefined : { index: false, follow: true },
     openGraph: {
       title: content.h1,
       description: content.intro[0],
-      url: `${siteUrl}/${locale}/use-cases/${slug}`,
+      url: `${siteUrl}/${canonicalLocale}/use-cases/${slug}`,
+      type: "website",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: "TTS Easy",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: content.h1,
+      description: content.intro[0],
+      images: [ogImage],
     },
   };
 }
@@ -92,7 +117,7 @@ export default async function UseCasePage({ params }: Props) {
         ))}
       </div>
 
-      <TtsApp locale={locale} copy={dict.ui} />
+      <TtsApp locale={locale} pageType="use_case" copy={dict.ui} />
 
       <div className="landing-benefits">
         {content.benefits.map((b) => (
@@ -121,6 +146,8 @@ export default async function UseCasePage({ params }: Props) {
       <footer className="site-footer">
         <nav className="legal-links">
           <Link href={`/${locale}`}>TTS Easy</Link>
+          <Link href={`/${locale}/use-cases`}>Use Cases</Link>
+          <Link href={`/${locale}/tools`}>Tools</Link>
           <Link href={`/${locale}/blog`}>{dict.nav.blog}</Link>
           <Link href={`/${locale}/privacy`}>{dict.nav.privacy}</Link>
           <Link href={`/${locale}/terms`}>{dict.nav.terms}</Link>

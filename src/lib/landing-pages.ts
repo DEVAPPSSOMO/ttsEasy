@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/i18n/config";
+import { LOCALES, type Locale } from "@/lib/i18n/config";
 
 export interface LandingPage {
   slug: string;
@@ -1064,4 +1064,17 @@ export function getLandingContent(slug: string, locale: Locale): LandingContent 
   }
 
   return locale === "es" ? GENERIC_USE_CASE.es : GENERIC_USE_CASE.en;
+}
+
+export function getLandingLocalizedLocales(slug: string): Locale[] {
+  const present = new Set<string>([
+    ...Object.keys(CONTENT[slug] ?? {}),
+    ...Object.keys(LANGUAGE_CONTENT[slug] ?? {}),
+  ]);
+
+  return LOCALES.filter((locale) => present.has(locale));
+}
+
+export function hasLandingLocalizedContent(slug: string, locale: Locale): boolean {
+  return getLandingLocalizedLocales(slug).includes(locale);
 }

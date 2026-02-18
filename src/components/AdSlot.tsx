@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { trackEvent } from "@/lib/analytics";
+import { trackAdSlotView, type PageType } from "@/lib/analytics";
 
 declare global {
   interface Window {
@@ -13,6 +13,8 @@ interface AdSlotProps {
   behavior?: "default" | "mobileSticky";
   className?: string;
   format?: string;
+  locale?: string;
+  pageType?: PageType;
   slot?: string;
 }
 
@@ -20,7 +22,14 @@ type MobileStickyState = "pending" | "filled" | "hidden";
 
 const MOBILE_STICKY_TIMEOUT_MS = 3000;
 
-export function AdSlot({ behavior = "default", className, format = "auto", slot }: AdSlotProps): JSX.Element | null {
+export function AdSlot({
+  behavior = "default",
+  className,
+  format = "auto",
+  locale,
+  pageType = "other",
+  slot,
+}: AdSlotProps): JSX.Element | null {
   const adRef = useRef<HTMLModElement | null>(null);
   const [mobileStickyState, setMobileStickyState] = useState<MobileStickyState>("pending");
   const client = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
@@ -70,11 +79,11 @@ export function AdSlot({ behavior = "default", className, format = "auto", slot 
     try {
       window.adsbygoogle = window.adsbygoogle || [];
       window.adsbygoogle.push({});
-      trackEvent("ad_slot_view", { slot });
+      trackAdSlotView(slot, { locale, pageType });
     } catch {
       // Ignore ad initialization runtime errors in local/dev environments.
     }
-  }, [client, slot]);
+  }, [client, locale, pageType, slot]);
 
   if (!client || !slot) {
     if (isMobileSticky) return null;

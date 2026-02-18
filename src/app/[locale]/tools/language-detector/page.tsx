@@ -5,6 +5,7 @@ import { isValidLocale, LOCALES, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { LanguageDetector } from "@/components/LanguageDetector";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { PageViewTracker } from "@/components/PageViewTracker";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
 
@@ -38,6 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale } = params;
   if (!isValidLocale(locale)) return {};
   const t = TITLES[locale] || TITLES.en;
+  const ogImage = `${siteUrl}/og-image.png`;
 
   const languages: Record<string, string> = {};
   for (const loc of LOCALES) {
@@ -49,6 +51,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: t.h1,
     description: t.meta,
     alternates: { canonical: `${siteUrl}/${locale}/tools/language-detector`, languages },
+    openGraph: {
+      title: t.h1,
+      description: t.meta,
+      type: "website",
+      url: `${siteUrl}/${locale}/tools/language-detector`,
+      images: [{ url: ogImage, width: 1200, height: 630, alt: "TTS Easy" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t.h1,
+      description: t.meta,
+      images: [ogImage],
+    },
   };
 }
 
@@ -62,6 +77,7 @@ export default async function LanguageDetectorPage({ params }: PageProps): Promi
 
   return (
     <main className="landing-page">
+      <PageViewTracker locale={locale} pageType="tool" />
       <div className="landing-intro">
         <h1>{t.h1}</h1>
         <p>{t.desc}</p>
@@ -72,6 +88,8 @@ export default async function LanguageDetectorPage({ params }: PageProps): Promi
       <footer className="site-footer">
         <nav className="legal-links">
           <Link href={`/${locale}`}>{dict.home.tryNow}</Link>
+          <Link href={`/${locale}/use-cases`}>Use Cases</Link>
+          <Link href={`/${locale}/compare`}>Compare</Link>
           <Link href={`/${locale}/tools/character-counter`}>Character Counter</Link>
           <Link href={`/${locale}/blog`}>{dict.nav.blog}</Link>
         </nav>

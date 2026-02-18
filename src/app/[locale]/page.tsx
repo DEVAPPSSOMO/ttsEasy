@@ -54,19 +54,21 @@ export default async function HomePage({ params }: HomePageProps) {
         </aside>
       </div>
 
-      <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOP} />
+      <AdSlot locale={locale} pageType="home" slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOP} />
 
-      <TtsApp locale={locale} copy={dict.ui} />
+      <TtsApp locale={locale} pageType="home" copy={dict.ui} />
 
       <AdSlot
         behavior="mobileSticky"
         className="ad-sticky-mobile"
+        locale={locale}
+        pageType="home"
         slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_STICKY}
       />
 
       <Features title={dict.features.title} items={dict.features.items} />
 
-      <AdSlot slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT} />
+      <AdSlot locale={locale} pageType="home" slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT} />
 
       <Faq title={dict.faq.title} items={dict.faq.items} />
 
@@ -77,6 +79,9 @@ export default async function HomePage({ params }: HomePageProps) {
           <Link href={`/${locale}/cookies`}>{dict.nav.cookies}</Link>
           <Link href={`/${locale}/about`}>{dict.nav.about}</Link>
           <Link href={`/${locale}/blog`}>{dict.nav.blog}</Link>
+          <Link href={`/${locale}/use-cases`}>Use Cases</Link>
+          <Link href={`/${locale}/tools`}>Tools</Link>
+          <Link href={`/${locale}/compare`}>Compare</Link>
         </nav>
         <LanguageSwitcher currentLocale={locale as Locale} currentPath={`/${locale}`} label={dict.nav.language} />
       </footer>

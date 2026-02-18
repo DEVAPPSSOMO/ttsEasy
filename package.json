@@ -9,6 +9,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "growth:check:public": "node scripts/phase1-env-check.mjs public",
+    "growth:check:api": "node scripts/phase1-env-check.mjs api",
     "billing:import-legacy-keys": "node scripts/import-legacy-api-keys.mjs"
   },
   "dependencies": {
