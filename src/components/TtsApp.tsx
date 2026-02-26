@@ -33,6 +33,7 @@ function parseApiError(value: unknown): string {
 }
 
 interface TtsAppProps {
+  compactIntro?: boolean;
   introDescription?: string;
   introHeadingLevel?: "h1" | "h2";
   introTitle?: string;
@@ -69,6 +70,7 @@ interface TtsAppProps {
 }
 
 export function TtsApp({
+  compactIntro = false,
   introDescription,
   introHeadingLevel = "h2",
   introTitle,
@@ -398,13 +400,15 @@ export function TtsApp({
   const resolvedIntroTitle = introTitle ?? copy.mp3CalloutTitle;
   const resolvedIntroDescription = introDescription ?? copy.subtitle;
   const IntroHeading = introHeadingLevel;
-  const showIntroKicker = introHeadingLevel !== "h1";
+  const showIntroKicker = !compactIntro && introHeadingLevel !== "h1";
+  const introClassName = compactIntro ? "workspace-intro compact" : "workspace-intro";
+  const introTitleClassName = compactIntro ? "workspace-intro-title compact" : "workspace-intro-title";
 
   return (
     <section className="workspace">
-      <header className="workspace-intro">
+      <header className={introClassName}>
         {showIntroKicker ? <p className="workspace-kicker">{copy.headline}</p> : null}
-        <IntroHeading className="workspace-intro-title">{resolvedIntroTitle}</IntroHeading>
+        <IntroHeading className={introTitleClassName}>{resolvedIntroTitle}</IntroHeading>
         <p>{resolvedIntroDescription}</p>
       </header>
 

@@ -96,6 +96,12 @@ h4 {
   padding: 0.65rem 0.85rem;
 }
 
+.workspace-intro.compact {
+  background: rgba(255, 255, 255, 0.42);
+  margin-bottom: 0.45rem;
+  padding: 0.4rem 0.65rem;
+}
+
 .workspace-kicker {
   color: var(--accent);
   font-size: 0.72rem;
@@ -112,11 +118,23 @@ h4 {
   max-width: 18ch;
 }
 
+.workspace-intro-title.compact {
+  font-size: clamp(1.05rem, 1.7vw, 1.75rem);
+  line-height: 1.08;
+  margin: 0 0 0.12rem;
+  max-width: 36ch;
+}
+
 .workspace-intro > p:not(.workspace-kicker) {
   color: var(--muted);
   font-size: clamp(0.98rem, 1.3vw, 1.08rem);
   margin: 0;
   max-width: 60ch;
+}
+
+.workspace-intro.compact > p:not(.workspace-kicker) {
+  font-size: 0.92rem;
+  max-width: 72ch;
 }
 
 .workspace-main {
@@ -524,6 +542,10 @@ h4 {
   display: grid;
   gap: 0.8rem;
   margin-top: 0.1rem;
+}
+
+.ad-recovered-top {
+  margin-top: 0.75rem;
 }
 
 .ad-placeholder {

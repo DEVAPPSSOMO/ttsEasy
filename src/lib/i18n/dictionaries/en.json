@@ -8,7 +8,9 @@
   "home": {
     "h1": "Free Text to Speech and MP3 Download - Convert Text to Audio Instantly",
     "subtitle": "Paste any text, generate natural voice audio, and download your MP3 in one click. No registration required.",
-    "tryNow": "Try it now"
+    "tryNow": "Try it now",
+    "compactH1": "Free Text to Speech and MP3 Download",
+    "compactSubtitle": "Paste text, generate natural speech, and download MP3 instantly."
   },
   "ui": {
     "accentQuestion": "Accent is unclear. Do you want to keep {primary} or switch to {secondary}?",

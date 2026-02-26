@@ -8,7 +8,9 @@
   "home": {
     "h1": "Sintesi Vocale e Download MP3 Gratuito - Converti Testo in Audio Istantaneamente",
     "subtitle": "Incolla qualsiasi testo, genera audio con voce naturale e scarica il tuo MP3 con un clic. Nessuna registrazione.",
-    "tryNow": "Provalo ora"
+    "tryNow": "Provalo ora",
+    "compactH1": "Sintesi Vocale Gratis con Download MP3",
+    "compactSubtitle": "Incolla il testo, genera una voce naturale e scarica subito l MP3."
   },
   "ui": {
     "accentQuestion": "L'accento non e chiaro. Vuoi mantenere {primary} o passare a {secondary}?",

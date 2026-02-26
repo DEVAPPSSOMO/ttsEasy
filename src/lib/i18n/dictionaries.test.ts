@@ -30,7 +30,11 @@ describe("getDictionary", () => {
       // home
       expect(typeof dict.home.h1).toBe("string");
       expect(dict.home.h1.length).toBeGreaterThan(0);
+      expect(typeof dict.home.compactH1).toBe("string");
+      expect(dict.home.compactH1.length).toBeGreaterThan(0);
       expect(typeof dict.home.subtitle).toBe("string");
+      expect(typeof dict.home.compactSubtitle).toBe("string");
+      expect(dict.home.compactSubtitle.length).toBeGreaterThan(0);
       expect(typeof dict.home.tryNow).toBe("string");
 
       // ui - all keys the TtsApp component expects

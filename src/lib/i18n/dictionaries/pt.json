@@ -8,7 +8,9 @@
   "home": {
     "h1": "Texto para Fala e Download MP3 Gratis - Converta Texto em Audio Instantaneamente",
     "subtitle": "Cole qualquer texto, gere audio com voz natural e baixe seu MP3 com um clique. Sem cadastro.",
-    "tryNow": "Experimente agora"
+    "tryNow": "Experimente agora",
+    "compactH1": "Texto para Fala Gratis com Download MP3",
+    "compactSubtitle": "Cole o texto, gere audio natural e baixe seu MP3 na hora."
   },
   "ui": {
     "accentQuestion": "O sotaque nao esta claro. Deseja manter {primary} ou mudar para {secondary}?",

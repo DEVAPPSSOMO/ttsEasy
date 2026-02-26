@@ -8,7 +8,9 @@
   "home": {
     "h1": "Kostenlose Text-to-Speech mit MP3-Download - Text in Sprache Umwandeln",
     "subtitle": "Fugen Sie Text ein, erzeugen Sie naturliches Audio und laden Sie Ihr MP3 mit einem Klick herunter. Keine Registrierung erforderlich.",
-    "tryNow": "Jetzt ausprobieren"
+    "tryNow": "Jetzt ausprobieren",
+    "compactH1": "Kostenlose Sprachsynthese mit MP3 Download",
+    "compactSubtitle": "Text einfugen, naturliche Sprache erzeugen und MP3 sofort herunterladen."
   },
   "ui": {
     "accentQuestion": "Der Akzent ist unklar. Mochten Sie {primary} beibehalten oder zu {secondary} wechseln?",

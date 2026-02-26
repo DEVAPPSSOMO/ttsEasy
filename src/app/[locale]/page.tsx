@@ -36,13 +36,28 @@ export default async function HomePage({ params }: HomePageProps) {
         }}
       />
       <TtsApp
+        compactIntro
         copy={dict.ui}
-        introDescription={dict.home.subtitle}
+        introDescription={dict.home.compactSubtitle}
         introHeadingLevel="h1"
-        introTitle={dict.home.h1}
+        introTitle={dict.home.compactH1}
         locale={locale}
         pageType="home"
+        showInlineAd
       />
+
+      <AdSlot
+        className="ad-recovered-top"
+        locale={locale}
+        pageType="home"
+        slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOP}
+      />
+
+      <Features title={dict.features.title} items={dict.features.items} />
+
+      <AdSlot locale={locale} pageType="home" slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT} />
+
+      <Faq title={dict.faq.title} items={dict.faq.items} />
 
       <AdSlot
         behavior="mobileSticky"
@@ -51,12 +66,6 @@ export default async function HomePage({ params }: HomePageProps) {
         pageType="home"
         slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_STICKY}
       />
-
-      <Features title={dict.features.title} items={dict.features.items} />
-
-      <AdSlot locale={locale} pageType="home" slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT} />
-
-      <Faq title={dict.faq.title} items={dict.faq.items} />
 
       <footer className="site-footer">
         <nav className="legal-links">

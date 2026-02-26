@@ -8,7 +8,9 @@
   "home": {
     "h1": "Texto a Voz Online y Descarga MP3 Gratis - Convierte Texto a Audio al Instante",
     "subtitle": "Pega cualquier texto, genera audio con voz natural y descarga tu MP3 con un clic. Sin registro.",
-    "tryNow": "Pruebalo ahora"
+    "tryNow": "Pruebalo ahora",
+    "compactH1": "Texto a Voz Gratis y Descarga MP3",
+    "compactSubtitle": "Pega texto, genera audio natural y descarga tu MP3 al instante."
   },
   "ui": {
     "accentQuestion": "Hay duda sobre el acento. ¿Mantener {primary} o cambiar a {secondary}?",
