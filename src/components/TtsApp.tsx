@@ -33,6 +33,9 @@ function parseApiError(value: unknown): string {
 }
 
 interface TtsAppProps {
+  introDescription?: string;
+  introHeadingLevel?: "h1" | "h2";
+  introTitle?: string;
   locale: string;
   pageType?: PageType;
   showInlineAd?: boolean;
@@ -65,7 +68,15 @@ interface TtsAppProps {
   };
 }
 
-export function TtsApp({ locale, pageType = "home", showInlineAd = false, copy }: TtsAppProps): JSX.Element {
+export function TtsApp({
+  introDescription,
+  introHeadingLevel = "h2",
+  introTitle,
+  locale,
+  pageType = "home",
+  showInlineAd = false,
+  copy,
+}: TtsAppProps): JSX.Element {
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const detectAbortRef = useRef<AbortController | null>(null);
@@ -384,13 +395,17 @@ export function TtsApp({ locale, pageType = "home", showInlineAd = false, copy }
   const canGenerate =
     Boolean(text.trim()) && !isGenerating && (!requiresCaptcha || Boolean(captchaToken));
   const isAudioReady = Boolean(audioUrl);
+  const resolvedIntroTitle = introTitle ?? copy.mp3CalloutTitle;
+  const resolvedIntroDescription = introDescription ?? copy.subtitle;
+  const IntroHeading = introHeadingLevel;
+  const showIntroKicker = introHeadingLevel !== "h1";
 
   return (
     <section className="workspace">
       <header className="workspace-intro">
-        <p className="workspace-kicker">{copy.headline}</p>
-        <h2>{copy.mp3CalloutTitle}</h2>
-        <p>{copy.subtitle}</p>
+        {showIntroKicker ? <p className="workspace-kicker">{copy.headline}</p> : null}
+        <IntroHeading className="workspace-intro-title">{resolvedIntroTitle}</IntroHeading>
+        <p>{resolvedIntroDescription}</p>
       </header>
 
       <div className="workspace-main">

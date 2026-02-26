@@ -35,26 +35,14 @@ export default async function HomePage({ params }: HomePageProps) {
           __html: JSON.stringify(faqJsonLd(dict.faq.items)),
         }}
       />
-
-      <div className="hero">
-        <div className="hero-copy">
-          <p className="hero-kicker">{dict.ui.download}</p>
-          <h1>{dict.home.h1}</h1>
-          <p>{dict.home.subtitle}</p>
-          <div className="hero-meta">
-            <span>{dict.trust.poweredBy}</span>
-            <span>{dict.trust.noSignUp}</span>
-            <span>{dict.trust.neverStored}</span>
-          </div>
-        </div>
-        <aside className="hero-aside" aria-label={dict.features.items[3]?.title ?? dict.ui.download}>
-          <p className="hero-aside-label">{dict.ui.download}</p>
-          <p className="hero-aside-title">{dict.features.items[3]?.title ?? dict.ui.download}</p>
-          <p className="hero-aside-copy">{dict.features.items[3]?.description ?? dict.home.subtitle}</p>
-        </aside>
-      </div>
-
-      <TtsApp locale={locale} pageType="home" copy={dict.ui} />
+      <TtsApp
+        copy={dict.ui}
+        introDescription={dict.home.subtitle}
+        introHeadingLevel="h1"
+        introTitle={dict.home.h1}
+        locale={locale}
+        pageType="home"
+      />
 
       <AdSlot
         behavior="mobileSticky"
