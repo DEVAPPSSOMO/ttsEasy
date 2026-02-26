@@ -33,6 +33,21 @@ export default async function AboutPage({ params }: Props) {
       <h1>{dict.about.title}</h1>
       <p>{dict.about.p1}</p>
       <p>{dict.about.p2}</p>
+      <p>{dict.about.p3}</p>
+
+      <section className="landing-steps" style={{ marginTop: "1.5rem" }}>
+        <h2>{dict.about.editorialPolicyTitle}</h2>
+        <p>{dict.about.editorialPolicyBody}</p>
+      </section>
+
+      <section className="landing-steps" style={{ marginTop: "1.25rem" }}>
+        <h2>{dict.about.updatedLabel}</h2>
+        <p>{dict.about.updatedDate}</p>
+        <p>
+          <strong>{dict.about.contactLabel}:</strong> {dict.about.contactValue}
+        </p>
+      </section>
+
       <nav className="legal-links">
         <Link href={`/${locale}`}>TTS Easy</Link>
         <Link href={`/${locale}/privacy`}>{dict.nav.privacy}</Link>

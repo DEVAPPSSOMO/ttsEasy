@@ -114,8 +114,15 @@
   },
   "about": {
     "title": "Uber uns",
-    "p1": "TTS Easy ist eine leichtgewichtige Text-zu-Sprache-Webanwendung fur schnelle Spracherkennung, Akzentauswahl und schnelle MP3-Generierung.",
-    "p2": "Das Projekt priorisiert globale Benutzerfreundlichkeit, transparente Datenschutzstandards und praktische Monetarisierung durch moderate Anzeigenplatzierungen."
+    "p1": "TTS Easy ist eine praxisnahe Text-zu-Sprache-Webapp, die Skripte schnell in klaren Ton umwandelt.",
+    "p2": "Unser Fokus ist ein direkter Ablauf: Text einfugen, Sprache und Stimme prufen, MP3 exportieren.",
+    "p3": "Unsere Roadmap priorisiert Produktklarheit, verantwortungsvolle Monetarisierung und hochwertige Inhalte.",
+    "editorialPolicyTitle": "Redaktionsrichtlinie",
+    "editorialPolicyBody": "Wir veroffentlichen Guides, Vergleiche und Tools nur dann, wenn sie umsetzbaren Nutzen, klare Grenzen und aktuelle Einordnung liefern.",
+    "updatedLabel": "Zuletzt aktualisiert",
+    "updatedDate": "26. Februar 2026",
+    "contactLabel": "Support",
+    "contactValue": "support@ttseasy.com"
   },
   "privacy": {
     "title": "Datenschutzrichtlinie",
@@ -133,5 +140,72 @@
     "title": "Cookie-Richtlinie",
     "p1": "Diese Website verwendet Cookies und ahnliche Technologien fur drei Zwecke: Analyse (GA4), Anzeigenschaltung (AdSense) und Betrugspravention.",
     "p2": "Sie konnen Cookies uber Ihre Browsereinstellungen steuern. Das Blockieren von Cookies kann die Anzeigendarstellung und einige Personalisierungsfunktionen beeintrachtigen."
+  },
+  "hubs": {
+    "useCases": {
+      "title": "Anwendungsfalle",
+      "description": "Wahle den passenden Text-zu-Sprache-Workflow nach Ziel, Format und Veroffentlichungsrhythmus.",
+      "metaDescription": "Praktische Text-zu-Sprache-Anwendungsfalle mit klaren Empfehlungen fur Creator und Teams.",
+      "howToChooseTitle": "So wahlst du den richtigen Anwendungsfall",
+      "howToChooseItems": [
+        "Starte mit dem Kanal: Kurzvideo, Longform-Audio, Lernen oder Support.",
+        "Passe Stimmenstil und Geschwindigkeit an die Zielgruppe an.",
+        "Nutze eine wiederholbare Skriptstruktur fur konsistente Ergebnisse."
+      ],
+      "whenToUseTitle": "Wann diese Seiten sinnvoll sind",
+      "whenToUseItems": [
+        "Wenn du schnell von Skript zu MP3 kommen musst.",
+        "Wenn du in mehreren Sprachen publizierst und manuelle Arbeit reduzieren willst.",
+        "Wenn du einen klaren Ablauf statt einer allgemeinen Featureliste brauchst."
+      ],
+      "navigationTitle": "Sinnvolle nachste Schritte",
+      "navigationDescription": "Nach der Auswahl eines Falls helfen Tools und Vergleiche beim Feinschliff.",
+      "cardUseCase": "Use-Case Workflow",
+      "cardLanguage": "Sprach-Workflow"
+    },
+    "compare": {
+      "title": "TTS Vergleichshub",
+      "description": "Prufe konkrete Unterschiede zwischen TTS Easy und anderen Optionen vor der Workflow-Entscheidung.",
+      "metaDescription": "Vergleiche Text-zu-Sprache-Optionen mit klaren Kriterien fur Tempo, Lokalisierung und Konsistenz.",
+      "howToChooseTitle": "So bewertest du einen Vergleich",
+      "howToChooseItems": [
+        "Klaren, ob Tempo, Qualitat oder operative Einfachheit dein Engpass ist.",
+        "Prufen, wie jede Option Mehrsprachigkeit und Revisionen abbildet.",
+        "Die Option mit dem geringsten wiederholten Manualaufwand wahlen."
+      ],
+      "whenToUseTitle": "Wann Vergleiche helfen",
+      "whenToUseItems": [
+        "Vor einer Migration von einem anderen TTS-Stack.",
+        "Wenn Teams ein gemeinsames Entscheidungsraster brauchen.",
+        "Wenn Kosten und Produktionsgeschwindigkeit sauber abgewogen werden mussen."
+      ],
+      "navigationTitle": "Bewertung fortsetzen",
+      "navigationDescription": "Nutze diese Bereiche, um die Entscheidung im Alltag zu validieren.",
+      "fallbackBadge": "Guide",
+      "cardUseCase": "Vergleichsprofil"
+    },
+    "tools": {
+      "title": "Tools",
+      "description": "Nutze Hilfstools, um Skripte aufzubereiten und Sprache zu validieren, bevor du final erzeugst.",
+      "metaDescription": "Praktische Tools fur bessere Skriptqualitat und sichere Sprachwahl vor der Audioerzeugung.",
+      "characterCounterTitle": "Zeichenzahler",
+      "characterCounterDescription": "Zahle Zeichen, Worter, Satze und Struktur vor der Sprachgenerierung.",
+      "languageDetectorTitle": "Spracherkennung",
+      "languageDetectorDescription": "Erkenne Sprache und wahrscheinlichen Akzent fur eine bessere Stimmenwahl.",
+      "howToChooseTitle": "So wahlst du das richtige Tool",
+      "howToChooseItems": [
+        "Nutze den Zeichenzahler fur Lange, Rhythmus und Script-Blöcke.",
+        "Nutze die Spracherkennung, wenn Locale-Sicherheit kritisch ist.",
+        "Nutze beide Tools vor MP3-Export fur veroffentlichungsreife Assets."
+      ],
+      "whenToUseTitle": "Wann Tools zuerst sinnvoll sind",
+      "whenToUseItems": [
+        "Vor groBen Batches, bei denen Fehler teuer sind.",
+        "Vor mehrsprachigen Releases mit regionalen Varianten.",
+        "Wenn Text-QA Teil deines Redaktionsprozesses ist."
+      ],
+      "navigationTitle": "Empfohlener Ablauf",
+      "navigationDescription": "Wechsle zur finalen Generierung, sobald Skript und Sprache stabil sind."
+    }
   }
 }

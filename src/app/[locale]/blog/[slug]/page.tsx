@@ -117,7 +117,7 @@ export default async function BlogPostPage({ params }: Props) {
       <div className="post-meta">
         {post.date} &middot; {post.readingTime}
       </div>
-      <div className="post-content" dangerouslySetInnerHTML={{ __html: post.content }} />
+      <div className="post-content" dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
 
       <p style={{ marginTop: "2rem" }}>
         <TrackedCtaLink className="landing-cta" href={`/${locale}`} locale={locale} pageType="blog">

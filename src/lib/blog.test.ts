@@ -49,7 +49,10 @@ describe("blog", () => {
       expect(post).not.toBeNull();
       expect(post!.slug).toBe("complete-guide-text-to-speech");
       expect(post!.title).toContain("Text to Speech");
-      expect(post!.content.length).toBeGreaterThan(100);
+      expect(post!.contentHtml.length).toBeGreaterThan(100);
+      expect(post!.contentHtml).toContain("<h2>");
+      expect(post!.contentHtml).toContain("<ul>");
+      expect(post!.contentHtml).toContain("<a href=\"/\">TTS Easy</a>");
       expect(post!.locale).toBe("en");
     });
 

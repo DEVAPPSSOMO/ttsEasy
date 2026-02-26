@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   webApplicationJsonLd,
+  organizationJsonLd,
   faqJsonLd,
   breadcrumbJsonLd,
   articleJsonLd,
@@ -28,6 +29,19 @@ describe("JSON-LD helpers", () => {
     it("produces valid JSON", () => {
       const json = JSON.stringify(webApplicationJsonLd("en"));
       expect(() => JSON.parse(json)).not.toThrow();
+    });
+  });
+
+  describe("organizationJsonLd", () => {
+    it("returns valid Organization schema", () => {
+      const result = organizationJsonLd();
+
+      expect(result["@context"]).toBe("https://schema.org");
+      expect(result["@type"]).toBe("Organization");
+      expect(result.name).toBe("TTS Easy");
+      expect(result.url).toContain("ttseasy.com");
+      expect(Array.isArray(result.contactPoint)).toBe(true);
+      expect(result.contactPoint[0].email).toBe("support@ttseasy.com");
     });
   });
 

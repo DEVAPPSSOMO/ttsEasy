@@ -114,8 +114,15 @@
   },
   "about": {
     "title": "Sobre",
-    "p1": "TTS Easy e um aplicativo web leve de texto para fala projetado para deteccao rapida de idioma, selecao de sotaque e geracao rapida de MP3.",
-    "p2": "O projeto prioriza usabilidade global, padroes de privacidade transparentes e monetizacao pratica atraves de posicionamentos moderados de anuncios."
+    "p1": "TTS Easy e um app web de texto para fala criado para transformar roteiros em audio claro com rapidez.",
+    "p2": "Priorizamos um fluxo direto: colar texto, validar idioma e voz, e baixar MP3 sem friccao.",
+    "p3": "Nosso roadmap prioriza clareza de produto, monetizacao responsavel e qualidade real de conteudo.",
+    "editorialPolicyTitle": "Politica editorial",
+    "editorialPolicyBody": "Publicamos guias, comparativos e ferramentas apenas quando entregam valor pratico, limites claros e contexto atualizado.",
+    "updatedLabel": "Ultima atualizacao",
+    "updatedDate": "26 de fevereiro de 2026",
+    "contactLabel": "Suporte",
+    "contactValue": "support@ttseasy.com"
   },
   "privacy": {
     "title": "Politica de Privacidade",
@@ -133,5 +140,72 @@
     "title": "Politica de Cookies",
     "p1": "Este site usa cookies e tecnologias similares para tres propositos: analise (GA4), entrega de anuncios (AdSense) e prevencao de fraude.",
     "p2": "Voce pode controlar cookies nas configuracoes do seu navegador. Bloquear cookies pode afetar a exibicao de anuncios e alguns recursos de personalizacao."
+  },
+  "hubs": {
+    "useCases": {
+      "title": "Casos de uso",
+      "description": "Escolha o fluxo de texto para fala ideal com base no objetivo, formato e ritmo de publicacao.",
+      "metaDescription": "Explore casos de uso praticos de texto para fala com recomendacoes claras para criadores e equipes.",
+      "howToChooseTitle": "Como escolher um caso de uso",
+      "howToChooseItems": [
+        "Comece pelo canal: video curto, audio longo, educacao ou suporte.",
+        "Ajuste estilo de voz e velocidade para a expectativa da audiencia.",
+        "Use uma estrutura de roteiro repetivel para manter consistencia."
+      ],
+      "whenToUseTitle": "Quando usar estas paginas",
+      "whenToUseItems": [
+        "Quando precisa ir de roteiro para MP3 rapidamente.",
+        "Quando publica em varios idiomas e quer menos trabalho manual.",
+        "Quando precisa de um fluxo pratico em vez de lista generica de recursos."
+      ],
+      "navigationTitle": "Proximas secoes uteis",
+      "navigationDescription": "Depois de escolher um caso, avance para ferramentas e comparativos para refinar seu fluxo.",
+      "cardUseCase": "Fluxo por caso",
+      "cardLanguage": "Fluxo por idioma"
+    },
+    "compare": {
+      "title": "Hub de comparacao TTS",
+      "description": "Analise diferencas reais entre TTS Easy e outras opcoes antes de decidir seu fluxo de producao.",
+      "metaDescription": "Compare opcoes de texto para fala com criterios claros de velocidade, localizacao e consistencia.",
+      "howToChooseTitle": "Como avaliar uma comparacao",
+      "howToChooseItems": [
+        "Defina se seu gargalo principal e velocidade, qualidade ou simplicidade operacional.",
+        "Verifique como cada opcao lida com saida multilingue e revisoes.",
+        "Escolha a opcao que reduz retrabalho manual recorrente."
+      ],
+      "whenToUseTitle": "Quando usar comparacoes",
+      "whenToUseItems": [
+        "Antes de migrar de outra pilha TTS.",
+        "Quando o time precisa de um criterio comum de decisao.",
+        "Quando custo e velocidade precisam ser equilibrados com clareza."
+      ],
+      "navigationTitle": "Continue a avaliacao",
+      "navigationDescription": "Use estas secoes para validar sua escolha em fluxos reais.",
+      "fallbackBadge": "Guia",
+      "cardUseCase": "Resumo comparativo"
+    },
+    "tools": {
+      "title": "Ferramentas",
+      "description": "Use ferramentas de apoio para limpar roteiros e validar idioma antes da narracao final.",
+      "metaDescription": "Ferramentas praticas para melhorar qualidade de roteiro e precisao de idioma antes da geracao de audio.",
+      "characterCounterTitle": "Contador de caracteres",
+      "characterCounterDescription": "Meça caracteres, palavras, frases e estrutura antes de gerar voz.",
+      "languageDetectorTitle": "Detector de idioma",
+      "languageDetectorDescription": "Detecte idioma e sotaque provavel para reduzir erros na escolha de voz.",
+      "howToChooseTitle": "Como escolher a ferramenta certa",
+      "howToChooseItems": [
+        "Use Contador ao ajustar tamanho, ritmo e blocos do roteiro.",
+        "Use Detector quando a certeza de locale e critica antes da sintese.",
+        "Aplique os dois antes de gerar MP3 para materiais de publicacao."
+      ],
+      "whenToUseTitle": "Quando usar ferramentas primeiro",
+      "whenToUseItems": [
+        "Antes de geracao em lote, onde erros custam caro.",
+        "Antes de lancamentos multilingues com variacoes regionais.",
+        "Quando controle de qualidade textual faz parte do processo editorial."
+      ],
+      "navigationTitle": "Fluxo sugerido",
+      "navigationDescription": "Passe da validacao para a geracao final quando roteiro e idioma estiverem estaveis."
+    }
   }
 }

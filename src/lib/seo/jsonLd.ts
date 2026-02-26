@@ -20,6 +20,23 @@ export function webApplicationJsonLd(locale: Locale) {
   };
 }
 
+export function organizationJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "TTS Easy",
+    url: siteUrl,
+    logo: `${siteUrl}/icon-512.png`,
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        email: "support@ttseasy.com",
+      },
+    ],
+  };
+}
+
 export function faqJsonLd(items: { question: string; answer: string }[]) {
   return {
     "@context": "https://schema.org",

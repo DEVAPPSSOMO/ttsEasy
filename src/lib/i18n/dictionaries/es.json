@@ -114,8 +114,15 @@
   },
   "about": {
     "title": "Acerca de",
-    "p1": "TTS Easy es una aplicacion web ligera de texto a voz diseñada para deteccion rapida de idioma, seleccion de acento y generacion rapida de MP3.",
-    "p2": "El proyecto prioriza la usabilidad global, valores predeterminados de privacidad transparentes y monetizacion practica a traves de ubicaciones moderadas de anuncios."
+    "p1": "TTS Easy es una app web de texto a voz pensada para convertir guiones en audio claro de forma rapida.",
+    "p2": "Priorizamos un flujo directo: pegar texto, validar idioma y voz, y descargar MP3 sin pasos innecesarios.",
+    "p3": "Nuestra hoja de ruta prioriza claridad de producto, monetizacion responsable y calidad real de contenido.",
+    "editorialPolicyTitle": "Politica editorial",
+    "editorialPolicyBody": "Publicamos guias, comparativas y herramientas solo cuando aportan valor accionable, limites claros y contexto actualizado para creadores.",
+    "updatedLabel": "Ultima actualizacion",
+    "updatedDate": "26 de febrero de 2026",
+    "contactLabel": "Soporte",
+    "contactValue": "support@ttseasy.com"
   },
   "privacy": {
     "title": "Politica de Privacidad",
@@ -133,5 +140,72 @@
     "title": "Politica de Cookies",
     "p1": "Este sitio web usa cookies y tecnologias similares para tres propositos: analisis (GA4), entrega de anuncios (AdSense) y prevencion de fraude.",
     "p2": "Puedes controlar las cookies desde la configuracion de tu navegador. Bloquear cookies puede afectar la visualizacion de anuncios y algunas funciones de personalizacion."
+  },
+  "hubs": {
+    "useCases": {
+      "title": "Casos de uso",
+      "description": "Elige el flujo de texto a voz correcto segun tu objetivo, formato y ritmo de publicacion.",
+      "metaDescription": "Explora casos de uso practicos de texto a voz con recomendaciones claras para creadores y equipos.",
+      "howToChooseTitle": "Como elegir un caso de uso",
+      "howToChooseItems": [
+        "Empieza por el canal: video corto, audio largo, educacion o contenido de soporte.",
+        "Ajusta estilo de voz y velocidad segun expectativas de tu audiencia.",
+        "Define una estructura de guion repetible para mantener consistencia."
+      ],
+      "whenToUseTitle": "Cuando usar estas paginas",
+      "whenToUseItems": [
+        "Cuando necesitas pasar de guion a MP3 en poco tiempo.",
+        "Cuando publicas en varios idiomas y quieres menos friccion operativa.",
+        "Cuando necesitas un flujo concreto en lugar de una lista generica de funciones."
+      ],
+      "navigationTitle": "Siguientes secciones utiles",
+      "navigationDescription": "Despues de elegir un caso de uso, continua con herramientas y comparativas para afinar tu flujo.",
+      "cardUseCase": "Flujo por caso de uso",
+      "cardLanguage": "Flujo por idioma"
+    },
+    "compare": {
+      "title": "Centro de comparativas TTS",
+      "description": "Revisa diferencias reales entre TTS Easy y otras opciones antes de comprometer tu flujo de produccion.",
+      "metaDescription": "Compara opciones de texto a voz con criterios claros de velocidad, localizacion y consistencia.",
+      "howToChooseTitle": "Como evaluar una comparativa",
+      "howToChooseItems": [
+        "Define si tu principal restriccion es velocidad, control de calidad o simplicidad operativa.",
+        "Verifica como cada opcion gestiona salida multilenguaje y rondas de revision.",
+        "Elige la opcion que minimice trabajo manual repetitivo."
+      ],
+      "whenToUseTitle": "Cuando usar comparativas",
+      "whenToUseItems": [
+        "Antes de migrar desde otra solucion TTS.",
+        "Cuando el equipo necesita una base comun de decision.",
+        "Cuando debes equilibrar coste y velocidad de produccion con criterios objetivos."
+      ],
+      "navigationTitle": "Continua la evaluacion",
+      "navigationDescription": "Usa estas secciones para validar la eleccion en flujos reales.",
+      "fallbackBadge": "Guia",
+      "cardUseCase": "Resumen comparativo"
+    },
+    "tools": {
+      "title": "Herramientas",
+      "description": "Usa herramientas de apoyo para limpiar guiones y validar idioma antes de generar la narracion final.",
+      "metaDescription": "Utilidades practicas para mejorar calidad de guion y precision de idioma antes de generar audio.",
+      "characterCounterTitle": "Contador de caracteres",
+      "characterCounterDescription": "Mide caracteres, palabras, oraciones y estructura antes de generar voz.",
+      "languageDetectorTitle": "Detector de idioma",
+      "languageDetectorDescription": "Detecta idioma y acento probable para reducir errores al elegir voz.",
+      "howToChooseTitle": "Como elegir la herramienta correcta",
+      "howToChooseItems": [
+        "Usa Contador cuando ajustas longitud, ritmo o bloques del guion.",
+        "Usa Detector cuando necesitas certeza del locale antes de sintetizar.",
+        "Aplica ambas antes de generar MP3 para activos de cara a clientes."
+      ],
+      "whenToUseTitle": "Cuando conviene usar herramientas primero",
+      "whenToUseItems": [
+        "Antes de lotes grandes donde los errores cuestan tiempo.",
+        "Antes de lanzamientos multilenguaje con variantes regionales.",
+        "Cuando control de calidad del guion es parte de tu checklist editorial."
+      ],
+      "navigationTitle": "Ruta de trabajo sugerida",
+      "navigationDescription": "Pasa de validacion tecnica a generacion completa cuando guion e idioma ya estan estables."
+    }
   }
 }

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { isApiVariant } from "@/lib/appVariant";
 import { LOCALES, isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { organizationJsonLd } from "@/lib/seo/jsonLd";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
 
@@ -87,6 +88,10 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps): J
 
   return (
     <div lang={locale}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
+      />
       {children}
     </div>
   );

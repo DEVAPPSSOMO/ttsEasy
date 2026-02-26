@@ -19,6 +19,8 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = params;
   if (!isValidLocale(locale)) return {};
+  const dict = await getDictionary(locale);
+  const hub = dict.hubs.tools;
 
   const ogImage = `${siteUrl}/og-image.png`;
   const languages: Record<string, string> = {};
@@ -28,23 +30,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   languages["x-default"] = `${siteUrl}/en/tools`;
 
   return {
-    title: "Tools | TTS Easy",
-    description: "SEO-oriented utility tools that feed into text-to-speech conversion workflows.",
+    title: `${hub.title} | TTS Easy`,
+    description: hub.metaDescription,
     alternates: {
       canonical: `${siteUrl}/${locale}/tools`,
       languages,
     },
     openGraph: {
-      title: "Tools | TTS Easy",
-      description: "SEO-oriented utility tools that feed into text-to-speech conversion workflows.",
+      title: `${hub.title} | TTS Easy`,
+      description: hub.metaDescription,
       type: "website",
       url: `${siteUrl}/${locale}/tools`,
       images: [{ url: ogImage, width: 1200, height: 630, alt: "TTS Easy" }],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Tools | TTS Easy",
-      description: "SEO-oriented utility tools that feed into text-to-speech conversion workflows.",
+      title: `${hub.title} | TTS Easy`,
+      description: hub.metaDescription,
       images: [ogImage],
     },
   };
@@ -55,37 +57,73 @@ export default async function ToolsHubPage({ params }: Props): Promise<JSX.Eleme
   if (!isValidLocale(locale)) notFound();
 
   const dict = await getDictionary(locale as Locale);
+  const hub = dict.hubs.tools;
 
   return (
     <main className="landing-page">
       <PageViewTracker locale={locale} pageType="tool" />
       <div className="landing-intro">
-        <h1>Tools</h1>
-        <p>
-          Use these utility pages to pre-process scripts and route users into high-intent conversion flows.
-        </p>
+        <h1>{hub.title}</h1>
+        <p>{hub.description}</p>
       </div>
 
       <section className="landing-benefits">
         <article className="benefit">
           <h3>
-            <Link href={`/${locale}/tools/character-counter`}>Character Counter</Link>
+            <Link href={`/${locale}/tools/character-counter`}>{hub.characterCounterTitle}</Link>
           </h3>
-          <p>Count characters, words, and structure before generating narration.</p>
+          <p>{hub.characterCounterDescription}</p>
         </article>
         <article className="benefit">
           <h3>
-            <Link href={`/${locale}/tools/language-detector`}>Language Detector</Link>
+            <Link href={`/${locale}/tools/language-detector`}>{hub.languageDetectorTitle}</Link>
           </h3>
-          <p>Detect language and likely accent before choosing a voice profile.</p>
+          <p>{hub.languageDetectorDescription}</p>
         </article>
+      </section>
+
+      <section className="landing-steps">
+        <h2>{hub.howToChooseTitle}</h2>
+        <ol>
+          {hub.howToChooseItems.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="landing-steps">
+        <h2>{hub.whenToUseTitle}</h2>
+        <ol>
+          {hub.whenToUseItems.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="landing-steps">
+        <h2>{hub.navigationTitle}</h2>
+        <p>{hub.navigationDescription}</p>
+        <ol>
+          <li>
+            <Link href={`/${locale}`}>{dict.home.tryNow}</Link>
+          </li>
+          <li>
+            <Link href={`/${locale}/use-cases`}>{dict.hubs.useCases.title}</Link>
+          </li>
+          <li>
+            <Link href={`/${locale}/compare`}>{dict.hubs.compare.title}</Link>
+          </li>
+          <li>
+            <Link href={`/${locale}/blog`}>{dict.nav.blog}</Link>
+          </li>
+        </ol>
       </section>
 
       <footer className="site-footer">
         <nav className="legal-links">
           <Link href={`/${locale}`}>{dict.home.tryNow}</Link>
-          <Link href={`/${locale}/use-cases`}>Use Cases</Link>
-          <Link href={`/${locale}/compare`}>Compare</Link>
+          <Link href={`/${locale}/use-cases`}>{dict.hubs.useCases.title}</Link>
+          <Link href={`/${locale}/compare`}>{dict.hubs.compare.title}</Link>
           <Link href={`/${locale}/blog`}>{dict.nav.blog}</Link>
         </nav>
         <LanguageSwitcher

@@ -114,8 +114,15 @@
   },
   "about": {
     "title": "A propos",
-    "p1": "TTS Easy est une application web legere de synthese vocale concue pour la detection rapide de la langue, la selection d'accent et la generation rapide de MP3.",
-    "p2": "Le projet donne la priorite a l'utilisabilite mondiale, aux parametres de confidentialite transparents et a la monetisation pratique par des placements publicitaires moderes."
+    "p1": "TTS Easy est une application web de synthese vocale concue pour transformer rapidement des scripts en audio clair.",
+    "p2": "Nous privilegions un flux direct: coller le texte, verifier langue et voix, puis exporter en MP3.",
+    "p3": "Notre feuille de route privilegie clarte produit, monétisation responsable et qualite editoriale.",
+    "editorialPolicyTitle": "Politique editoriale",
+    "editorialPolicyBody": "Nous publions guides, comparatifs et outils uniquement lorsqu ils apportent une valeur actionnable, des limites claires et un contexte a jour.",
+    "updatedLabel": "Derniere mise a jour",
+    "updatedDate": "26 fevrier 2026",
+    "contactLabel": "Support",
+    "contactValue": "support@ttseasy.com"
   },
   "privacy": {
     "title": "Politique de Confidentialite",
@@ -133,5 +140,72 @@
     "title": "Politique de Cookies",
     "p1": "Ce site web utilise des cookies et des technologies similaires a trois fins : analyse (GA4), diffusion de publicites (AdSense) et prevention de la fraude.",
     "p2": "Vous pouvez controler les cookies depuis les parametres de votre navigateur. Le blocage des cookies peut affecter le rendu des publicites et certaines fonctionnalites de personnalisation."
+  },
+  "hubs": {
+    "useCases": {
+      "title": "Cas d usage",
+      "description": "Choisissez le bon flux de synthese vocale selon votre objectif, format et rythme de publication.",
+      "metaDescription": "Explorez des cas d usage concrets de synthese vocale avec des recommandations claires.",
+      "howToChooseTitle": "Comment choisir un cas d usage",
+      "howToChooseItems": [
+        "Commencez par le canal: video courte, audio long, education ou support.",
+        "Ajustez style de voix et vitesse selon les attentes de votre audience.",
+        "Conservez une structure de script repetable pour rester coherent."
+      ],
+      "whenToUseTitle": "Quand utiliser ces pages",
+      "whenToUseItems": [
+        "Quand vous devez passer rapidement du script au MP3.",
+        "Quand vous publiez en plusieurs langues avec peu de friction.",
+        "Quand vous voulez un workflow pratique plutot qu une liste de fonctions."
+      ],
+      "navigationTitle": "Sections utiles ensuite",
+      "navigationDescription": "Apres le choix d un cas d usage, poursuivez avec outils et comparatifs.",
+      "cardUseCase": "Workflow cas d usage",
+      "cardLanguage": "Workflow langue"
+    },
+    "compare": {
+      "title": "Hub comparatif TTS",
+      "description": "Analysez des compromis concrets entre TTS Easy et d autres options avant de fixer votre workflow.",
+      "metaDescription": "Comparez les solutions TTS avec des criteres clairs de vitesse, localisation et regularite.",
+      "howToChooseTitle": "Comment evaluer un comparatif",
+      "howToChooseItems": [
+        "Definissez si votre contrainte principale est vitesse, qualite ou simplicite operationnelle.",
+        "Verifiez la gestion du multilingue et des cycles de revision.",
+        "Choisissez l option qui reduit le travail manuel repetitif."
+      ],
+      "whenToUseTitle": "Quand utiliser les comparatifs",
+      "whenToUseItems": [
+        "Avant une migration depuis un autre outil TTS.",
+        "Quand l equipe a besoin d un cadre de decision partage.",
+        "Quand cout et vitesse doivent etre arbitres avec clarte."
+      ],
+      "navigationTitle": "Poursuivre l evaluation",
+      "navigationDescription": "Utilisez ces sections pour valider votre choix en conditions reelles.",
+      "fallbackBadge": "Guide",
+      "cardUseCase": "Resume comparatif"
+    },
+    "tools": {
+      "title": "Outils",
+      "description": "Utilisez des outils de preparation pour nettoyer les scripts et verifier la langue avant generation.",
+      "metaDescription": "Des outils pratiques pour ameliorer la qualite de script et la precision de langue avant synthese vocale.",
+      "characterCounterTitle": "Compteur de caracteres",
+      "characterCounterDescription": "Mesurez caracteres, mots, phrases et structure avant generation audio.",
+      "languageDetectorTitle": "Detecteur de langue",
+      "languageDetectorDescription": "Detectez langue et accent probable pour reduire les erreurs de selection de voix.",
+      "howToChooseTitle": "Comment choisir le bon outil",
+      "howToChooseItems": [
+        "Utilisez le compteur pour ajuster longueur, rythme et blocs de script.",
+        "Utilisez le detecteur quand la certitude de locale est critique.",
+        "Utilisez les deux avant generation MP3 pour des livrables clients."
+      ],
+      "whenToUseTitle": "Quand commencer par les outils",
+      "whenToUseItems": [
+        "Avant des lots importants ou les erreurs coutent cher.",
+        "Avant des sorties multilingues avec variantes regionales.",
+        "Quand le controle qualite du texte est obligatoire."
+      ],
+      "navigationTitle": "Parcours recommande",
+      "navigationDescription": "Passez a la generation finale quand script et langue sont stabilises."
+    }
   }
 }

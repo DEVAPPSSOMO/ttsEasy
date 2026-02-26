@@ -54,8 +54,6 @@ export default async function HomePage({ params }: HomePageProps) {
         </aside>
       </div>
 
-      <AdSlot locale={locale} pageType="home" slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOP} />
-
       <TtsApp locale={locale} pageType="home" copy={dict.ui} />
 
       <AdSlot

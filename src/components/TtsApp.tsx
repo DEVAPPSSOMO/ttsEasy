@@ -35,6 +35,7 @@ function parseApiError(value: unknown): string {
 interface TtsAppProps {
   locale: string;
   pageType?: PageType;
+  showInlineAd?: boolean;
   copy: {
     accentQuestion: string;
     autoMode: string;
@@ -64,7 +65,7 @@ interface TtsAppProps {
   };
 }
 
-export function TtsApp({ locale, pageType = "home", copy }: TtsAppProps): JSX.Element {
+export function TtsApp({ locale, pageType = "home", showInlineAd = false, copy }: TtsAppProps): JSX.Element {
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const detectAbortRef = useRef<AbortController | null>(null);
@@ -386,124 +387,135 @@ export function TtsApp({ locale, pageType = "home", copy }: TtsAppProps): JSX.El
 
   return (
     <section className="workspace">
-      <header className="workspace-header">
-        <div className="workspace-copy">
-          <p className="workspace-kicker">{copy.headline}</p>
-          <h2>{copy.mp3CalloutTitle}</h2>
-          <p>{copy.subtitle}</p>
-        </div>
-        <div className={isAudioReady ? "mp3-callout ready" : "mp3-callout"}>
-          <span className="mp3-pill">{copy.download}</span>
-          <p>{copy.mp3CalloutSubtitle}</p>
-          <strong>{isAudioReady ? copy.mp3Ready : copy.mp3Waiting}</strong>
-        </div>
+      <header className="workspace-intro">
+        <p className="workspace-kicker">{copy.headline}</p>
+        <h2>{copy.mp3CalloutTitle}</h2>
+        <p>{copy.subtitle}</p>
       </header>
 
-      <LanguageBar
-        copy={copy}
-        detectedLocale={detectedLocale}
-        locale={effectiveLocale}
-        localeOptions={localeOptions}
-        mode={mode}
-        onLocaleChange={handleLocaleManualSelect}
-        onModeChange={handleModeChange}
-        onReaderChange={setReaderId}
-        readerId={readerId}
-        readers={readers}
-      />
-
-      <div className="composer-stack">
-        <textarea
-          className="text-input"
-          onChange={(event) => handleTextChange(event.target.value)}
-          onPaste={handlePaste}
-          placeholder={copy.textPlaceholder}
-          ref={textAreaRef}
-          value={text}
-        />
-
-        <div className="textarea-meta">
-          <span>
-            {copy.charCount}: {text.length}
-          </span>
-          {isDetecting ? <span className="detecting">{copy.detecting}</span> : null}
-        </div>
-
-        {detected?.localeAmbiguous && mode === "auto" ? (
-          <AccentPrompt
-            candidates={detected.localeCandidates}
+      <div className="workspace-main">
+        <div className="workspace-core">
+          <LanguageBar
             copy={copy}
-            onChoose={handleLocaleManualSelect}
+            detectedLocale={detectedLocale}
+            locale={effectiveLocale}
+            localeOptions={localeOptions}
+            mode={mode}
+            onLocaleChange={handleLocaleManualSelect}
+            onModeChange={handleModeChange}
+            onReaderChange={setReaderId}
+            readerId={readerId}
+            readers={readers}
           />
-        ) : null}
 
-        <div className="audio-panel">
-          {audioUrl ? (
-            <audio
-              controls
-              onEnded={(e) => {
-                const el = e.currentTarget;
-                trackAudioPlayDuration(el.currentTime, el.duration);
-              }}
-              onPause={(e) => {
-                const el = e.currentTarget;
-                if (!el.ended) trackAudioPlayDuration(el.currentTime, el.duration);
-              }}
-              ref={audioRef}
-              src={audioUrl}
+          <div className="composer-stack">
+            <textarea
+              className="text-input"
+              onChange={(event) => handleTextChange(event.target.value)}
+              onPaste={handlePaste}
+              placeholder={copy.textPlaceholder}
+              ref={textAreaRef}
+              value={text}
             />
-          ) : (
-            <audio controls ref={audioRef} />
-          )}
-        </div>
 
-        <div className="speed-group player-speed">
-          <span>{copy.speed}</span>
-          {SPEED_OPTIONS.map((value) => (
+            <div className="textarea-meta">
+              <span>
+                {copy.charCount}: {text.length}
+              </span>
+              {isDetecting ? <span className="detecting">{copy.detecting}</span> : null}
+            </div>
+
+            {detected?.localeAmbiguous && mode === "auto" ? (
+              <AccentPrompt
+                candidates={detected.localeCandidates}
+                copy={copy}
+                onChoose={handleLocaleManualSelect}
+              />
+            ) : null}
+
+            <div className="audio-panel">
+              {audioUrl ? (
+                <audio
+                  controls
+                  onEnded={(e) => {
+                    const el = e.currentTarget;
+                    trackAudioPlayDuration(el.currentTime, el.duration);
+                  }}
+                  onPause={(e) => {
+                    const el = e.currentTarget;
+                    if (!el.ended) trackAudioPlayDuration(el.currentTime, el.duration);
+                  }}
+                  ref={audioRef}
+                  src={audioUrl}
+                />
+              ) : (
+                <audio controls ref={audioRef} />
+              )}
+            </div>
+
+            <div className="speed-group player-speed">
+              <span>{copy.speed}</span>
+              {SPEED_OPTIONS.map((value) => (
+                <button
+                  className={speed === value ? "active" : ""}
+                  key={value}
+                  onClick={() => setSpeed(value)}
+                  type="button"
+                >
+                  {value}x
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="controls">
+            <button className="btn-generate" disabled={!canGenerate} onClick={() => void handleGenerateAudio()} type="button">
+              {isGenerating ? copy.generating : copy.play}
+            </button>
             <button
-              className={speed === value ? "active" : ""}
-              key={value}
-              onClick={() => setSpeed(value)}
+              className={isAudioReady ? "cta-download ready" : "cta-download"}
+              disabled={!audioUrl}
+              onClick={handleDownload}
               type="button"
             >
-              {value}x
+              {copy.download}
             </button>
-          ))}
+            <button className="secondary" disabled={!audioUrl} onClick={() => void handlePauseResume()} type="button">
+              {copy.pause}
+            </button>
+            <button className="neutral" disabled={!audioUrl} onClick={() => void handleShare()} type="button">
+              {shareUrl ? "Link copied!" : copy.share}
+            </button>
+          </div>
+
+          {errorMessage ? <p className="workspace-error">{errorMessage}</p> : null}
+          <p className="privacy-line">{copy.disclaimer}</p>
         </div>
+
+        <aside className="workspace-support">
+          <div className={isAudioReady ? "mp3-callout ready" : "mp3-callout"}>
+            <span className="mp3-pill">{copy.download}</span>
+            <p>{copy.mp3CalloutSubtitle}</p>
+            <strong>{isAudioReady ? copy.mp3Ready : copy.mp3Waiting}</strong>
+          </div>
+
+          <TurnstileBox key={captchaWidgetKey} onToken={(token) => {
+            trackCaptchaCompleted(Date.now() - captchaStartRef.current);
+            setCaptchaToken(token);
+          }} />
+
+          <History key={historyKey} copy={copy} onSelect={handleHistorySelect} />
+
+          {showInlineAd ? (
+            <AdSlot
+              className="ad-grid"
+              locale={locale}
+              pageType={pageType}
+              slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MID}
+            />
+          ) : null}
+        </aside>
       </div>
-
-      <div className="controls">
-        <button className="btn-generate" disabled={!canGenerate} onClick={() => void handleGenerateAudio()} type="button">
-          {isGenerating ? copy.generating : copy.play}
-        </button>
-        <button
-          className={isAudioReady ? "cta-download ready" : "cta-download"}
-          disabled={!audioUrl}
-          onClick={handleDownload}
-          type="button"
-        >
-          {copy.download}
-        </button>
-        <button className="secondary" disabled={!audioUrl} onClick={() => void handlePauseResume()} type="button">
-          {copy.pause}
-        </button>
-        <button className="neutral" disabled={!audioUrl} onClick={() => void handleShare()} type="button">
-          {shareUrl ? "Link copied!" : copy.share}
-        </button>
-      </div>
-
-      <TurnstileBox key={captchaWidgetKey} onToken={(token) => {
-        trackCaptchaCompleted(Date.now() - captchaStartRef.current);
-        setCaptchaToken(token);
-      }} />
-
-      {errorMessage ? <p style={{ color: "#b91c1c" }}>{errorMessage}</p> : null}
-
-      <History key={historyKey} copy={copy} onSelect={handleHistorySelect} />
-
-      <p className="privacy-line">{copy.disclaimer}</p>
-
-      <AdSlot className="ad-grid" locale={locale} pageType={pageType} slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MID} />
     </section>
   );
 }

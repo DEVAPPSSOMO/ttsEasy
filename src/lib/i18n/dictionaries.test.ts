@@ -93,12 +93,39 @@ describe("getDictionary", () => {
       // legal pages
       expect(typeof dict.about.title).toBe("string");
       expect(typeof dict.about.p1).toBe("string");
+      expect(typeof dict.about.p2).toBe("string");
+      expect(typeof dict.about.p3).toBe("string");
+      expect(typeof dict.about.editorialPolicyTitle).toBe("string");
+      expect(typeof dict.about.editorialPolicyBody).toBe("string");
+      expect(typeof dict.about.updatedLabel).toBe("string");
+      expect(typeof dict.about.updatedDate).toBe("string");
+      expect(typeof dict.about.contactLabel).toBe("string");
+      expect(typeof dict.about.contactValue).toBe("string");
       expect(typeof dict.privacy.title).toBe("string");
       expect(typeof dict.privacy.p1).toBe("string");
       expect(typeof dict.terms.title).toBe("string");
       expect(typeof dict.terms.p1).toBe("string");
       expect(typeof dict.cookies.title).toBe("string");
       expect(typeof dict.cookies.p1).toBe("string");
+
+      // hubs
+      expect(typeof dict.hubs.useCases.title).toBe("string");
+      expect(typeof dict.hubs.useCases.description).toBe("string");
+      expect(typeof dict.hubs.useCases.metaDescription).toBe("string");
+      expect(dict.hubs.useCases.howToChooseItems.length).toBeGreaterThanOrEqual(3);
+      expect(dict.hubs.useCases.whenToUseItems.length).toBeGreaterThanOrEqual(3);
+      expect(typeof dict.hubs.compare.title).toBe("string");
+      expect(typeof dict.hubs.compare.description).toBe("string");
+      expect(typeof dict.hubs.compare.metaDescription).toBe("string");
+      expect(dict.hubs.compare.howToChooseItems.length).toBeGreaterThanOrEqual(3);
+      expect(dict.hubs.compare.whenToUseItems.length).toBeGreaterThanOrEqual(3);
+      expect(typeof dict.hubs.tools.title).toBe("string");
+      expect(typeof dict.hubs.tools.description).toBe("string");
+      expect(typeof dict.hubs.tools.metaDescription).toBe("string");
+      expect(typeof dict.hubs.tools.characterCounterTitle).toBe("string");
+      expect(typeof dict.hubs.tools.languageDetectorTitle).toBe("string");
+      expect(dict.hubs.tools.howToChooseItems.length).toBeGreaterThanOrEqual(3);
+      expect(dict.hubs.tools.whenToUseItems.length).toBeGreaterThanOrEqual(3);
     });
   }
 

@@ -39,7 +39,7 @@ export function LanguageBar(props: LanguageBarProps): JSX.Element {
   } = props;
 
   return (
-    <div className="language-bar">
+    <div className="language-bar language-bar-compact">
       <div className="language-chip">
         <span>{copy.detectLabel}:</span>
         <strong>{getLocaleLabel(detectedLocale)}</strong>
