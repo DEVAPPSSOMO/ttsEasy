@@ -5,9 +5,10 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
 import { webApplicationJsonLd, faqJsonLd } from "@/lib/seo/jsonLd";
 import { TtsApp } from "@/components/TtsApp";
 import { AdSlot } from "@/components/AdSlot";
+import { ApiCta } from "@/components/ApiCta";
+import { FeaturedPosts } from "@/components/FeaturedPosts";
 import { Features } from "@/components/Features";
 import { Faq } from "@/components/Faq";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { ScrollTracker } from "@/components/ScrollTracker";
 
 interface HomePageProps {
@@ -35,37 +36,33 @@ export default async function HomePage({ params }: HomePageProps) {
           __html: JSON.stringify(faqJsonLd(dict.faq.items)),
         }}
       />
+      <section className="editorial-intro">
+        <p className="editorial-kicker">{dict.ui.headline}</p>
+        <h1>{dict.home.h1}</h1>
+        {dict.home.editorialIntro.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
+      </section>
+
       <TtsApp
         compactIntro
         copy={dict.ui}
         introDescription={dict.home.compactSubtitle}
-        introHeadingLevel="h1"
+        introHeadingLevel="h2"
         introTitle={dict.home.compactH1}
         locale={locale}
         pageType="home"
-        showInlineAd
-      />
-
-      <AdSlot
-        className="ad-recovered-top"
-        locale={locale}
-        pageType="home"
-        slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOP}
       />
 
       <Features title={dict.features.title} items={dict.features.items} />
+      <FeaturedPosts
+        description={dict.home.featuredPostsDescription}
+        title={dict.home.featuredPostsTitle}
+      />
+      <Faq openCount={3} title={dict.faq.title} items={dict.faq.items} />
+      <ApiCta copy={dict.apiCta} locale={locale} pageType="home" />
 
       <AdSlot locale={locale} pageType="home" slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT} />
-
-      <Faq title={dict.faq.title} items={dict.faq.items} />
-
-      <AdSlot
-        behavior="mobileSticky"
-        className="ad-sticky-mobile"
-        locale={locale}
-        pageType="home"
-        slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_STICKY}
-      />
 
       <footer className="site-footer">
         <nav className="legal-links">
@@ -74,11 +71,10 @@ export default async function HomePage({ params }: HomePageProps) {
           <Link href={`/${locale}/cookies`}>{dict.nav.cookies}</Link>
           <Link href={`/${locale}/about`}>{dict.nav.about}</Link>
           <Link href={`/${locale}/blog`}>{dict.nav.blog}</Link>
-          <Link href={`/${locale}/use-cases`}>Use Cases</Link>
-          <Link href={`/${locale}/tools`}>Tools</Link>
-          <Link href={`/${locale}/compare`}>Compare</Link>
+          <Link href={`/${locale}/use-cases`}>{dict.hubs.useCases.title}</Link>
+          <Link href={`/${locale}/tools`}>{dict.hubs.tools.title}</Link>
+          <Link href={`/${locale}/compare`}>{dict.hubs.compare.title}</Link>
         </nav>
-        <LanguageSwitcher currentLocale={locale as Locale} currentPath={`/${locale}`} label={dict.nav.language} />
       </footer>
     </main>
   );

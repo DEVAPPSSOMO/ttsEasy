@@ -10,7 +10,13 @@
     "subtitle": "Collez du texte, generez une voix naturelle et telechargez votre MP3 en un clic. Sans inscription.",
     "tryNow": "Essayez maintenant",
     "compactH1": "Synthese Vocale Gratuite avec MP3",
-    "compactSubtitle": "Collez votre texte, generez une voix naturelle et telechargez le MP3 instantanement."
+    "compactSubtitle": "Collez votre texte, generez une voix naturelle et telechargez le MP3 instantanement.",
+    "editorialIntro": [
+      "La synthese vocale n'apporte de valeur que si le passage du brouillon a la publication reste court, lisible et facile a revoir. TTS Easy est concu pour les personnes qui doivent transformer un texte en MP3 exploitable sans friction de compte, sans configuration inutile et sans doute sur la langue ou l'accent a utiliser.",
+      "L'application publique se concentre sur des taches concretes: detecter la langue probable, afficher les variantes d'accent utiles, proposer quelques styles de voix et livrer un MP3 pret pour la video, la formation, la demo, l'accessibilite ou la validation interne. Nous gardons volontairement un flux etroit afin que les createurs et petites equipes publient plus vite."
+    ],
+    "featuredPostsTitle": "Guides mis en avant",
+    "featuredPostsDescription": "Guides editoriaux recents sur les flux TTS, les vrais compromis et les choix d'implementation."
   },
   "ui": {
     "accentQuestion": "L'accent n'est pas clair. Souhaitez-vous garder {primary} ou passer a {secondary} ?",
@@ -52,27 +58,27 @@
     "items": [
       {
         "title": "Detection Instantanee de la Langue",
-        "description": "Detection automatique de 6 langues pendant que vous tapez. Aucune selection manuelle necessaire."
+        "description": "La detection de langue fonctionne pendant la saisie et aide a orienter le script avant la generation. Cela reduit les erreurs de voix sur du texte melange ou importe."
       },
       {
         "title": "11 Accents Disponibles",
-        "description": "Anglais des USA, Royaume-Uni et Australie. Espagnol du Mexique, Espagne et Argentine. Portugais du Bresil et Portugal. Francais, allemand et italien."
+        "description": "Les variantes d'accent sont organisees autour de besoins reels de publication au lieu d'etre cachees derriere le jargon du fournisseur. Cela accelere le passage entre anglais, espagnol et portugais sans reapprendre l'interface."
       },
       {
         "title": "3 Styles de Voix",
-        "description": "Choisissez parmi les voix Naturelle, Claire ou Expressive alimentees par Google Cloud Text-to-Speech."
+        "description": "Les modes Naturelle, Claire et Expressive couvrent les cas les plus courants de tutoriel, d'accessibilite et de narration. L'objectif est d'offrir moins de choix, mais de meilleurs reglages par defaut pour du travail concret."
       },
       {
         "title": "Telechargement MP3 Gratuit",
-        "description": "Telechargez votre audio genere en MP3 instantanement. Sans inscription ni paiement requis."
+        "description": "Chaque generation reussie se termine par un MP3 directement utilisable dans un editeur, une lecon, une demo ou une boucle de validation. Aucun outil secondaire n'est necessaire pour obtenir un fichier propre."
       },
       {
         "title": "Sans Inscription",
-        "description": "Commencez a convertir du texte en parole immediatement. Pas de compte, pas d'email, pas de tracas."
+        "description": "L'application web est faite pour un usage immediat afin de valider des scripts avant de passer a un flux plus lourd. C'est important quand vous testez rapidement de nouveaux formats, canaux ou idees multilingues."
       },
       {
         "title": "Confidentialite d'abord",
-        "description": "Votre texte est traite en memoire et n'est jamais stocke. Nous respectons votre vie privee par conception."
+        "description": "Le texte est traite en memoire et ne devient pas une archive de contenu reutilisable. Le produit est optimise pour la generation et la relecture rapides, pas pour stocker le texte des utilisateurs."
       }
     ]
   },
@@ -116,15 +122,19 @@
   },
   "about": {
     "title": "A propos",
-    "p1": "TTS Easy est une application web de synthese vocale concue pour transformer rapidement des scripts en audio clair.",
-    "p2": "Nous privilegions un flux direct: coller le texte, verifier langue et voix, puis exporter en MP3.",
-    "p3": "Notre feuille de route privilegie clarte produit, monétisation responsable et qualite editoriale.",
+    "p1": "TTS Easy existe pour rendre la synthese vocale utile dans un vrai contexte de publication. Beaucoup d'outils TTS sont puissants sur le plan technique mais bruyants sur le plan operationnel: trop d'etapes, trop de controles caches et trop peu de clarte sur l'action suivante pour un createur ou une petite equipe. Notre mission est de retirer cette friction. Nous voulons qu'une personne disposant d'un script, d'une lecon, d'un besoin d'accessibilite ou d'une demo produit passe d'un texte simple a un MP3 propre avec le moins de friction possible, tout en comprenant les limites du resultat.",
+    "p2": "Le produit principal reste volontairement etroit. Nous nous concentrons sur l'entree du script, la detection de langue, le routage par accent, un ensemble compact de styles de voix et une livraison rapide du MP3. En dessous, l'application gere l'infrastructure cloud, la protection contre l'abus, les limites d'usage, l'analytique et un portail API avec solde prepaye. En surface, l'experience doit rester simple. Nous preferons aider l'utilisateur a terminer un vrai flux rapidement plutot que de remplir l'interface de controles peu utiles qui semblent impressionnants sur une page marketing mais ralentissent la production quotidienne.",
+    "p3": "TTS Easy utilise des systemes vocaux bases sur l'IA, et nous le disons sans ambiguite. L'application accelere le passage du script a l'audio, mais elle ne remplace ni le jugement editorial, ni la validation legale, ni les tests d'accessibilite. Les voix generees demandent toujours une relecture humaine quand le ton, l'exactitude factuelle, la nuance regionale ou le risque de marque comptent. Nous ne presentons pas non plus une traduction ou une sortie synthetique comme automatiquement fiable. Le bon usage de l'IA ici est un levier operationnel: brouillons plus rapides, apercus plus courts et livraisons plus propres, avec des humains responsables de la decision finale de publier.",
     "editorialPolicyTitle": "Politique editoriale",
-    "editorialPolicyBody": "Nous publions guides, comparatifs et outils uniquement lorsqu ils apportent une valeur actionnable, des limites claires et un contexte a jour.",
+    "editorialPolicyBody": "Notre processus editorial suit la meme logique. Nous publions des guides, comparaisons et pages de flux uniquement lorsqu'ils aident a prendre une meilleure decision ou a accomplir une tache concrete. Cela veut dire expliquer clairement le scope, l'usage attendu, les limites et l'adaptation du produit. Nous mettons a jour les pages quand le comportement du produit change, quand nous pouvons ajouter des preuves qui rendent la page plus utile, ou quand une page commence a ressembler a un gabarit trop mince. Le contenu n'est pas un remplissage autour de la publicite; il doit tenir seul comme documentation et aide a la decision.",
     "updatedLabel": "Derniere mise a jour",
-    "updatedDate": "26 fevrier 2026",
+    "updatedDate": "10 mars 2026",
     "contactLabel": "Support",
-    "contactValue": "support@ttseasy.com"
+    "contactValue": "support@ttseasy.com",
+    "missionTitle": "Mission",
+    "productTitle": "Produit et technologie",
+    "disclosureTitle": "Divulgation IA",
+    "contactSectionTitle": "Contact et maintenance"
   },
   "privacy": {
     "title": "Politique de Confidentialite",
@@ -209,5 +219,13 @@
       "navigationTitle": "Parcours recommande",
       "navigationDescription": "Passez a la generation finale quand script et langue sont stabilises."
     }
+  },
+  "apiCta": {
+    "kicker": "Produit",
+    "title": "Besoin de TTS a grande echelle ? Essayez l'API",
+    "description": "Passez des exports MP3 occasionnels a des credits prepayes avec wallet, gestion de cles et suivi d'usage plus previsible.",
+    "primary": "Voir le tarif API",
+    "secondary": "Lire la doc API",
+    "note": "Le portail API comprend des credits prepayes, un solde wallet, des rechargements et l'historique des transactions."
   }
 }

@@ -84,7 +84,7 @@ export function articleJsonLd(opts: {
     datePublished: opts.publishedTime,
     dateModified: opts.modifiedTime ?? opts.publishedTime,
     author: {
-      "@type": "Organization",
+      "@type": "Person",
       name: opts.author ?? "TTS Easy",
     },
     publisher: {

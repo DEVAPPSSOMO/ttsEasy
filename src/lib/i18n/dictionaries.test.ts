@@ -36,6 +36,9 @@ describe("getDictionary", () => {
       expect(typeof dict.home.compactSubtitle).toBe("string");
       expect(dict.home.compactSubtitle.length).toBeGreaterThan(0);
       expect(typeof dict.home.tryNow).toBe("string");
+      expect(dict.home.editorialIntro.length).toBeGreaterThanOrEqual(2);
+      expect(typeof dict.home.featuredPostsTitle).toBe("string");
+      expect(typeof dict.home.featuredPostsDescription).toBe("string");
 
       // ui - all keys the TtsApp component expects
       expect(typeof dict.ui.accentQuestion).toBe("string");
@@ -72,6 +75,14 @@ describe("getDictionary", () => {
       expect(typeof dict.nav.blog).toBe("string");
       expect(typeof dict.nav.language).toBe("string");
 
+      // api CTA
+      expect(typeof dict.apiCta.kicker).toBe("string");
+      expect(typeof dict.apiCta.title).toBe("string");
+      expect(typeof dict.apiCta.description).toBe("string");
+      expect(typeof dict.apiCta.primary).toBe("string");
+      expect(typeof dict.apiCta.secondary).toBe("string");
+      expect(typeof dict.apiCta.note).toBe("string");
+
       // features
       expect(dict.features.items).toHaveLength(6);
       for (const item of dict.features.items) {
@@ -99,8 +110,12 @@ describe("getDictionary", () => {
       expect(typeof dict.about.p1).toBe("string");
       expect(typeof dict.about.p2).toBe("string");
       expect(typeof dict.about.p3).toBe("string");
+      expect(typeof dict.about.missionTitle).toBe("string");
+      expect(typeof dict.about.productTitle).toBe("string");
       expect(typeof dict.about.editorialPolicyTitle).toBe("string");
       expect(typeof dict.about.editorialPolicyBody).toBe("string");
+      expect(typeof dict.about.disclosureTitle).toBe("string");
+      expect(typeof dict.about.contactSectionTitle).toBe("string");
       expect(typeof dict.about.updatedLabel).toBe("string");
       expect(typeof dict.about.updatedDate).toBe("string");
       expect(typeof dict.about.contactLabel).toBe("string");

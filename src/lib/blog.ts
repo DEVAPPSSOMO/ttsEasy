@@ -15,6 +15,8 @@ export interface BlogPost {
   title: string;
   description: string;
   date: string;
+  author?: string;
+  lastUpdated?: string;
   readingTime: string;
   locale: Locale;
 }
@@ -57,6 +59,8 @@ export function getAllPosts(locale: Locale): BlogPost[] {
         title: data.title ?? slug,
         description: data.description ?? "",
         date: data.date ?? "",
+        author: data.author ?? undefined,
+        lastUpdated: data.lastUpdated ?? undefined,
         readingTime: estimateReadingTime(content),
         locale,
       };
@@ -76,6 +80,8 @@ export function getPostBySlug(locale: Locale, slug: string): BlogPostWithContent
     title: data.title ?? slug,
     description: data.description ?? "",
     date: data.date ?? "",
+    author: data.author ?? undefined,
+    lastUpdated: data.lastUpdated ?? undefined,
     readingTime: estimateReadingTime(content),
     locale,
     contentHtml: markdownToHtml(content),

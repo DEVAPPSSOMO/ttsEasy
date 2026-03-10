@@ -26,9 +26,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${dict.nav.blog} | TTS Easy`,
     description: dict.metadata.description,
+    robots: locale === "en" ? undefined : { index: false, follow: true },
     alternates: {
       canonical: `${siteUrl}/${locale}/blog`,
-      languages,
+      languages: locale === "en" ? languages : undefined,
     },
     openGraph: {
       title: `${dict.nav.blog} | TTS Easy`,

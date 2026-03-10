@@ -10,7 +10,13 @@
     "subtitle": "Fugen Sie Text ein, erzeugen Sie naturliches Audio und laden Sie Ihr MP3 mit einem Klick herunter. Keine Registrierung erforderlich.",
     "tryNow": "Jetzt ausprobieren",
     "compactH1": "Kostenlose Sprachsynthese mit MP3 Download",
-    "compactSubtitle": "Text einfugen, naturliche Sprache erzeugen und MP3 sofort herunterladen."
+    "compactSubtitle": "Text einfugen, naturliche Sprache erzeugen und MP3 sofort herunterladen.",
+    "editorialIntro": [
+      "Text-zu-Sprache ist nur dann wirklich nuetzlich, wenn der Weg vom Entwurf zur Veroeffentlichung kurz, nachvollziehbar und leicht pruefbar bleibt. TTS Easy richtet sich an Menschen, die Text ohne Konto-Reibung, unnnoetige Konfiguration oder Unsicherheit bei Sprache und Akzent in eine brauchbare MP3 umwandeln muessen.",
+      "Die oeffentliche App konzentriert sich auf konkrete Produktionsschritte: wahrscheinliche Sprache erkennen, sinnvolle Akzentvarianten zeigen, wenige praktikable Stimmstile anbieten und eine MP3 liefern, die fuer Video, Unterricht, Demo, Barrierefreiheit oder interne Freigabe sofort nutzbar ist. Wir halten den Ablauf bewusst eng, damit Creator und kleine Teams schneller publizieren koennen."
+    ],
+    "featuredPostsTitle": "Ausgewaehlte Leitfaeden",
+    "featuredPostsDescription": "Aktuelle redaktionelle Leitfaeden zu TTS-Workflows, realen Tradeoffs und Implementierungsentscheidungen."
   },
   "ui": {
     "accentQuestion": "Der Akzent ist unklar. Mochten Sie {primary} beibehalten oder zu {secondary} wechseln?",
@@ -52,27 +58,27 @@
     "items": [
       {
         "title": "Sofortige Spracherkennung",
-        "description": "Automatische Erkennung von 6 Sprachen wahrend Sie tippen. Keine manuelle Auswahl notig."
+        "description": "Die Spracherkennung laeuft waehrend der Eingabe und hilft, Skripte vor der Generierung richtig zuzuordnen. Das reduziert vermeidbare Fehlstimmen bei gemischtem oder importiertem Text."
       },
       {
         "title": "11 Akzente verfugbar",
-        "description": "US-, britisches und australisches Englisch. Mexikanisches, spanisches und argentinisches Spanisch. Brasilianisches und europaisches Portugiesisch. Franzosisch, Deutsch und Italienisch."
+        "description": "Akzentvarianten sind nach realen Publishing-Anforderungen organisiert statt hinter Anbieterjargon versteckt. So laesst sich schneller zwischen Englisch, Spanisch und Portugiesisch wechseln, ohne die Oberflaeche neu zu lernen."
       },
       {
         "title": "3 Stimmstile",
-        "description": "Wahlen Sie zwischen naturlichen, klaren oder expressiven Stimmen, powered by Google Cloud Text-to-Speech."
+        "description": "Natural, Clear und Expressive decken typische Faelle fuer Tutorials, Barrierefreiheit und Storytelling ab. Ziel sind weniger Optionen, aber staerkere Standardentscheidungen fuer echte TTS-Arbeit."
       },
       {
         "title": "Kostenloser MP3-Download",
-        "description": "Laden Sie Ihr generiertes Audio sofort als MP3 herunter. Keine Registrierung oder Zahlung erforderlich."
+        "description": "Jeder erfolgreiche Lauf endet mit einer MP3, die direkt in Editor, Unterricht, Demo oder Freigabeschleife uebernommen werden kann. Ein zweites Exportwerkzeug ist dafuer nicht noetig."
       },
       {
         "title": "Keine Registrierung",
-        "description": "Beginnen Sie sofort mit der Text-zu-Sprache-Konvertierung. Kein Konto, keine E-Mail, kein Aufwand."
+        "description": "Die Web-App ist fuer die sofortige Nutzung gebaut, damit Sie Skripte pruefen koennen, bevor Sie sich auf einen groesseren Workflow festlegen. Das ist wichtig, wenn Sie neue Formate, Kanaele oder mehrsprachige Ideen schnell testen."
       },
       {
         "title": "Datenschutz zuerst",
-        "description": "Ihr Text wird im Arbeitsspeicher verarbeitet und nie gespeichert. Wir respektieren Ihre Privatsphare by Design."
+        "description": "Text wird nur im Speicher verarbeitet und nicht als inhaltliches Archiv wiederverwertet. Das Produkt ist auf schnelle Generierung und Review optimiert, nicht auf das Speichern von Nutzereingaben."
       }
     ]
   },
@@ -116,15 +122,19 @@
   },
   "about": {
     "title": "Uber uns",
-    "p1": "TTS Easy ist eine praxisnahe Text-zu-Sprache-Webapp, die Skripte schnell in klaren Ton umwandelt.",
-    "p2": "Unser Fokus ist ein direkter Ablauf: Text einfugen, Sprache und Stimme prufen, MP3 exportieren.",
-    "p3": "Unsere Roadmap priorisiert Produktklarheit, verantwortungsvolle Monetarisierung und hochwertige Inhalte.",
+    "p1": "TTS Easy gibt es, um Text-zu-Sprache fuer echte Publishing-Arbeit praktikabel zu machen. Viele TTS-Tools sind technisch stark, aber operativ zu laut: zu viele Schritte, zu viele versteckte Regler und zu wenig Klarheit darueber, was ein Creator oder ein kleines Team als Naechstes tun sollte. Unsere Mission ist es, diese Reibung zu entfernen. Wer ein Skript, eine Lektion, einen Barrierefreiheitsbedarf oder eine Produktdemo hat, soll mit moeglichst wenig Aufwand von einfachem Text zu einer sauberen MP3 kommen und dabei die Grenzen des Ergebnisses verstehen.",
+    "p2": "Das Kernprodukt ist bewusst eng gefasst. Wir konzentrieren uns auf Skripteingabe, Spracherkennung, Akzent-Routing, eine kompakte Auswahl an Stimmstilen und schnelle MP3-Ausgabe. Darunter laufen Cloud-Infrastruktur, Abuse-Schutz, Nutzungsgrenzen, Analytics und ein API-Portal mit Prepaid-Guthaben. An der Oberflaeche soll die Erfahrung jedoch einfach bleiben. Wir helfen lieber dabei, einen echten Workflow schnell abzuschliessen, als die Oberflaeche mit signalarmen Kontrollen zu fuellen, die auf einer Feature-Liste gut aussehen, in der taeglichen Produktion aber bremsen.",
+    "p3": "TTS Easy nutzt KI-basierte Sprachsysteme, und wir benennen das offen. Die App beschleunigt den Weg vom Skript zum Audio, ersetzt aber weder redaktionelles Urteil noch rechtliche Pruefung oder Accessibility-Tests. Generierte Stimmen brauchen weiterhin menschliche Kontrolle, wenn Tonalitaet, faktische Genauigkeit, regionale Nuance oder Markenrisiko wichtig sind. Wir behandeln uebersetzte oder synthetisierte Ausgaben auch nicht so, als waeren sie automatisch verlaesslich. Der sinnvolle Einsatz von KI ist hier operativer Hebel: schnellere Entwuerfe, kuerzere Vorschauen und sauberere Handoffs, waehrend Menschen die finale Publishing-Entscheidung tragen.",
     "editorialPolicyTitle": "Redaktionsrichtlinie",
-    "editorialPolicyBody": "Wir veroffentlichen Guides, Vergleiche und Tools nur dann, wenn sie umsetzbaren Nutzen, klare Grenzen und aktuelle Einordnung liefern.",
+    "editorialPolicyBody": "Unsere redaktionelle Arbeit folgt derselben Logik. Wir veroeffentlichen Leitfaeden, Vergleiche und Workflow-Seiten nur dann, wenn sie helfen, eine bessere Entscheidung zu treffen oder eine konkrete Aufgabe sauber zu erledigen. Das bedeutet, Umfang, Einsatzzweck, Grenzen und Produktfit klar zu benennen. Wir aktualisieren Seiten, wenn sich das Produktverhalten aendert, wenn wir belastbarere Evidenz hinzufuegen koennen oder wenn eine Seite zu duennem Template-Text wird. Inhalt ist fuer uns kein Fuellmaterial um Werbung herum; er muss als Dokumentation und Entscheidungshilfe eigenstaendig tragen.",
     "updatedLabel": "Zuletzt aktualisiert",
-    "updatedDate": "26. Februar 2026",
+    "updatedDate": "10. Maerz 2026",
     "contactLabel": "Support",
-    "contactValue": "support@ttseasy.com"
+    "contactValue": "support@ttseasy.com",
+    "missionTitle": "Mission",
+    "productTitle": "Produkt und Technologie",
+    "disclosureTitle": "KI-Hinweis",
+    "contactSectionTitle": "Kontakt und Pflege"
   },
   "privacy": {
     "title": "Datenschutzrichtlinie",
@@ -209,5 +219,13 @@
       "navigationTitle": "Empfohlener Ablauf",
       "navigationDescription": "Wechsle zur finalen Generierung, sobald Skript und Sprache stabil sind."
     }
+  },
+  "apiCta": {
+    "kicker": "Produkt",
+    "title": "Brauchen Sie TTS in groesserem Umfang? Testen Sie die API",
+    "description": "Wechseln Sie von einzelnen MP3-Exports zu Prepaid-Guthaben mit Wallet, API-Schluesseln und besser planbarem Usage-Tracking.",
+    "primary": "API-Preise ansehen",
+    "secondary": "API-Doku lesen",
+    "note": "Das API-Portal enthaelt Prepaid-Guthaben, Wallet-Saldo, Aufladungen und Transaktionshistorie."
   }
 }

@@ -32,9 +32,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${hub.title} | TTS Easy`,
     description: hub.metaDescription,
+    robots: locale === "en" ? undefined : { index: false, follow: true },
     alternates: {
       canonical: `${siteUrl}/${locale}/tools`,
-      languages,
+      languages: locale === "en" ? languages : undefined,
     },
     openGraph: {
       title: `${hub.title} | TTS Easy`,

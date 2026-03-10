@@ -18,6 +18,9 @@ describe("compare-pages", () => {
     expect(page).not.toBeNull();
     expect(page?.contract.primaryKeyword).toBe("elevenlabs alternative");
     expect(page?.contract.internalLinksRequired.length).toBeGreaterThanOrEqual(5);
+    expect(page?.alternativeName).toBe("ElevenLabs");
+    expect(page?.methodology.length).toBeGreaterThanOrEqual(3);
+    expect(page?.benchmarks.length).toBeGreaterThanOrEqual(4);
   });
 
   it("tracks localized locales correctly", () => {

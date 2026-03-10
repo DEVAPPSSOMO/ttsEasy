@@ -10,6 +10,7 @@ import {
   hasCompareLocalizedContent,
 } from "@/lib/compare-pages";
 import { breadcrumbJsonLd, faqJsonLd } from "@/lib/seo/jsonLd";
+import { ApiCta } from "@/components/ApiCta";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { PageViewTracker } from "@/components/PageViewTracker";
 import { TrackedCtaLink } from "@/components/TrackedCtaLink";
@@ -139,6 +140,37 @@ export default async function CompareDetailPage({ params }: Props): Promise<JSX.
           ))}
         </ul>
 
+        <h2>Methodology</h2>
+        <ul>
+          {page.methodology.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+
+        <h2>Benchmark snapshot</h2>
+        <div className="compare-table-wrap">
+          <table className="compare-table">
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>TTS Easy</th>
+                <th>{page.alternativeName}</th>
+                <th>Why it matters</th>
+              </tr>
+            </thead>
+            <tbody>
+              {page.benchmarks.map((row) => (
+                <tr key={row.metric}>
+                  <td>{row.metric}</td>
+                  <td>{row.ttsEasy}</td>
+                  <td>{row.alternative}</td>
+                  <td>{row.whyItMatters}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
         <h2>FAQ</h2>
         {page.contract.faq.map((item) => (
           <details key={item.question}>
@@ -146,6 +178,18 @@ export default async function CompareDetailPage({ params }: Props): Promise<JSX.
             <p>{item.answer}</p>
           </details>
         ))}
+
+        {page.affiliateUrl ? (
+          <section className="compare-disclosure">
+            <h2>Optional vendor link</h2>
+            <p>External vendor references may be monetized. Review the product directly before you commit your workflow.</p>
+            <p>
+              <a href={page.affiliateUrl} rel="noopener noreferrer sponsored nofollow" target="_blank">
+                Visit {page.alternativeName}
+              </a>
+            </p>
+          </section>
+        ) : null}
 
         <h2>Related pages</h2>
         <ul>
@@ -159,6 +203,7 @@ export default async function CompareDetailPage({ params }: Props): Promise<JSX.
           })}
         </ul>
       </div>
+      <ApiCta copy={dict.apiCta} locale={locale} pageType="compare" />
 
       <p style={{ marginTop: "2rem" }}>
         <TrackedCtaLink

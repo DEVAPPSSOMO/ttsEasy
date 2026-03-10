@@ -31,9 +31,16 @@ export default async function AboutPage({ params }: Props) {
   return (
     <main className="simple-page">
       <h1>{dict.about.title}</h1>
-      <p>{dict.about.p1}</p>
-      <p>{dict.about.p2}</p>
-      <p>{dict.about.p3}</p>
+
+      <section className="landing-steps" style={{ marginTop: "1.5rem" }}>
+        <h2>{dict.about.missionTitle}</h2>
+        <p>{dict.about.p1}</p>
+      </section>
+
+      <section className="landing-steps" style={{ marginTop: "1.5rem" }}>
+        <h2>{dict.about.productTitle}</h2>
+        <p>{dict.about.p2}</p>
+      </section>
 
       <section className="landing-steps" style={{ marginTop: "1.5rem" }}>
         <h2>{dict.about.editorialPolicyTitle}</h2>
@@ -41,8 +48,15 @@ export default async function AboutPage({ params }: Props) {
       </section>
 
       <section className="landing-steps" style={{ marginTop: "1.25rem" }}>
-        <h2>{dict.about.updatedLabel}</h2>
-        <p>{dict.about.updatedDate}</p>
+        <h2>{dict.about.disclosureTitle}</h2>
+        <p>{dict.about.p3}</p>
+      </section>
+
+      <section className="landing-steps" style={{ marginTop: "1.25rem" }}>
+        <h2>{dict.about.contactSectionTitle}</h2>
+        <p>
+          <strong>{dict.about.updatedLabel}:</strong> {dict.about.updatedDate}
+        </p>
         <p>
           <strong>{dict.about.contactLabel}:</strong> {dict.about.contactValue}
         </p>

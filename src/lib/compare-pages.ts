@@ -15,12 +15,16 @@ export interface EditorialContract {
 export interface ComparePage {
   slug: string;
   locale: Locale;
+  alternativeName: string;
   title: string;
   description: string;
   h1: string;
   intro: string[];
   strengths: { title: string; detail: string }[];
   whenToUse: string[];
+  methodology: string[];
+  benchmarks: { metric: string; ttsEasy: string; alternative: string; whyItMatters: string }[];
+  affiliateUrl?: string;
   contract: EditorialContract;
 }
 
@@ -31,6 +35,7 @@ const PAGES: ComparePageMap = {
     en: {
       slug: "elevenlabs-alternative",
       locale: "en",
+      alternativeName: "ElevenLabs",
       title: "ElevenLabs Alternative for Fast TTS Workflows",
       description:
         "Compare ElevenLabs with TTS Easy for script-to-MP3 speed, multilingual coverage, and zero-signup generation.",
@@ -58,6 +63,38 @@ const PAGES: ComparePageMap = {
         "Need repeatable voice output without long prompt tuning cycles.",
         "Need to publish across multiple locales from one script base.",
       ],
+      methodology: [
+        "Benchmarked the path from finished script to downloadable MP3 for a creator shipping in the same session.",
+        "Weighted the score toward multilingual publishing speed, not voice cloning depth or studio editing features.",
+        "Compared how much product setup is required before a non-technical operator can produce usable narration.",
+      ],
+      benchmarks: [
+        {
+          metric: "Web onboarding",
+          ttsEasy: "Open the generator and produce MP3 without signup.",
+          alternative: "Typically starts after account creation and project setup.",
+          whyItMatters: "Fewer gates help when you need one-off or same-day publishing.",
+        },
+        {
+          metric: "Localization path",
+          ttsEasy: "Accent variants are visible directly in one workflow.",
+          alternative: "Richer customization usually means more voice decisions per output.",
+          whyItMatters: "This matters when the same script ships across multiple regions.",
+        },
+        {
+          metric: "Export handoff",
+          ttsEasy: "MP3 is the default final artifact for publishing.",
+          alternative: "Output flow depends more on project setup and voice assets.",
+          whyItMatters: "Direct handoff reduces post-production friction for social teams.",
+        },
+        {
+          metric: "Best fit",
+          ttsEasy: "Daily explainers, Shorts, and repeatable narration.",
+          alternative: "Teams that prioritize deeper voice customization.",
+          whyItMatters: "The right choice depends on whether speed or voice control is the bottleneck.",
+        },
+      ],
+      affiliateUrl: "https://elevenlabs.io/",
       contract: {
         searchIntent: "commercial",
         primaryKeyword: "elevenlabs alternative",
@@ -93,6 +130,7 @@ const PAGES: ComparePageMap = {
     en: {
       slug: "openai-tts-alternative",
       locale: "en",
+      alternativeName: "OpenAI TTS",
       title: "OpenAI TTS Alternative for Content Teams",
       description:
         "Compare OpenAI TTS and TTS Easy for creator workflows, multilingual output, and production-ready MP3 delivery.",
@@ -120,6 +158,38 @@ const PAGES: ComparePageMap = {
         "Need consistent narration format for recurring social campaigns.",
         "Need multilingual voiceover iteration with simple controls.",
       ],
+      methodology: [
+        "Compared the amount of engineering support a content team needs before it can publish from written scripts.",
+        "Benchmarks focus on browser-first execution, regional voice routing, and stakeholder review speed.",
+        "The table favors production simplicity for marketers and editors over deeper platform extensibility.",
+      ],
+      benchmarks: [
+        {
+          metric: "Team setup",
+          ttsEasy: "Browser workflow works for non-technical operators.",
+          alternative: "Often sits inside an API or app-driven implementation.",
+          whyItMatters: "Marketing teams move faster when narration is not blocked on engineering.",
+        },
+        {
+          metric: "Regional routing",
+          ttsEasy: "Accent choices are surfaced explicitly in the UI.",
+          alternative: "Locale behavior depends on model selection and implementation details.",
+          whyItMatters: "Direct routing reduces review loops for multilingual assets.",
+        },
+        {
+          metric: "Approval loop",
+          ttsEasy: "Share links and direct MP3 export support quick review.",
+          alternative: "Review flow is usually embedded in a broader product stack.",
+          whyItMatters: "Faster approvals help when campaigns ship on tight schedules.",
+        },
+        {
+          metric: "Best fit",
+          ttsEasy: "Creator teams optimizing for output cadence.",
+          alternative: "Products already standardized on a broader OpenAI stack.",
+          whyItMatters: "Choose the stack that matches your operating model, not just the model brand.",
+        },
+      ],
+      affiliateUrl: "https://openai.com/",
       contract: {
         searchIntent: "commercial",
         primaryKeyword: "openai tts alternative",
@@ -155,6 +225,7 @@ const PAGES: ComparePageMap = {
     en: {
       slug: "free-tts-vs-paid-tools",
       locale: "en",
+      alternativeName: "Typical paid TTS suite",
       title: "Free vs Paid Text to Speech Tools",
       description:
         "Understand when free text to speech tools are enough and when paid platforms are worth the cost for scaling production.",
@@ -181,6 +252,37 @@ const PAGES: ComparePageMap = {
         "You are launching new content formats and need low-risk experimentation.",
         "You want stable narration quality without immediate enterprise features.",
         "You need to align TTS spend with measurable growth milestones.",
+      ],
+      methodology: [
+        "Compared free and paid workflows by publishing output, not by enterprise feature checklist length.",
+        "Used creator operations criteria: validation cost, configuration overhead, and when upgrades become justified.",
+        "Benchmarks assume the team already has scripts and needs to turn them into repeatable audio quickly.",
+      ],
+      benchmarks: [
+        {
+          metric: "Validation cost",
+          ttsEasy: "Start with a free browser workflow before committing budget.",
+          alternative: "Recurring subscription or API spend starts earlier.",
+          whyItMatters: "Lower upfront cost keeps experimentation cheap while you test channel fit.",
+        },
+        {
+          metric: "Operational overhead",
+          ttsEasy: "Minimal setup for straightforward voiceover production.",
+          alternative: "More controls usually come with more configuration and QA work.",
+          whyItMatters: "Simple workflows are often enough until scale or compliance becomes complex.",
+        },
+        {
+          metric: "Upgrade trigger",
+          ttsEasy: "Works well until automation, governance, or higher volume becomes the priority.",
+          alternative: "Becomes worth it when scale or workflow controls drive clear ROI.",
+          whyItMatters: "Upgrades should follow bottlenecks, not feature anxiety.",
+        },
+        {
+          metric: "Best fit",
+          ttsEasy: "Solo creators and early-stage teams validating output fast.",
+          alternative: "Ops-heavy teams with established voice pipelines.",
+          whyItMatters: "Tooling should match the maturity of your publishing operation.",
+        },
       ],
       contract: {
         searchIntent: "informational",

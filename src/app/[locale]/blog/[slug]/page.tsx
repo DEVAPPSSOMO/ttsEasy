@@ -5,6 +5,7 @@ import { LOCALES, isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getPostBySlug, getPostSlugs } from "@/lib/blog";
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo/jsonLd";
+import { ApiCta } from "@/components/ApiCta";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { PageViewTracker } from "@/components/PageViewTracker";
 import { TrackedCtaLink } from "@/components/TrackedCtaLink";
@@ -33,23 +34,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
   const ogImage = `${siteUrl}/og-image.png`;
-
-  const languages: Record<string, string> = {};
-  for (const loc of LOCALES) {
-    const exists = getPostBySlug(loc, slug);
-    if (exists) {
-      languages[loc] = `${siteUrl}/${loc}/blog/${slug}`;
-    }
-  }
-  languages["x-default"] = `${siteUrl}/en/blog/${slug}`;
+  const isEnglish = locale === "en";
 
   return {
     title: post.title,
     description: post.description,
     alternates: {
       canonical: `${siteUrl}/${locale}/blog/${slug}`,
-      languages,
+      languages: isEnglish
+        ? {
+            en: `${siteUrl}/en/blog/${slug}`,
+            "x-default": `${siteUrl}/en/blog/${slug}`,
+          }
+        : undefined,
     },
+    robots: isEnglish ? undefined : { index: false, follow: true },
     openGraph: {
       title: post.title,
       description: post.description,
@@ -95,6 +94,8 @@ export default async function BlogPostPage({ params }: Props) {
               title: post.title,
               description: post.description,
               url: `${siteUrl}/${locale}/blog/${slug}`,
+              author: post.author,
+              modifiedTime: post.lastUpdated,
               publishedTime: post.date,
             })
           ),
@@ -115,9 +116,13 @@ export default async function BlogPostPage({ params }: Props) {
 
       <h1>{post.title}</h1>
       <div className="post-meta">
-        {post.date} &middot; {post.readingTime}
+        <span>{post.date}</span>
+        <span>{post.readingTime}</span>
+        {post.author ? <span>By {post.author}</span> : null}
+        {post.lastUpdated ? <span>Updated {post.lastUpdated}</span> : null}
       </div>
       <div className="post-content" dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
+      <ApiCta copy={dict.apiCta} locale={locale} pageType="blog" />
 
       <p style={{ marginTop: "2rem" }}>
         <TrackedCtaLink className="landing-cta" href={`/${locale}`} locale={locale} pageType="blog">

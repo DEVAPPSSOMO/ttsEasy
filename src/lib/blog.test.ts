@@ -35,6 +35,8 @@ describe("blog", () => {
         expect(post.description.length).toBeGreaterThan(0);
         expect(typeof post.date).toBe("string");
         expect(post.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+        expect(post.author).toBe("TTS Easy Editorial");
+        expect(post.lastUpdated).toMatch(/^\d{4}-\d{2}-\d{2}$/);
         expect(typeof post.readingTime).toBe("string");
         expect(post.readingTime).toMatch(/\d+ min read/);
         expect(post.locale).toBe("en");
@@ -54,6 +56,8 @@ describe("blog", () => {
       expect(post!.contentHtml).toContain("<ul>");
       expect(post!.contentHtml).toContain("<a href=\"/\">TTS Easy</a>");
       expect(post!.locale).toBe("en");
+      expect(post!.author).toBe("TTS Easy Editorial");
+      expect(post!.lastUpdated).toBe("2026-03-10");
     });
 
     it("returns a known Spanish post", () => {

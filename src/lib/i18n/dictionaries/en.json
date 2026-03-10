@@ -10,7 +10,13 @@
     "subtitle": "Paste any text, generate natural voice audio, and download your MP3 in one click. No registration required.",
     "tryNow": "Try it now",
     "compactH1": "Free Text to Speech and MP3 Download",
-    "compactSubtitle": "Paste text, generate natural speech, and download MP3 instantly."
+    "compactSubtitle": "Paste text, generate natural speech, and download MP3 instantly.",
+    "editorialIntro": [
+      "Text to speech is only useful when the path from draft to publish stays short, predictable, and easy to review. TTS Easy is built for people who need to move from raw copy to a usable MP3 without account friction, extra setup, or guesswork about language routing.",
+      "The public app focuses on practical production tasks: detect the likely language, surface the right accent variants, let you audition a small set of voice styles, and hand off an MP3 that is ready for video, lessons, demos, accessibility support, or internal review. We keep the workflow narrow on purpose so creators and small teams can publish faster."
+    ],
+    "featuredPostsTitle": "Featured guides",
+    "featuredPostsDescription": "Recent editorial guides that explain practical TTS workflows, tradeoffs, and implementation details."
   },
   "ui": {
     "accentQuestion": "Accent is unclear. Do you want to keep {primary} or switch to {secondary}?",
@@ -52,27 +58,27 @@
     "items": [
       {
         "title": "Instant Language Detection",
-        "description": "Automatic detection of 6 languages as you type. No manual selection needed."
+        "description": "Language detection runs while you type and helps route scripts before you generate audio. That reduces avoidable voice mismatches on mixed-language or imported copy."
       },
       {
         "title": "11 Accents Supported",
-        "description": "US, UK, Australian English. Mexican, Spanish, Argentine Spanish. Brazilian and European Portuguese. French, German, Italian."
+        "description": "Accent variants are grouped around real publishing needs instead of hidden behind provider jargon. That makes it faster to move between US, UK, Australian, Spanish, and Portuguese output without re-learning the interface."
       },
       {
         "title": "3 Voice Styles",
-        "description": "Choose from Natural, Clear, or Expressive voices powered by Google Cloud Text-to-Speech."
+        "description": "Natural, Clear, and Expressive modes give you a practical spread of voice behavior for tutorials, accessibility, and storytelling. The goal is fewer choices, but better defaults for common TTS jobs."
       },
       {
         "title": "Free MP3 Download",
-        "description": "Download your generated audio as MP3 instantly. No sign-up or payment required."
+        "description": "Every successful run ends with an MP3 that is ready to hand off into editors, lessons, demos, and review loops. You do not need a second export tool just to get a usable file out."
       },
       {
         "title": "No Registration Required",
-        "description": "Start converting text to speech immediately. No account, no email, no hassle."
+        "description": "The web app is designed for immediate use, so you can validate scripts before you commit to a bigger workflow. That matters when you are testing formats, channels, or multilingual ideas quickly."
       },
       {
         "title": "Privacy-First",
-        "description": "Your text is processed in-memory and never stored. We respect your privacy by design."
+        "description": "Text is processed in memory, not turned into a content archive. The product is optimized for generation speed and review, not for collecting or reusing user text behind the scenes."
       }
     ]
   },
@@ -116,15 +122,19 @@
   },
   "about": {
     "title": "About",
-    "p1": "TTS Easy is a practical text-to-speech web app built to convert scripts into clear audio quickly.",
-    "p2": "We focus on a direct workflow: paste text, validate language and voice, and export MP3 without setup friction.",
-    "p3": "Our roadmap prioritizes product clarity, responsible monetization, and content quality across every public page.",
+    "p1": "TTS Easy exists to make text to speech practical for everyday publishing work. Many TTS tools are technically capable but operationally noisy: too many setup steps, too many hidden controls, and too little clarity about what a creator or small team should do next. Our mission is to remove that drag. We want someone with a script, lesson, accessibility need, or product demo to move from plain text to a clean MP3 with as little friction as possible, while still understanding the tradeoffs behind the output.",
+    "p2": "The core product is intentionally narrow. We focus on script input, language detection, accent routing, a compact set of voice styles, and fast MP3 delivery. Under the hood, the app connects those steps to cloud speech infrastructure, abuse protection, rate limits, analytics, and an API portal for prepaid usage. On the surface, the experience is meant to stay simple. We would rather help users complete a real workflow quickly than overwhelm them with low-signal controls that look impressive in a feature list but slow down production in practice.",
+    "p3": "TTS Easy uses AI speech systems, and we are explicit about that. The app can accelerate script-to-audio work, but it does not replace editorial judgment, legal review, or accessibility testing. Generated voices still need human review when tone, factual accuracy, regional nuance, or brand risk matters. We also do not present translated or synthesized output as if it were automatically authoritative. The right use of AI here is operational leverage: faster drafts, quicker previews, and cleaner handoffs, with humans still responsible for final publishing decisions.",
     "editorialPolicyTitle": "Editorial policy",
-    "editorialPolicyBody": "We publish guides, comparisons, and tool pages only when they provide actionable value, transparent limitations, and updated context for creators.",
+    "editorialPolicyBody": "Our editorial process follows the same principle. We publish guides, comparisons, and workflow pages only when they help someone make a clearer decision or finish a concrete job. That means we try to state scope, intended use, limitations, and product fit plainly. We update pages when product behavior changes, when we can add evidence that makes the page more useful, or when a page starts to drift into thin templated copy. We do not treat the content layer as filler around ads; it should stand on its own as documentation and decision support.",
     "updatedLabel": "Last updated",
-    "updatedDate": "February 26, 2026",
+    "updatedDate": "March 10, 2026",
     "contactLabel": "Support",
-    "contactValue": "support@ttseasy.com"
+    "contactValue": "support@ttseasy.com",
+    "missionTitle": "Mission",
+    "productTitle": "Product and technology",
+    "disclosureTitle": "AI disclosure",
+    "contactSectionTitle": "Contact and maintenance"
   },
   "privacy": {
     "title": "Privacy Policy",
@@ -209,5 +219,13 @@
       "navigationTitle": "Suggested workflow path",
       "navigationDescription": "Move from tool validation to full generation once your script and locale are stable."
     }
+  },
+  "apiCta": {
+    "kicker": "Product",
+    "title": "Need TTS at scale? Try the API",
+    "description": "Move from occasional MP3 exports to prepaid API credits with wallet billing, key management, and predictable usage tracking.",
+    "primary": "View API pricing",
+    "secondary": "Read API docs",
+    "note": "The API portal includes prepaid credits, wallet balances, top-ups, and transaction history."
   }
 }

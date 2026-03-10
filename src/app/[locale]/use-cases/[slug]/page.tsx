@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: `${siteUrl}/${canonicalLocale}/use-cases/${slug}`,
       languages,
     },
-    robots: isLocalized ? undefined : { index: false, follow: true },
+    robots: isLocalized && page.indexable !== false ? undefined : { index: false, follow: true },
     openGraph: {
       title: content.h1,
       description: content.intro[0],

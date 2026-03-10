@@ -43,6 +43,17 @@ describe("landing-pages", () => {
       expect(useCases).toHaveLength(9);
       expect(languages).toHaveLength(10);
     });
+
+    it("marks low-value landing pages as non-indexable", () => {
+      const nonIndexable = LANDING_PAGES.filter((page) => page.indexable === false).map((page) => page.slug).sort();
+      expect(nonIndexable).toEqual([
+        "text-to-speech-australian",
+        "text-to-speech-british",
+        "text-to-speech-for-ebooks",
+        "tts-for-discord",
+        "tts-for-presentations",
+      ]);
+    });
   });
 
   describe("getLandingPage", () => {

@@ -10,7 +10,13 @@
     "subtitle": "Pega cualquier texto, genera audio con voz natural y descarga tu MP3 con un clic. Sin registro.",
     "tryNow": "Pruebalo ahora",
     "compactH1": "Texto a Voz Gratis y Descarga MP3",
-    "compactSubtitle": "Pega texto, genera audio natural y descarga tu MP3 al instante."
+    "compactSubtitle": "Pega texto, genera audio natural y descarga tu MP3 al instante.",
+    "editorialIntro": [
+      "El texto a voz solo aporta valor cuando el paso de borrador a publicacion es corto, claro y facil de revisar. TTS Easy esta pensado para quien necesita convertir un texto en un MP3 util sin friccion de cuenta, configuracion innecesaria ni dudas sobre el idioma o el acento correctos.",
+      "La app publica se centra en tareas concretas de produccion: detectar el idioma probable, mostrar variantes de acento utiles, dejar probar unos pocos estilos de voz y entregar un MP3 listo para video, clases, demos, accesibilidad o revision interna. El flujo es estrecho a proposito para que creadores y equipos pequenos publiquen mas rapido."
+    ],
+    "featuredPostsTitle": "Guias destacadas",
+    "featuredPostsDescription": "Guias editoriales recientes sobre flujos TTS, tradeoffs reales y decisiones de implementacion."
   },
   "ui": {
     "accentQuestion": "Hay duda sobre el acento. ¿Mantener {primary} o cambiar a {secondary}?",
@@ -52,27 +58,27 @@
     "items": [
       {
         "title": "Deteccion Instantanea de Idioma",
-        "description": "Deteccion automatica de 6 idiomas mientras escribes. Sin necesidad de seleccion manual."
+        "description": "La deteccion de idioma funciona mientras escribes y ayuda a enrutar el guion antes de generar audio. Asi reduces errores de voz en textos mezclados o copiados desde otras fuentes."
       },
       {
         "title": "11 Acentos Disponibles",
-        "description": "Ingles de EE.UU., Reino Unido y Australia. Español de Mexico, España y Argentina. Portugues de Brasil y Portugal. Frances, aleman e italiano."
+        "description": "Las variantes de acento estan agrupadas alrededor de necesidades reales de publicacion y no escondidas tras etiquetas tecnicas del proveedor. Eso acelera el cambio entre ingles, espanol y portugues sin reaprender la interfaz."
       },
       {
         "title": "3 Estilos de Voz",
-        "description": "Elige entre voces Natural, Clara o Expresiva impulsadas por Google Cloud Text-to-Speech."
+        "description": "Natural, Clara y Expresiva cubren los casos mas comunes de tutorial, accesibilidad y storytelling. La idea es ofrecer menos opciones, pero mejores decisiones por defecto para trabajo real."
       },
       {
         "title": "Descarga MP3 Gratis",
-        "description": "Descarga tu audio generado como MP3 al instante. Sin registro ni pago requerido."
+        "description": "Cada generacion valida termina con un MP3 listo para llevar a tu editor, clase, demo o flujo de aprobacion. No hace falta una segunda herramienta solo para sacar un archivo util."
       },
       {
         "title": "Sin Registro",
-        "description": "Comienza a convertir texto a voz inmediatamente. Sin cuenta, sin email, sin complicaciones."
+        "description": "La app web esta hecha para usarse al momento, de forma que puedas validar guiones antes de comprometerte con un flujo mas grande. Eso importa cuando estas probando formatos, canales o ideas multilenguaje."
       },
       {
         "title": "Privacidad Primero",
-        "description": "Tu texto se procesa en memoria y nunca se almacena. Respetamos tu privacidad por diseño."
+        "description": "El texto se procesa en memoria y no se convierte en un archivo de contenido reutilizable. El producto esta optimizado para generar y revisar rapido, no para almacenar el texto de los usuarios."
       }
     ]
   },
@@ -116,15 +122,19 @@
   },
   "about": {
     "title": "Acerca de",
-    "p1": "TTS Easy es una app web de texto a voz pensada para convertir guiones en audio claro de forma rapida.",
-    "p2": "Priorizamos un flujo directo: pegar texto, validar idioma y voz, y descargar MP3 sin pasos innecesarios.",
-    "p3": "Nuestra hoja de ruta prioriza claridad de producto, monetizacion responsable y calidad real de contenido.",
+    "p1": "TTS Easy existe para volver practico el texto a voz en trabajo real de publicacion. Muchas herramientas TTS son capaces a nivel tecnico, pero operativamente ruidosas: demasiados pasos previos, demasiados controles escondidos y muy poca claridad sobre que debe hacer despues un creador o un equipo pequeno. Nuestra mision es quitar ese lastre. Queremos que alguien con un guion, una leccion, una necesidad de accesibilidad o una demo de producto pase de texto plano a un MP3 limpio con la menor friccion posible y entendiendo siempre los limites del resultado.",
+    "p2": "El producto principal es deliberadamente estrecho. Nos enfocamos en entrada de guion, deteccion de idioma, enrutado por acento, un conjunto compacto de estilos de voz y entrega rapida de MP3. Debajo de esa superficie hay infraestructura cloud, proteccion antiabuso, limites de uso, analitica y un portal API con saldo prepago. Arriba, la experiencia quiere seguir siendo simple. Preferimos ayudar a cerrar un flujo real rapido antes que llenar la interfaz de controles de poco senal que parecen potentes en una lista comercial pero frenan la produccion diaria.",
+    "p3": "TTS Easy usa sistemas de voz con IA y lo decimos de forma explicita. La aplicacion acelera el paso de guion a audio, pero no sustituye criterio editorial, revision legal ni pruebas de accesibilidad. Las voces generadas siguen necesitando supervision humana cuando importan el tono, la precision factual, el matiz regional o el riesgo de marca. Tampoco presentamos traducciones o salidas sintetizadas como si fueran automaticamente autoritativas. El buen uso de IA aqui es palanca operativa: borradores mas rapidos, previews mas agiles y handoffs mas limpios, con humanos tomando la decision final de publicacion.",
     "editorialPolicyTitle": "Politica editorial",
-    "editorialPolicyBody": "Publicamos guias, comparativas y herramientas solo cuando aportan valor accionable, limites claros y contexto actualizado para creadores.",
+    "editorialPolicyBody": "El contenido editorial sigue la misma logica. Publicamos guias, comparativas y paginas de flujo solo cuando ayudan a tomar una decision mejor o a resolver una tarea concreta. Eso implica explicar alcance, uso esperado, limitaciones y encaje del producto con lenguaje directo. Actualizamos paginas cuando cambia el producto, cuando podemos anadir evidencia que haga la pagina mas util o cuando una pieza empieza a parecerse demasiado a una plantilla vacia. No tratamos el contenido como relleno alrededor de anuncios; debe sostenerse por si mismo como documentacion y apoyo a la decision.",
     "updatedLabel": "Ultima actualizacion",
-    "updatedDate": "26 de febrero de 2026",
+    "updatedDate": "10 de marzo de 2026",
     "contactLabel": "Soporte",
-    "contactValue": "support@ttseasy.com"
+    "contactValue": "support@ttseasy.com",
+    "missionTitle": "Mision",
+    "productTitle": "Producto y tecnologia",
+    "disclosureTitle": "Divulgacion de IA",
+    "contactSectionTitle": "Contacto y mantenimiento"
   },
   "privacy": {
     "title": "Politica de Privacidad",
@@ -209,5 +219,13 @@
       "navigationTitle": "Ruta de trabajo sugerida",
       "navigationDescription": "Pasa de validacion tecnica a generacion completa cuando guion e idioma ya estan estables."
     }
+  },
+  "apiCta": {
+    "kicker": "Producto",
+    "title": "Necesitas TTS a escala? Prueba la API",
+    "description": "Pasa de exportaciones sueltas en MP3 a creditos prepago con wallet, gestion de claves y seguimiento de uso predecible.",
+    "primary": "Ver precios de la API",
+    "secondary": "Leer docs de la API",
+    "note": "El portal API incluye creditos prepago, saldo de wallet, recargas y listado de transacciones."
   }
 }

@@ -154,6 +154,7 @@ describe("JSON-LD helpers", () => {
       });
 
       expect(result.author.name).toBe("TTS Easy");
+      expect(result.author["@type"]).toBe("Person");
     });
 
     it("uses custom author when provided", () => {

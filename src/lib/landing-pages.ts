@@ -5,6 +5,7 @@ export interface LandingPage {
   keyword: string;
   presetLocale?: string;
   category: "use-case" | "language";
+  indexable?: boolean;
 }
 
 export const LANDING_PAGES: LandingPage[] = [
@@ -12,9 +13,9 @@ export const LANDING_PAGES: LandingPage[] = [
   { slug: "tts-for-podcasts", keyword: "TTS for podcasts", category: "use-case" },
   { slug: "tts-for-accessibility", keyword: "text to speech accessibility", category: "use-case" },
   { slug: "tts-for-students", keyword: "text to speech for students", category: "use-case" },
-  { slug: "tts-for-discord", keyword: "text to speech Discord", category: "use-case" },
-  { slug: "tts-for-presentations", keyword: "text to speech presentations", category: "use-case" },
-  { slug: "text-to-speech-for-ebooks", keyword: "text to speech ebooks", category: "use-case" },
+  { slug: "tts-for-discord", keyword: "text to speech Discord", category: "use-case", indexable: false },
+  { slug: "tts-for-presentations", keyword: "text to speech presentations", category: "use-case", indexable: false },
+  { slug: "text-to-speech-for-ebooks", keyword: "text to speech ebooks", category: "use-case", indexable: false },
   { slug: "tts-for-language-learning", keyword: "TTS language learning", category: "use-case" },
   { slug: "free-text-to-speech-online", keyword: "free text to speech online", category: "use-case" },
   { slug: "text-to-speech-spanish", keyword: "text to speech Spanish", presetLocale: "es-MX", category: "language" },
@@ -22,8 +23,8 @@ export const LANDING_PAGES: LandingPage[] = [
   { slug: "text-to-speech-french", keyword: "text to speech French", presetLocale: "fr-FR", category: "language" },
   { slug: "text-to-speech-german", keyword: "text to speech German", presetLocale: "de-DE", category: "language" },
   { slug: "text-to-speech-italian", keyword: "text to speech Italian", presetLocale: "it-IT", category: "language" },
-  { slug: "text-to-speech-british", keyword: "British English text to speech", presetLocale: "en-GB", category: "language" },
-  { slug: "text-to-speech-australian", keyword: "Australian English TTS", presetLocale: "en-AU", category: "language" },
+  { slug: "text-to-speech-british", keyword: "British English text to speech", presetLocale: "en-GB", category: "language", indexable: false },
+  { slug: "text-to-speech-australian", keyword: "Australian English TTS", presetLocale: "en-AU", category: "language", indexable: false },
   { slug: "texto-a-voz-mexicano", keyword: "texto a voz mexicano", presetLocale: "es-MX", category: "language" },
   { slug: "texto-a-voz-argentino", keyword: "texto a voz argentino", presetLocale: "es-AR", category: "language" },
   { slug: "texto-a-voz-espanol", keyword: "texto a voz España", presetLocale: "es-ES", category: "language" },

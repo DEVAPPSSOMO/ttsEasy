@@ -4,6 +4,7 @@ import { isApiVariant } from "@/lib/appVariant";
 import { LOCALES, isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { organizationJsonLd } from "@/lib/seo/jsonLd";
+import { SiteHeader } from "@/components/SiteHeader";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
 
@@ -76,7 +77,7 @@ export async function generateMetadata({
   };
 }
 
-export default function LocaleLayout({ children, params }: LocaleLayoutProps): JSX.Element {
+export default async function LocaleLayout({ children, params }: LocaleLayoutProps): Promise<JSX.Element> {
   if (isApiVariant()) {
     notFound();
   }
@@ -86,11 +87,23 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps): J
     notFound();
   }
 
+  const dict = await getDictionary(locale as Locale);
+
   return (
     <div lang={locale}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
+      />
+      <SiteHeader
+        aboutLabel={dict.nav.about}
+        blogLabel={dict.nav.blog}
+        compareLabel={dict.hubs.compare.title}
+        languageLabel={dict.nav.language}
+        locale={locale as Locale}
+        tagline={dict.home.compactSubtitle}
+        toolsLabel={dict.hubs.tools.title}
+        useCasesLabel={dict.hubs.useCases.title}
       />
       {children}
     </div>

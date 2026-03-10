@@ -17,6 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: dict.privacy.title,
+    robots: { index: false, follow: true },
     alternates: {
       canonical: `${siteUrl}/${locale}/privacy`,
     },
