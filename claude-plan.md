@@ -1,153 +1,164 @@
-# Plan: Superar rechazo AdSense "Contenido de poco valor"
+# Plan Final: Recuperar AdSense + Monetización TTS Easy
 
 ## Contexto
 
-Google AdSense rechaza ttseasy.com por "contenido de poco valor". Tras analizar el sitio, el problema principal es que Google lo percibe como **una herramienta con algo de contenido**, no como **un sitio de contenido con una herramienta**. El blog es bueno (8 articulos de 2,100-3,500 palabras), pero esta enterrado. La homepage muestra primero el TTS app, luego ads, luego features (~150 palabras), luego FAQ colapsado (invisible para crawlers).
+AdSense rechaza ttseasy.com por "contenido de poco valor". Tras analizar ambos planes (claude-plan.md y codex-plan.md) y explorar el codebase, el diagnóstico combina:
 
-### Problemas concretos detectados
-1. **Homepage tool-first**: `TtsApp` es lo primero que se renderiza, el contenido editorial es minimo
-2. **FAQ colapsado**: usa `<details>` sin `open` -- Google puede no indexar ese contenido
-3. **Sin navegacion global**: no hay header, solo footer con legal links
-4. **Sin autor en blog**: no hay campo `author` en MDX ni en la UI
-5. **Paginas estaticas ultra-finas**: About ~120 palabras, Privacy ~80, Terms ~70, Cookies ~50
-6. **Landing pages plantilla**: 19 paginas con estructura identica (intro->benefits->steps->FAQ)
-7. **Ratio ads/contenido malo**: 4 ad slots en homepage con ~150 palabras visibles
+1. **Patrón de contenido escalado**: ~174 URLs indexadas, muchas son plantillas idénticas × 6 idiomas. 48 blog posts son 8 originales × 6 traducciones IA con slugs distintos por idioma (hreflang roto).
+2. **Apariencia de tool-wrapper**: Homepage muestra TtsApp primero, ~150 palabras de Features, FAQ colapsado invisible, sin header de navegación global.
+3. **Ratio ads/contenido malo**: 4 ad slots (3 en page.tsx + 1 inline en TtsApp) con contenido editorial mínimo visible.
+4. **Páginas ultra-finas**: Privacy ~80 palabras, Terms ~70, Cookies ~50 × 6 idiomas = 18 URLs sin valor informativo.
 
----
+## Comparación de planes
 
-## Estrategia A: Corregir el rechazo de AdSense
+| Aspecto | claude-plan.md | codex-plan.md | Veredicto |
+|---------|---------------|---------------|-----------|
+| Diagnóstico | Correcto pero superficial | Excelente: identifica patrón de "contenido escalado orientado a buscador" | **Codex** |
+| Poda de URLs | Solo excluir del sitemap temporalmente | noindex agresivo, menos URLs más fuertes | **Codex** |
+| Homepage | Detallado: SiteHeader, content-first, FeaturedPosts | No menciona cambios específicos | **Claude** |
+| FAQ | Solución concreta: añadir `open` | No lo menciona | **Claude** |
+| Páginas legales | Expandir a 400-600 palabras (padding) | No expandir, mantener accesibles | **Codex** |
+| Blog E-E-A-T | Author + lastUpdated (correcto) | Contrato editorial completo (mejor) | **Codex** |
+| Monetización | Ads primero, Carbon Ads alternativo | Producto primero (API/créditos), ads complemento | **Codex** |
+| Implementabilidad | Archivos específicos, fases claras | Estratégico pero sin detalles técnicos | **Claude** |
 
-### A1. Reestructurar la homepage -- content-first
-
-**Archivo**: `src/app/[locale]/page.tsx`
-
-Cambiar el orden de renderizado:
-
-```
-ACTUAL:                          NUEVO:
-TtsApp (hero)                    SiteHeader (nav global)
-AdSlot top                       h1 + intro editorial (300+ palabras)
-Features (~150 palabras)         Features
-AdSlot content                   FeaturedBlogPosts (3 articulos)
-Faq (colapsado)                  TtsApp (mas abajo)
-AdSlot sticky                    Faq (visible, no colapsado)
-Footer                           AdSlot content (solo 1 mid-page)
-                                 AdSlot sticky (mobile)
-                                 Footer
-```
-
-- Mover `TtsApp` debajo del contenido editorial
-- Eliminar `AdSlot top` -- reducir de 4 a 2 ad slots en homepage
-- Anadir texto introductorio al diccionario (`home.introP1`, `home.introP2`, etc.)
-
-**Archivos a modificar**: `src/app/[locale]/page.tsx`, `src/lib/i18n/dictionaries/*.json`
-
-### A2. Navegacion global (SiteHeader)
-
-**Archivo nuevo**: `src/components/SiteHeader.tsx`
-
-- Server Component con: logo/nombre, enlaces a Blog, Use Cases, Tools, Compare
-- Renderizar en `src/app/[locale]/layout.tsx` para que aparezca en todas las paginas
-- Transforma la percepcion de "app de una pagina" a "sitio de contenido"
-
-**Archivos a modificar**: `src/app/[locale]/layout.tsx`, `src/app/globals.css`
-
-### A3. FAQ visible (no colapsado)
-
-**Archivo**: `src/components/Faq.tsx`
-
-- Anadir atributo `open` a todos los `<details>` para que el contenido sea visible por defecto
-- Alternativa: convertir a `<h3>` + `<p>` sin `<details>`
-- Esto hace visibles ~500 palabras adicionales de contenido indexable
-
-### A4. Anadir autor y "ultima actualizacion" al blog
-
-**Archivos a modificar**:
-- `src/lib/blog.ts`: anadir `author` y `lastUpdated` a interfaces `BlogPost` y `BlogPostWithContent`, parsearlos del frontmatter
-- `src/app/[locale]/blog/[slug]/page.tsx`: renderizar autor y fecha de actualizacion en `.post-meta`
-- `src/lib/seo/jsonLd.ts`: cambiar `articleJsonLd` para usar `@type: Person` en vez de Organization
-- 48 archivos MDX en `content/blog/*/`: anadir `author: "TTS Easy Editorial Team"` y `lastUpdated: "2026-03-10"` al frontmatter
-
-### A5. Expandir paginas estaticas
-
-Cada pagina necesita secciones con `<h2>` y contenido sustancial (400-600 palabras):
-
-| Pagina | Actual | Objetivo | Secciones a anadir |
-|--------|--------|----------|-------------------|
-| About | ~120 palabras | 600+ | Mision, Tecnologia, Equipo, Estandares editoriales |
-| Privacy | ~80 palabras | 500+ | Que recogemos, Como usamos datos, Terceros, Tus derechos |
-| Terms | ~70 palabras | 400+ | Uso aceptable, Propiedad intelectual, Limitaciones |
-| Cookies | ~50 palabras | 400+ | Tipos de cookies, Analytics, Publicidad, Como controlarlas |
-
-**Archivos a modificar**: `src/lib/i18n/dictionaries/*.json` (contenido), paginas en `src/app/[locale]/about|privacy|terms|cookies/page.tsx` (estructura con `<h2>`)
-
-### A6. Seccion "Articulos destacados" en homepage
-
-**Archivo nuevo**: `src/components/FeaturedPosts.tsx`
-
-- Server Component que recibe 3 posts y renderiza cards con titulo, descripcion, fecha, autor
-- Se llama en `page.tsx` con `getAllPosts(locale).slice(0, 3)`
-
-### A7. Reducir paginas finas del sitemap
-
-**Archivo**: `src/app/sitemap.ts`
-
-- Excluir temporalmente cookies y terms del sitemap hasta que se expandan
-- Considerar excluir landing pages que aun no tengan contenido editorial diferenciado
+**Veredicto**: Codex tiene la visión estratégica correcta. Claude tiene la ejecución táctica. El plan final combina ambos.
 
 ---
 
-## Estrategia B: Monetizacion alternativa
+## Plan de Implementación
 
-### B1. Carbon Ads -- mejor fit para audiencia tech/creadores
-- Sin requisito minimo de trafico
-- Un solo anuncio limpio por pagina (mejor percepcion que 4 slots de AdSense)
-- Crear componente `CarbonAd.tsx` como reemplazo drop-in de `AdSlot`
+### Fase 1: Poda agresiva (~174 → ~80 URLs indexadas)
 
-### B2. Marketing de afiliados
-- ElevenLabs, Amazon Associates (Polly), herramientas de creadores
-- Integrar en las 7 paginas de comparacion y articulos como "Best TTS Tools"
-- Crear `src/lib/affiliates.ts` para gestionar enlaces
-- Anadir disclosure en paginas con enlaces de afiliado
+**1.1 noindex blog no-EN** (elimina ~40 URLs)
+- Archivo: `src/app/[locale]/blog/[slug]/page.tsx`
+- En `generateMetadata`, añadir `robots: { index: false, follow: true }` cuando `locale !== "en"`
+- Motivo: los slugs difieren por idioma (EN: `complete-guide-text-to-speech` vs ES: `guia-completa-texto-a-voz`), el hreflang está roto, y son traducciones IA sin revisión
 
-### B3. Potenciar monetizacion API (ya existe Stripe)
-- El portal API con billing ya funciona -- hacer la pricing mas visible
-- Anadir CTA "Para desarrolladores" en homepage
-- Escribir articulo "Quick Start" sobre la API
+**1.2 noindex páginas legales** (elimina 18 URLs)
+- Archivos: `src/app/[locale]/privacy/page.tsx`, `terms/page.tsx`, `cookies/page.tsx`
+- Añadir `robots: { index: false, follow: true }` a `generateMetadata` en las tres
+- Motivo: 2-3 frases cada una. Necesarias para compliance, inútiles para SEO. Expandirlas sería padding artificial
+
+**1.3 noindex hubs no-EN** (elimina ~15 URLs)
+- Archivos: `src/app/[locale]/use-cases/page.tsx`, `compare/page.tsx` (hub), `tools/page.tsx`
+- Añadir `robots: { index: false, follow: true }` cuando `locale !== "en"`
+- Motivo: son páginas de navegación con texto traducido mínimo
+
+**1.4 noindex landing pages débiles** (elimina ~10-14 URLs)
+- Archivo: `src/lib/landing-pages.ts` — añadir campo `indexable?: boolean` a `LandingPage`
+- Marcar `indexable: false` en: `tts-for-discord`, `tts-for-presentations`, `text-to-speech-for-ebooks`, `text-to-speech-british`, `text-to-speech-australian`
+- Archivo: `src/app/[locale]/use-cases/[slug]/page.tsx` — leer flag y añadir noindex
+- Mantener indexadas las que tienen intención de búsqueda clara: youtube, podcasts, accessibility, students, language-learning, free-online, spanish, portuguese, french + las 3 específicas en español
+
+**1.5 Actualizar sitemap**
+- Archivo: `src/app/sitemap.ts`
+- Sacar privacy/terms/cookies de `staticPages`
+- Blog: solo incluir locale `en`
+- Hubs: solo incluir locale `en`
+- Landing pages: excluir las marcadas `indexable: false`
+
+### Fase 2: Homepage content-first + navegación global
+
+**2.1 SiteHeader** (componente nuevo)
+- Nuevo archivo: `src/components/SiteHeader.tsx` — Server Component
+- Logo/nombre + nav: Blog, Use Cases, Tools, Compare, About + LanguageSwitcher
+- Modificar: `src/app/[locale]/layout.tsx` — renderizar SiteHeader en todas las páginas
+
+**2.2 Reestructurar homepage**
+- Archivo: `src/app/[locale]/page.tsx`
+- Orden nuevo:
+  1. SiteHeader (desde layout)
+  2. h1 + intro editorial (200-300 palabras, nuevo contenido en diccionarios)
+  3. TtsApp (compactIntro, **sin** `showInlineAd`)
+  4. Features (expandir descripciones a 2-3 frases cada una)
+  5. FeaturedPosts (3 artículos del blog)
+  6. FAQ (primeros 3 items abiertos)
+  7. **1 solo AdSlot** (content, al final)
+  8. Footer simplificado
+
+**2.3 FeaturedPosts** (componente nuevo)
+- Nuevo archivo: `src/components/FeaturedPosts.tsx` — Server Component
+- Muestra 3 posts recientes con título, descripción, fecha
+- Se alimenta de `getAllPosts("en")` (siempre EN, ya que las traducciones están noindexed)
+
+**2.4 FAQ visible**
+- Archivo: `src/components/Faq.tsx`
+- Añadir prop `openCount` (default 3), renderizar `<details open>` para los primeros N items
+
+**2.5 Reducir ads de 4 a 1**
+- Archivo: `src/app/[locale]/page.tsx` — eliminar AdSlot top y sticky-mobile, quitar `showInlineAd` de TtsApp
+- Mantener solo 1 AdSlot content después del contenido editorial
+
+**2.6 Contenido editorial para diccionarios**
+- Archivos: `src/lib/i18n/dictionaries/{en,es,pt,fr,de,it}.json`
+- Añadir claves: `home.editorialIntro` (2-3 párrafos), `home.featuredPostsTitle`, expandir `features.items[].description`
+
+### Fase 3: Señales E-E-A-T
+
+**3.1 Author + lastUpdated en blog**
+- Archivo: `src/lib/blog.ts` — extender interfaces `BlogPost`/`BlogPostWithContent` con `author?`, `lastUpdated?`
+- Archivo: `src/app/[locale]/blog/[slug]/page.tsx` — renderizar author, lastUpdated en UI
+- Archivo: `src/lib/seo/jsonLd.ts` — `articleJsonLd` con `author` como Person y `modifiedTime`
+- 8 archivos MDX en `content/blog/en/` — añadir al frontmatter: `author: "TTS Easy Editorial"`, `lastUpdated: "2026-03-10"`
+
+**3.2 Expandir About**
+- Archivos: `src/lib/i18n/dictionaries/*.json` — expandir sección `about` a 400-500 palabras: misión, tecnología, proceso editorial, AI disclosure, contacto
+- Archivo: `src/app/[locale]/about/page.tsx` — renderizar con `<h2>` por sección
+
+**3.3 Compare pages: añadir evidencia**
+- Archivo: `src/lib/compare-pages.ts` — añadir campos `methodology` y `benchmarks` al interface
+- Archivo: `src/app/[locale]/compare/[slug]/page.tsx` — renderizar tabla de comparación con datos reales
+
+### Fase 4: Monetización rebalanceada
+
+**Jerarquía**: Producto (API/créditos Stripe existente) > Afiliados > AdSense (complemento)
+
+**4.1 Surfacear producto API en el sitio principal**
+- Nuevo archivo: `src/components/ApiCta.tsx` — banner "Need TTS at scale? Try the API"
+- Añadir en homepage (antes del footer) y en blog posts técnicos
+
+**4.2 Afiliados en compare pages**
+- Archivo: `src/lib/compare-pages.ts` — campo `affiliateUrl?`
+- Renderizar con `rel="sponsored nofollow"` y disclosure visible
+
+**4.3 AdSense reducido**
+- 1 solo slot por página, siempre después del contenido editorial
+- NO reenviar solicitud a AdSense hasta que Search Console refleje la poda (2-3 semanas post-deploy)
+
+### Fase 5 (post-deploy): Reenvío a AdSense
+
+- Esperar a que Search Console muestre ~80 URLs indexadas (vs ~174 actuales)
+- Verificar que no hay errores de rastreo en páginas noindexed
+- Confirmar Core Web Vitals verdes
+- Revisión manual de 20 URLs: propósito claro, navegación limpia, contenido sustancial
+- Reenviar solicitud solo cuando el índice esté limpio
 
 ---
 
-## Alcance confirmado
-- **Estrategia A completa** (7 cambios de contenido/estructura)
-- **Estrategia B completa** (Carbon Ads, afiliados, promocion API)
-- **6 idiomas**: en, es, pt, fr, de, it -- todo el contenido nuevo
+## Archivos críticos
 
-## Orden de implementacion
+| Archivo | Cambio |
+|---------|--------|
+| `src/app/[locale]/page.tsx` | Reestructurar orden, reducir ads 4→1, añadir FeaturedPosts |
+| `src/app/[locale]/layout.tsx` | Añadir SiteHeader global |
+| `src/app/sitemap.ts` | Podar URLs noindexed |
+| `src/lib/landing-pages.ts` | Añadir campo `indexable` |
+| `src/app/[locale]/blog/[slug]/page.tsx` | noindex no-EN, author/lastUpdated |
+| `src/components/Faq.tsx` | FAQ visible (prop `openCount`) |
+| `src/lib/blog.ts` | Extender interfaces con author/lastUpdated |
+| `src/lib/compare-pages.ts` | Añadir methodology/benchmarks |
+| `src/lib/i18n/dictionaries/*.json` | Contenido editorial nuevo (6 idiomas) |
+| `content/blog/en/*.mdx` | Frontmatter: author, lastUpdated |
+| Nuevos: `SiteHeader.tsx`, `FeaturedPosts.tsx`, `ApiCta.tsx` | 3 componentes nuevos |
 
-**Fase 1 -- Estructura** (afecta todas las paginas):
-1. A2: SiteHeader (navegacion global)
-2. A1: Reestructurar homepage (content-first)
-3. A3: FAQ visible (no colapsado)
-4. A6: Articulos destacados en homepage
+## Verificación
 
-**Fase 2 -- Contenido** (diccionarios en 6 idiomas):
-5. A5: Expandir About, Privacy, Terms, Cookies (6 idiomas)
-6. A4: Autor y lastUpdated en los 48 archivos MDX del blog
-
-**Fase 3 -- Monetizacion alternativa**:
-7. B1: Componente Carbon Ads + integracion
-8. B2: Sistema de afiliados + enlaces en compare/blog
-9. B3: CTA "Para desarrolladores" en homepage
-
-**Fase 4 -- Limpieza**:
-10. A7: Reducir sitemap (excluir paginas finas)
-
-## Verificacion
-
-1. `npm run build` -- asegurar que no hay errores
-2. Preview local -- verificar que la homepage muestra contenido antes que la herramienta
-3. Verificar que el header aparece en todas las paginas
-4. Verificar que los articulos del blog muestran autor y fecha de actualizacion
-5. Verificar que el FAQ es visible sin necesidad de hacer click
-6. Verificar en Google Search Console que las nuevas paginas se indexan con contenido sustancial
-7. Re-enviar solicitud a AdSense 2-3 dias despues del deploy
+1. `npm run build` — sin errores
+2. Preview local: homepage muestra contenido antes que la herramienta
+3. Header visible en todas las páginas
+4. FAQ primeros 3 items abiertos
+5. Blog muestra author y fecha actualización
+6. Solo 1 ad visible en homepage
+7. Verificar en Search Console que URLs noindexed desaparecen del índice
+8. Reenviar a AdSense solo cuando índice refleje la poda
