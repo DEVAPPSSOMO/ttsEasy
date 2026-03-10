@@ -104,11 +104,19 @@ export function trackShareCreated(context?: EventContext, params?: Record<string
 }
 
 export function trackAdSlotView(slot: string, context?: EventContext, params?: Record<string, unknown>): void {
-  trackEvent("ad_slot_view", withContext({ slot, ...(params ?? {}) }, context));
+  trackEvent("ad_slot_view", withContext({ placement_id: slot, slot, ...(params ?? {}) }, context));
+}
+
+export function trackAdSlotSuppressed(slot: string, context?: EventContext, params?: Record<string, unknown>): void {
+  trackEvent("ad_slot_suppressed", withContext({ placement_id: slot, slot, ...(params ?? {}) }, context));
 }
 
 export function trackArticleCtaClick(context?: EventContext, params?: Record<string, unknown>): void {
   trackEvent("article_cta_click", withContext(params, context));
+}
+
+export function trackApiUpsellView(context?: EventContext, params?: Record<string, unknown>): void {
+  trackEvent("api_upsell_view", withContext(params, context));
 }
 
 let textInputTracked = false;

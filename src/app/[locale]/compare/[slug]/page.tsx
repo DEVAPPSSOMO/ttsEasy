@@ -9,7 +9,9 @@ import {
   getCompareSlugs,
   hasCompareLocalizedContent,
 } from "@/lib/compare-pages";
+import { getCompareAdKeywords } from "@/lib/monetization";
 import { breadcrumbJsonLd, faqJsonLd } from "@/lib/seo/jsonLd";
+import { AdSlot } from "@/components/AdSlot";
 import { ApiCta } from "@/components/ApiCta";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { PageViewTracker } from "@/components/PageViewTracker";
@@ -95,10 +97,20 @@ export default async function CompareDetailPage({ params }: Props): Promise<JSX.
   if (!page) notFound();
 
   const dict = await getDictionary(locale as Locale);
+  const adKeywords = getCompareAdKeywords({
+    primaryKeyword: page.contract.primaryKeyword,
+    secondaryKeywords: page.contract.secondaryKeywords,
+  });
 
   return (
     <article className="blog-post">
       <PageViewTracker locale={locale} pageType="compare" />
+      <AdSlot
+        keywords={adKeywords}
+        locale={locale}
+        pageType="compare"
+        placementId="compare-post-top"
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

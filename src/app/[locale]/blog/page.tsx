@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { LOCALES, isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getAllPosts } from "@/lib/blog";
+import { getBlogAdKeywords } from "@/lib/monetization";
+import { AdSlot } from "@/components/AdSlot";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { PageViewTracker } from "@/components/PageViewTracker";
 
@@ -53,10 +55,20 @@ export default async function BlogIndex({ params }: Props) {
 
   const dict = await getDictionary(locale as Locale);
   const posts = getAllPosts(locale as Locale);
+  const adKeywords = getBlogAdKeywords({
+    title: dict.nav.blog,
+    description: dict.metadata.description,
+  });
 
   return (
     <main className="blog-index">
       <PageViewTracker locale={locale} pageType="blog" />
+      <AdSlot
+        keywords={adKeywords}
+        locale={locale}
+        pageType="blog"
+        placementId="blog-index-top"
+      />
       <h1>{dict.nav.blog}</h1>
       <div className="blog-list">
         {posts.length === 0 ? (

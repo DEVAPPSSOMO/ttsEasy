@@ -139,7 +139,7 @@
   "privacy": {
     "title": "Politica de Privacidade",
     "p1": "Nao armazenamos o texto que voce cola para geracao de fala. Seu texto e processado na memoria e descartado apos o audio ser produzido.",
-    "p2": "Usamos ferramentas de analise e publicidade (Google Analytics e Google AdSense) para medir trafego e exibir anuncios. Essas ferramentas podem usar cookies de acordo com suas proprias politicas.",
+    "p2": "Usamos ferramentas de analise e publicidade configuraveis (por exemplo Google Analytics e um provedor de anuncios ativo como Google AdSense ou EthicalAds) para medir trafego e exibir anuncios. Essas ferramentas podem usar cookies de acordo com suas proprias politicas.",
     "p3": "Dados de prevencao de abuso (contadores de limite de taxa e status de verificacao CAPTCHA) sao armazenados apenas como metadados de seguranca agregados e nunca contem seu texto bruto."
   },
   "terms": {
@@ -150,7 +150,7 @@
   },
   "cookies": {
     "title": "Politica de Cookies",
-    "p1": "Este site usa cookies e tecnologias similares para tres propositos: analise (GA4), entrega de anuncios (AdSense) e prevencao de fraude.",
+    "p1": "Este site usa cookies e tecnologias similares para tres propositos: analise (GA4), entrega de anuncios pelo provedor configurado (por exemplo AdSense ou EthicalAds) e prevencao de fraude.",
     "p2": "Voce pode controlar cookies nas configuracoes do seu navegador. Bloquear cookies pode afetar a exibicao de anuncios e alguns recursos de personalizacao."
   },
   "hubs": {

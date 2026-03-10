@@ -13,7 +13,9 @@ Strategic events:
 - `mp3_download`
 - `share_created`
 - `ad_slot_view`
+- `ad_slot_suppressed`
 - `article_cta_click`
+- `api_upsell_view`
 
 Operational events retained:
 - `language_detected`

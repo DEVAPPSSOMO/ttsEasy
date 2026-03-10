@@ -1,7 +1,7 @@
 # Growth Operating Dashboard (Weekly)
 
 ## North Star
-- Monthly ad revenue (`adsense_revenue_monthly`)
+- Monthly monetization revenue (`api_topups_eur_monthly` + `display_ad_revenue_monthly`)
 
 ## Acquisition KPIs
 - Non-brand organic sessions
@@ -32,6 +32,7 @@
 3. Monetization
    - RPM by page type (`home`, `use_case`, `tool`, `blog`, `compare`)
    - Ad slot fill and CTR by slot
+   - `api_upsell_view -> api_pricing` progression from public pages
 4. Distribution
    - Social post count and click-through to landing pages
    - Channel-level retention signals

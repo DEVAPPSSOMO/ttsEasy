@@ -4,7 +4,6 @@ import { isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { webApplicationJsonLd, faqJsonLd } from "@/lib/seo/jsonLd";
 import { TtsApp } from "@/components/TtsApp";
-import { AdSlot } from "@/components/AdSlot";
 import { ApiCta } from "@/components/ApiCta";
 import { FeaturedPosts } from "@/components/FeaturedPosts";
 import { Features } from "@/components/Features";
@@ -52,6 +51,7 @@ export default async function HomePage({ params }: HomePageProps) {
         introTitle={dict.home.compactH1}
         locale={locale}
         pageType="home"
+        upsell={dict.apiCta}
       />
 
       <Features title={dict.features.title} items={dict.features.items} />
@@ -61,8 +61,6 @@ export default async function HomePage({ params }: HomePageProps) {
       />
       <Faq openCount={3} title={dict.faq.title} items={dict.faq.items} />
       <ApiCta copy={dict.apiCta} locale={locale} pageType="home" />
-
-      <AdSlot locale={locale} pageType="home" slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT} />
 
       <footer className="site-footer">
         <nav className="legal-links">

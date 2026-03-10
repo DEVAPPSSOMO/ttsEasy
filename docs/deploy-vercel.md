@@ -56,7 +56,12 @@ Guía para desplegar el mismo repositorio en **dos proyectos Vercel**:
 
 - `NEXT_PUBLIC_SITE_URL=https://ttseasy.com`
 - `NEXT_PUBLIC_API_BASE_URL=https://api.ttseasy.com`
-- Analytics/Ads opcionales (`NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_ADSENSE_*`)
+- Analytics/Ads opcionales:
+  - `NEXT_PUBLIC_GA_ID`
+  - `NEXT_PUBLIC_AD_PROVIDER=none|adsense|ethicalads`
+  - `NEXT_PUBLIC_ADSENSE_CLIENT` + `NEXT_PUBLIC_ADSENSE_SLOT_CONTENT` si usas AdSense
+  - `NEXT_PUBLIC_ETHICALADS_PUBLISHER` si usas EthicalAds
+  - Activar solo un proveedor display por deploy; la capa pública no mezcla redes en la misma URL
 
 ## 3) Supabase (auth + DB)
 
@@ -91,6 +96,8 @@ Vercel emitirá automáticamente SSL cuando DNS esté correcto.
 
 - Home y páginas locales cargan.
 - `/api/tts` funciona con Turnstile.
+- Los CTA públicos de API (`pricing`, `docs`, `login`) apuntan a `api.ttseasy.com` y no a rutas locales.
+- Si `NEXT_PUBLIC_AD_PROVIDER=ethicalads`, solo aparecen placements display en `blog` y `compare`.
 
 ### 6.2 API portal
 

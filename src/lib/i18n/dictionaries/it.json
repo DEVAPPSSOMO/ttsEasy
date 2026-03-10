@@ -139,7 +139,7 @@
   "privacy": {
     "title": "Informativa sulla Privacy",
     "p1": "Non memorizziamo il testo che incolli per la generazione vocale. Il tuo testo viene elaborato in memoria e scartato dopo la produzione dell'audio.",
-    "p2": "Utilizziamo strumenti di analisi e pubblicita (Google Analytics e Google AdSense) per misurare il traffico e visualizzare annunci. Questi strumenti possono utilizzare cookie secondo le proprie politiche.",
+    "p2": "Utilizziamo strumenti di analisi e pubblicita configurabili (per esempio Google Analytics e un provider pubblicitario attivo come Google AdSense o EthicalAds) per misurare il traffico e visualizzare annunci. Questi strumenti possono utilizzare cookie secondo le proprie politiche.",
     "p3": "I dati di prevenzione degli abusi (contatori di limite di velocita e stato di verifica CAPTCHA) vengono memorizzati solo come metadati di sicurezza aggregati e non contengono mai il testo grezzo."
   },
   "terms": {
@@ -150,7 +150,7 @@
   },
   "cookies": {
     "title": "Politica sui Cookie",
-    "p1": "Questo sito web utilizza cookie e tecnologie simili per tre scopi: analisi (GA4), pubblicazione di annunci (AdSense) e prevenzione delle frodi.",
+    "p1": "Questo sito web utilizza cookie e tecnologie simili per tre scopi: analisi (GA4), pubblicazione di annunci tramite il provider configurato (per esempio AdSense o EthicalAds) e prevenzione delle frodi.",
     "p2": "Puoi controllare i cookie dalle impostazioni del tuo browser. Il blocco dei cookie puo influire sulla visualizzazione degli annunci e su alcune funzionalita di personalizzazione."
   },
   "hubs": {

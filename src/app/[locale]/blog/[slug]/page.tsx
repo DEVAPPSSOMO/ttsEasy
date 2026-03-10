@@ -4,7 +4,9 @@ import type { Metadata } from "next";
 import { LOCALES, isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getPostBySlug, getPostSlugs } from "@/lib/blog";
+import { getBlogAdKeywords } from "@/lib/monetization";
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo/jsonLd";
+import { AdSlot } from "@/components/AdSlot";
 import { ApiCta } from "@/components/ApiCta";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { PageViewTracker } from "@/components/PageViewTracker";
@@ -82,10 +84,20 @@ export default async function BlogPostPage({ params }: Props) {
 
   const dict = await getDictionary(locale as Locale);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
+  const adKeywords = getBlogAdKeywords({
+    title: post.title,
+    description: post.description,
+  });
 
   return (
     <article className="blog-post">
       <PageViewTracker locale={locale} pageType="blog" />
+      <AdSlot
+        keywords={adKeywords}
+        locale={locale}
+        pageType="blog"
+        placementId="blog-post-top"
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

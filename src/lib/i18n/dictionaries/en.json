@@ -139,7 +139,7 @@
   "privacy": {
     "title": "Privacy Policy",
     "p1": "We do not store the text you paste for speech generation. Your text is processed in-memory and discarded after audio is produced.",
-    "p2": "We use analytics and advertising tools (Google Analytics and Google AdSense) to measure traffic and display ads. These tools may use cookies according to their own policies.",
+    "p2": "We use analytics and configurable advertising tools (for example Google Analytics plus an active ad provider such as Google AdSense or EthicalAds) to measure traffic and display ads. These tools may use cookies according to their own policies.",
     "p3": "Abuse prevention data (rate-limit counters and CAPTCHA verification status) is stored only as aggregated security metadata and never contains your raw text."
   },
   "terms": {
@@ -150,7 +150,7 @@
   },
   "cookies": {
     "title": "Cookie Policy",
-    "p1": "This website uses cookies and similar technologies for three purposes: analytics (GA4), ad delivery (AdSense), and fraud prevention.",
+    "p1": "This website uses cookies and similar technologies for three purposes: analytics (GA4), ad delivery by the configured advertising provider (for example AdSense or EthicalAds), and fraud prevention.",
     "p2": "You can control cookies from your browser settings. Blocking cookies may impact ad rendering and some personalization features."
   },
   "hubs": {

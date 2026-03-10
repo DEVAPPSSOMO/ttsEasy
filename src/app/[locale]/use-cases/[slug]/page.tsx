@@ -117,7 +117,7 @@ export default async function UseCasePage({ params }: Props) {
         ))}
       </div>
 
-      <TtsApp locale={locale} pageType="use_case" showInlineAd copy={dict.ui} />
+      <TtsApp locale={locale} pageType="use_case" copy={dict.ui} upsell={dict.apiCta} />
 
       <div className="landing-benefits">
         {content.benefits.map((b) => (

@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { LOCALES, isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getComparePage, getCompareSlugs } from "@/lib/compare-pages";
+import { buildAdKeywordString } from "@/lib/monetization";
+import { AdSlot } from "@/components/AdSlot";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { PageViewTracker } from "@/components/PageViewTracker";
 
@@ -60,6 +62,7 @@ export default async function CompareHubPage({ params }: Props): Promise<JSX.Ele
 
   const dict = await getDictionary(locale as Locale);
   const hub = dict.hubs.compare;
+  const adKeywords = buildAdKeywordString([hub.title, hub.metaDescription]);
   const pages = getCompareSlugs()
     .map((slug) => getComparePage(slug, locale as Locale) ?? getComparePage(slug, "en"))
     .filter((page): page is NonNullable<typeof page> => Boolean(page));
@@ -67,6 +70,12 @@ export default async function CompareHubPage({ params }: Props): Promise<JSX.Ele
   return (
     <main className="landing-page">
       <PageViewTracker locale={locale} pageType="compare" />
+      <AdSlot
+        keywords={adKeywords}
+        locale={locale}
+        pageType="compare"
+        placementId="compare-index-top"
+      />
       <div className="landing-intro">
         <h1>{hub.title}</h1>
         <p>{hub.description}</p>

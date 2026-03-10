@@ -21,14 +21,20 @@ export function TrackedCtaLink({
   className,
   children,
 }: TrackedCtaLinkProps): JSX.Element {
+  const isExternal = /^https?:\/\//.test(href);
+  const handleClick = () =>
+    trackArticleCtaClick({ locale, pageType }, { cta_variant: ctaVariant, cta_destination: href });
+
+  if (isExternal) {
+    return (
+      <a className={className} href={href} onClick={handleClick}>
+        {children}
+      </a>
+    );
+  }
+
   return (
-    <Link
-      className={className}
-      href={href}
-      onClick={() =>
-        trackArticleCtaClick({ locale, pageType }, { cta_variant: ctaVariant, cta_destination: href })
-      }
-    >
+    <Link className={className} href={href} onClick={handleClick}>
       {children}
     </Link>
   );

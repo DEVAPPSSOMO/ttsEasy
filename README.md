@@ -13,7 +13,7 @@ Este repositorio es un **Next.js App Router** con:
 - "Budget guard" mensual aproximado para contener costes (`MONTHLY_BUDGET_USD`).
 - API comercial `v1` con API key, modo legado (USD) y modo prepago (EUR) con flag de rollout.
 - Portal API en `api.ttseasy.com` con autenticación de usuario (magic link), dashboard y gestión de API keys.
-- Integración opcional de **GA4** y **AdSense** por variables de entorno.
+- Integración opcional de **GA4** y display ads por proveedor (`AdSense` o `EthicalAds`).
 
 ## Arquitectura (en 2 minutos)
 
@@ -41,7 +41,7 @@ Por qué este orden:
 - **Vercel**: hosting recomendado para Next.js, despliegue automático y dominios. Guía: `docs/deploy-vercel.md`.
 - **Supabase (Auth + Postgres)**: login mágico del portal, cuentas y API keys productivas.
 - **Resend (SMTP)**: entrega de magic links a través de Supabase Auth.
-- **GA4 / AdSense**: opcional; solo se activa si defines las variables `NEXT_PUBLIC_*` correspondientes.
+- **GA4 / Ads**: opcional; display ads solo se activa si defines `NEXT_PUBLIC_AD_PROVIDER` y las variables `NEXT_PUBLIC_*` del proveedor activo.
 
 ## Variables de entorno
 
@@ -89,8 +89,17 @@ Resumen:
   - `SUPABASE_JWT_SECRET` (si tu setup lo requiere)
 - Opcional:
   - `NEXT_PUBLIC_GA_ID`
+  - `NEXT_PUBLIC_AD_PROVIDER` (`none`, `adsense`, `ethicalads`)
   - `NEXT_PUBLIC_ADSENSE_CLIENT`
-  - `NEXT_PUBLIC_ADSENSE_SLOT_TOP`, `NEXT_PUBLIC_ADSENSE_SLOT_MID`, `NEXT_PUBLIC_ADSENSE_SLOT_STICKY`
+  - `NEXT_PUBLIC_ADSENSE_SLOT_CONTENT`
+  - `NEXT_PUBLIC_ETHICALADS_PUBLISHER`
+
+Política actual de placements display:
+
+- La home y las páginas utilitarias monetizan por producto, no por third-party ads.
+- Los placements display se limitan a páginas editoriales (`blog` y `compare`).
+- `EthicalAds` solo se usa en páginas EN editoriales; `AdSense` queda como proveedor alternativo compatible con la misma capa.
+- Los CTA públicos hacia pricing/docs/login del portal siempre resuelven a `NEXT_PUBLIC_API_BASE_URL`.
 
 ## Ejecutar en local
 
@@ -197,3 +206,5 @@ En `src/lib/analytics.ts`:
 - `tts_error`
 - `mp3_download`
 - `ad_slot_view`
+- `ad_slot_suppressed`
+- `api_upsell_view`

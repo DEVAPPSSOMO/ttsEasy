@@ -2,11 +2,12 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AccentPrompt } from "@/components/AccentPrompt";
-import { AdSlot } from "@/components/AdSlot";
 import { History } from "@/components/History";
 import { LanguageBar } from "@/components/LanguageBar";
+import { TrackedCtaLink } from "@/components/TrackedCtaLink";
 import { TurnstileBox } from "@/components/TurnstileBox";
 import {
+  trackApiUpsellView,
   trackEvent,
   trackTextInputStarted,
   trackAudioPlayDuration,
@@ -18,6 +19,7 @@ import {
   trackShareCreated,
   type PageType,
 } from "@/lib/analytics";
+import { getApiPortalHref } from "@/lib/apiPortalUrl";
 import { addHistoryEntry, type HistoryEntry } from "@/lib/history";
 import { getSupportedManualLocales, normalizeLocale } from "@/lib/localeHeuristics";
 import { DetectLanguageResponse, ReaderId, ReaderOption, TtsSpeed } from "@/lib/types";
@@ -39,7 +41,6 @@ interface TtsAppProps {
   introTitle?: string;
   locale: string;
   pageType?: PageType;
-  showInlineAd?: boolean;
   copy: {
     accentQuestion: string;
     autoMode: string;
@@ -67,6 +68,14 @@ interface TtsAppProps {
     mp3Waiting: string;
     share: string;
   };
+  upsell?: {
+    kicker: string;
+    title: string;
+    description: string;
+    primary: string;
+    secondary: string;
+    note: string;
+  };
 }
 
 export function TtsApp({
@@ -76,8 +85,8 @@ export function TtsApp({
   introTitle,
   locale,
   pageType = "home",
-  showInlineAd = false,
   copy,
+  upsell,
 }: TtsAppProps): JSX.Element {
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -110,6 +119,17 @@ export function TtsApp({
   useEffect(() => {
     trackLandingView({ locale, pageType });
   }, [locale, pageType]);
+
+  useEffect(() => {
+    if (!audioUrl || !upsell) {
+      return;
+    }
+
+    trackApiUpsellView({ locale, pageType }, {
+      cta_destination: getApiPortalHref("/pricing"),
+      cta_variant: "tts_success_pricing",
+    });
+  }, [audioUrl, locale, pageType, upsell]);
 
   useEffect(() => {
     return () => {
@@ -403,6 +423,8 @@ export function TtsApp({
   const showIntroKicker = !compactIntro && introHeadingLevel !== "h1";
   const introClassName = compactIntro ? "workspace-intro compact" : "workspace-intro";
   const introTitleClassName = compactIntro ? "workspace-intro-title compact" : "workspace-intro-title";
+  const pricingHref = getApiPortalHref("/pricing");
+  const docsHref = getApiPortalHref("/docs");
 
   return (
     <section className="workspace">
@@ -518,6 +540,35 @@ export function TtsApp({
             <strong>{isAudioReady ? copy.mp3Ready : copy.mp3Waiting}</strong>
           </div>
 
+          {isAudioReady && upsell ? (
+            <div className="workspace-upsell">
+              <span className="mp3-pill">{upsell.kicker}</span>
+              <h3>{upsell.title}</h3>
+              <p>{upsell.description}</p>
+              <div className="workspace-upsell-actions">
+                <TrackedCtaLink
+                  className="landing-cta"
+                  ctaVariant="tts_success_pricing"
+                  href={pricingHref}
+                  locale={locale}
+                  pageType={pageType}
+                >
+                  {upsell.primary}
+                </TrackedCtaLink>
+                <TrackedCtaLink
+                  className="api-cta-secondary"
+                  ctaVariant="tts_success_docs"
+                  href={docsHref}
+                  locale={locale}
+                  pageType={pageType}
+                >
+                  {upsell.secondary}
+                </TrackedCtaLink>
+              </div>
+              <p className="workspace-upsell-note">{upsell.note}</p>
+            </div>
+          ) : null}
+
           <TurnstileBox key={captchaWidgetKey} onToken={(token) => {
             trackCaptchaCompleted(Date.now() - captchaStartRef.current);
             setCaptchaToken(token);
@@ -525,14 +576,6 @@ export function TtsApp({
 
           <History key={historyKey} copy={copy} onSelect={handleHistorySelect} />
 
-          {showInlineAd ? (
-            <AdSlot
-              className="ad-grid"
-              locale={locale}
-              pageType={pageType}
-              slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_MID}
-            />
-          ) : null}
         </aside>
       </div>
     </section>

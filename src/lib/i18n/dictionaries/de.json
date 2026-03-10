@@ -139,7 +139,7 @@
   "privacy": {
     "title": "Datenschutzrichtlinie",
     "p1": "Wir speichern den Text, den Sie fur die Sprachgenerierung einfugen, nicht. Ihr Text wird im Arbeitsspeicher verarbeitet und nach der Audioproduktion verworfen.",
-    "p2": "Wir verwenden Analyse- und Werbewerkzeuge (Google Analytics und Google AdSense) zur Verkehrsmessung und Anzeigenschaltung. Diese Werkzeuge konnen Cookies gemaess ihren eigenen Richtlinien verwenden.",
+    "p2": "Wir verwenden Analyse- und konfigurierbare Werbewerkzeuge (zum Beispiel Google Analytics und einen aktiven Anzeigenanbieter wie Google AdSense oder EthicalAds) zur Verkehrsmessung und Anzeigenschaltung. Diese Werkzeuge konnen Cookies gemaess ihren eigenen Richtlinien verwenden.",
     "p3": "Missbrauchsverhinderungsdaten (Rate-Limit-Zahler und CAPTCHA-Verifizierungsstatus) werden nur als aggregierte Sicherheitsmetadaten gespeichert und enthalten niemals Ihren Rohtext."
   },
   "terms": {
@@ -150,7 +150,7 @@
   },
   "cookies": {
     "title": "Cookie-Richtlinie",
-    "p1": "Diese Website verwendet Cookies und ahnliche Technologien fur drei Zwecke: Analyse (GA4), Anzeigenschaltung (AdSense) und Betrugspravention.",
+    "p1": "Diese Website verwendet Cookies und ahnliche Technologien fur drei Zwecke: Analyse (GA4), Anzeigenschaltung uber den konfigurierten Anzeigenanbieter (zum Beispiel AdSense oder EthicalAds) und Betrugspravention.",
     "p2": "Sie konnen Cookies uber Ihre Browsereinstellungen steuern. Das Blockieren von Cookies kann die Anzeigendarstellung und einige Personalisierungsfunktionen beeintrachtigen."
   },
   "hubs": {
