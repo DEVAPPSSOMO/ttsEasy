@@ -43,7 +43,23 @@
     "mp3CalloutSubtitle": "Transforme qualquer roteiro em um arquivo MP3 pronto para videos, aulas ou redes sociais.",
     "mp3Ready": "MP3 pronto para baixar",
     "mp3Waiting": "Gere audio para liberar o MP3",
-    "share": "Compartilhar"
+    "share": "Compartilhar",
+    "videoAd": {
+      "sponsorLabel": "Video patrocinado",
+      "preparing": "Preparando seu audio enquanto abrimos um video curto.",
+      "loading": "Carregando o video do anuncio...",
+      "playing": "O video esta tocando inline. Voce pode pular apos 5 segundos.",
+      "skipCountdown": "O video esta tocando. Voce pode pular em {seconds}s.",
+      "skipNow": "Pular anuncio",
+      "generating": "Gerando seu audio agora...",
+      "noFillContinue": "Nao havia video disponivel. Gerando seu audio agora...",
+      "timeoutContinue": "O video demorou demais. Gerando seu audio agora...",
+      "errorContinue": "O video nao carregou. Gerando seu audio agora...",
+      "blockedTitle": "Desative seu ad blocker para usar o gerador web",
+      "blockedBody": "Nao conseguimos carregar o video inline necessario para o gerador gratuito. Desative o ad blocker aqui ou use a API.",
+      "blockedPrimary": "Ver preco da API",
+      "blockedSecondary": "Ler docs da API"
+    }
   },
   "nav": {
     "privacy": "Privacidade",

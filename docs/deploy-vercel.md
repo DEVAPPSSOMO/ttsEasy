@@ -11,6 +11,45 @@ Guía para desplegar el mismo repositorio en **dos proyectos Vercel**:
 - Ejecutar auth/dashboard/API portal sólo en `api.ttseasy.com`.
 - Mantener endpoints M2M `/api/v1/*` para clientes integradores.
 
+## 0.1) Contrato canónico de deploy
+
+El comando soportado por el repositorio es:
+
+```bash
+npm run deploy
+```
+
+Este comando ejecuta dos deployments de Vercel en secuencia:
+
+1. `tts-easy-api`
+2. `tts-easy-public`
+
+Variables requeridas para el operador o CI:
+
+- `VERCEL_TOKEN`
+- `VERCEL_API_PROJECT`
+- `VERCEL_PUBLIC_PROJECT`
+
+Variable opcional:
+
+- `VERCEL_SCOPE`
+- `VERCEL_API_PROJECT_ID` y `VERCEL_PUBLIC_PROJECT_ID` como alias compatibles
+
+Ejemplo:
+
+```bash
+VERCEL_TOKEN=... \
+VERCEL_SCOPE=my-team \
+VERCEL_API_PROJECT=tts-easy-api \
+VERCEL_PUBLIC_PROJECT=tts-easy-public \
+npm run deploy
+```
+
+`VERCEL_API_PROJECT` y `VERCEL_PUBLIC_PROJECT` pueden ser nombre o ID del
+proyecto. El script tambien acepta `VERCEL_API_PROJECT_ID` y
+`VERCEL_PUBLIC_PROJECT_ID`, usa `vercel deploy --project ...` y no depende de
+`.vercel/project.json`.
+
 ## 1) Crear los 2 proyectos en Vercel
 
 ### 1.1 Proyecto público
@@ -24,6 +63,19 @@ Guía para desplegar el mismo repositorio en **dos proyectos Vercel**:
 - Nombre recomendado: `tts-easy-api`
 - Environment Variable clave: `APP_VARIANT=api`
 - Dominio: `api.ttseasy.com`
+
+### 1.3 Perfil local recomendado
+
+- Copiar `.env.api.local.example` a `.env.api.local`
+- Mantener en `.env.api.local` el overlay de:
+  - `PORT`
+  - `APP_VARIANT=api`
+  - `NEXT_PUBLIC_SITE_URL`
+  - `NEXT_PUBLIC_API_BASE_URL`
+  - flags de billing API
+- Completar el resto de secretos en `.env.local` o `.env.api.local`
+- Validar con `npm run growth:check:api:local`
+- Ejecutar con `npm run dev:api`
 
 ## 2) Variables mínimas por proyecto
 
@@ -58,10 +110,19 @@ Guía para desplegar el mismo repositorio en **dos proyectos Vercel**:
 - `NEXT_PUBLIC_API_BASE_URL=https://api.ttseasy.com`
 - Analytics/Ads opcionales:
   - `NEXT_PUBLIC_GA_ID`
-  - `NEXT_PUBLIC_AD_PROVIDER=none|adsense|ethicalads`
+  - `NEXT_PUBLIC_AD_PROVIDER_PRIMARY=adsense|adsterra|ethicalads|none`
+  - `NEXT_PUBLIC_AD_PROVIDER_ACTIVE=adsense|adsterra|ethicalads|none`
+  - `NEXT_PUBLIC_AD_PROVIDER` como fallback legacy si aún no migraste
   - `NEXT_PUBLIC_ADSENSE_CLIENT` + `NEXT_PUBLIC_ADSENSE_SLOT_CONTENT` si usas AdSense
+  - `NEXT_PUBLIC_ADSTERRA_SMARTLINK_URL` + `ADSTERRA_SOCIAL_BAR_SNIPPET` si usas Adsterra
   - `NEXT_PUBLIC_ETHICALADS_PUBLISHER` si usas EthicalAds
   - Activar solo un proveedor display por deploy; la capa pública no mezcla redes en la misma URL
+- Si activas el gate inline de video:
+  - `NEXT_PUBLIC_VIDEO_AD_GATE_ENABLED=true`
+  - `NEXT_PUBLIC_VIDEO_AD_PROVIDER=<partner o mock>`
+  - `NEXT_PUBLIC_VIDEO_AD_SCRIPT_URL=<script del adapter>` (si no usas `mock`)
+  - `NEXT_PUBLIC_VIDEO_AD_TAG_URL=<tag o placement>`
+  - `WEB_AD_GATE_SECRET=<secreto fuerte>`
 
 ## 3) Supabase (auth + DB)
 
@@ -92,12 +153,17 @@ Vercel emitirá automáticamente SSL cuando DNS esté correcto.
 
 ## 6) Validación post deploy
 
+Antes del deploy API, conviene repetir el smoke local con el perfil `api`
+(`npm run dev:api`) para comprobar auth, wallet, topups y `/api/v1/*`
+contra los mismos secretos que luego subirás a Vercel.
+
 ### 6.1 Público
 
 - Home y páginas locales cargan.
 - `/api/tts` funciona con Turnstile.
 - Los CTA públicos de API (`pricing`, `docs`, `login`) apuntan a `api.ttseasy.com` y no a rutas locales.
-- Si `NEXT_PUBLIC_AD_PROVIDER=ethicalads`, solo aparecen placements display en `blog` y `compare`.
+- Si `NEXT_PUBLIC_AD_PROVIDER_ACTIVE=adsterra`, el sitio usa `Social Bar` global y bloques `SmartLink` en las superficies públicas aprobadas.
+- Si `NEXT_PUBLIC_AD_PROVIDER_ACTIVE=ethicalads`, solo aparecen placements display en `blog` y `compare`.
 
 ### 6.2 API portal
 

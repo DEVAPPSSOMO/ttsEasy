@@ -1,15 +1,18 @@
 import Script from "next/script";
 import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
-import { getAdProvider } from "@/lib/monetization";
+import { AdsterraSocialBar } from "@/components/AdsterraSocialBar";
+import { getActiveAdProvider, getPrimaryAdProvider } from "@/lib/monetization";
 import "./globals.css";
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
 const isApiVariant = (process.env.APP_VARIANT ?? "").trim().toLowerCase() === "api";
-const adProvider = getAdProvider();
+const activeAdProvider = getActiveAdProvider();
+const primaryAdProvider = getPrimaryAdProvider();
 const adSenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
 const ethicalAdsPublisher = process.env.NEXT_PUBLIC_ETHICALADS_PUBLISHER;
-const shouldLoadAdSense = !isApiVariant && adProvider === "adsense" && Boolean(adSenseClient);
-const shouldLoadEthicalAds = !isApiVariant && adProvider === "ethicalads" && Boolean(ethicalAdsPublisher);
+const adsterraSocialBarSnippet = process.env.ADSTERRA_SOCIAL_BAR_SNIPPET;
+const shouldLoadAdSense = !isApiVariant && activeAdProvider === "adsense" && Boolean(adSenseClient);
+const shouldLoadEthicalAds = !isApiVariant && activeAdProvider === "ethicalads" && Boolean(ethicalAdsPublisher);
 const displayFont = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-display",
@@ -47,7 +50,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
           <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js" />
         ) : null}
       </head>
-      <body className={`${displayFont.variable} ${uiFont.variable}`}>
+      <body
+        className={`${displayFont.variable} ${uiFont.variable}`}
+        data-ad-provider-active={activeAdProvider}
+        data-ad-provider-primary={primaryAdProvider}
+      >
         {children}
 
         {gaId ? (
@@ -67,6 +74,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
               `}
             </Script>
           </>
+        ) : null}
+
+        {!isApiVariant && activeAdProvider === "adsterra" ? (
+          <AdsterraSocialBar snippet={adsterraSocialBarSnippet} />
         ) : null}
 
         {isApiVariant ? null : (

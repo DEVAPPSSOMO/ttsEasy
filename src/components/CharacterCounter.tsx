@@ -1,13 +1,15 @@
 "use client";
 
+import { AdSlot } from "@/components/AdSlot";
 import { useState } from "react";
 
 interface CharacterCounterProps {
   ctaText: string;
   ctaHref: string;
+  locale: string;
 }
 
-export function CharacterCounter({ ctaText, ctaHref }: CharacterCounterProps): JSX.Element {
+export function CharacterCounter({ ctaText, ctaHref, locale }: CharacterCounterProps): JSX.Element {
   const [text, setText] = useState("");
 
   const chars = text.length;
@@ -32,6 +34,14 @@ export function CharacterCounter({ ctaText, ctaHref }: CharacterCounterProps): J
         <div className="stat"><span className="stat-value">{sentences}</span><span className="stat-label">Sentences</span></div>
         <div className="stat"><span className="stat-value">{paragraphs}</span><span className="stat-label">Paragraphs</span></div>
       </div>
+      {text.trim() ? (
+        <AdSlot
+          className="tool-sponsored-slot"
+          locale={locale}
+          pageType="tool"
+          placementId="tool-character-counter-mid"
+        />
+      ) : null}
       {text.trim() && (
         <a href={ctaHref} className="landing-cta" style={{ display: "inline-block", marginTop: "1.5rem", textDecoration: "none", padding: "0.8rem 2rem" }}>
           {ctaText}

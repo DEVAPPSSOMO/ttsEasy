@@ -39,6 +39,7 @@ export interface TtsRequest {
   readerId: ReaderId;
   speed: TtsSpeed;
   captchaToken: string;
+  adGateToken?: string;
 }
 
 export interface ApiTtsRequest {

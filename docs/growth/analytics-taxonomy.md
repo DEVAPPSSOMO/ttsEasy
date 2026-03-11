@@ -16,6 +16,11 @@ Strategic events:
 - `ad_slot_suppressed`
 - `article_cta_click`
 - `api_upsell_view`
+- `sponsored_block_view`
+- `smartlink_click`
+- `social_bar_loaded`
+- `social_bar_load_failed`
+- `affiliate_click`
 
 Operational events retained:
 - `language_detected`

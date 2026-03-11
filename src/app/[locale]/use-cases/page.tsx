@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { LOCALES, isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { LANDING_PAGES, getLandingContent } from "@/lib/landing-pages";
+import { buildAdKeywordString } from "@/lib/monetization";
+import { AdSlot } from "@/components/AdSlot";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { PageViewTracker } from "@/components/PageViewTracker";
 
@@ -61,6 +63,7 @@ export default async function UseCasesHubPage({ params }: Props): Promise<JSX.El
 
   const dict = await getDictionary(locale as Locale);
   const hub = dict.hubs.useCases;
+  const adKeywords = buildAdKeywordString([hub.title, hub.metaDescription]);
   const pages = LANDING_PAGES.map((page) => ({
     ...page,
     summary: getLandingContent(page.slug, locale as Locale).intro[0],
@@ -73,6 +76,12 @@ export default async function UseCasesHubPage({ params }: Props): Promise<JSX.El
         <h1>{hub.title}</h1>
         <p>{hub.description}</p>
       </div>
+      <AdSlot
+        keywords={adKeywords}
+        locale={locale}
+        pageType="use_case"
+        placementId="use-case-hub-top"
+      />
 
       <section className="landing-benefits">
         {pages.map((page) => (

@@ -43,7 +43,23 @@
     "mp3CalloutSubtitle": "Convierte cualquier guion en un archivo MP3 listo para videos, clases o redes sociales.",
     "mp3Ready": "MP3 listo para descargar",
     "mp3Waiting": "Genera audio para habilitar MP3",
-    "share": "Compartir"
+    "share": "Compartir",
+    "videoAd": {
+      "sponsorLabel": "Video patrocinado",
+      "preparing": "Estamos preparando tu audio mientras abrimos un video corto.",
+      "loading": "Cargando el video publicitario...",
+      "playing": "El video se reproduce dentro de la pagina. Podras saltarlo a los 5 segundos.",
+      "skipCountdown": "El video se esta reproduciendo. Podras saltarlo en {seconds}s.",
+      "skipNow": "Saltar anuncio",
+      "generating": "Generando tu audio ahora...",
+      "noFillContinue": "No habia video disponible. Generando tu audio ahora...",
+      "timeoutContinue": "El video ha tardado demasiado. Generando tu audio ahora...",
+      "errorContinue": "El video no se pudo cargar. Generando tu audio ahora...",
+      "blockedTitle": "Desactiva tu adblocker para usar el generador web",
+      "blockedBody": "No hemos podido cargar el video inline requerido para el generador gratuito. Desactiva tu adblocker aqui o usa la API.",
+      "blockedPrimary": "Ver precios de la API",
+      "blockedSecondary": "Leer docs de la API"
+    }
   },
   "nav": {
     "privacy": "Privacidad",

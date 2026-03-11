@@ -43,7 +43,23 @@
     "mp3CalloutSubtitle": "Trasforma qualsiasi script in un file MP3 pronto per video, lezioni o social media.",
     "mp3Ready": "MP3 pronto da scaricare",
     "mp3Waiting": "Genera audio per sbloccare MP3",
-    "share": "Condividi"
+    "share": "Condividi",
+    "videoAd": {
+      "sponsorLabel": "Video sponsorizzato",
+      "preparing": "Stiamo preparando il tuo audio mentre apriamo un breve video.",
+      "loading": "Caricamento del video pubblicitario...",
+      "playing": "Il video viene riprodotto inline. Potrai saltarlo dopo 5 secondi.",
+      "skipCountdown": "Il video e in riproduzione. Potrai saltarlo tra {seconds}s.",
+      "skipNow": "Salta annuncio",
+      "generating": "Generazione dell'audio in corso...",
+      "noFillContinue": "Nessun video disponibile. Generazione dell'audio in corso...",
+      "timeoutContinue": "Il video ha impiegato troppo tempo. Generazione dell'audio in corso...",
+      "errorContinue": "Il video non e stato caricato. Generazione dell'audio in corso...",
+      "blockedTitle": "Disattiva l'ad blocker per usare il generatore web",
+      "blockedBody": "Non siamo riusciti a caricare il video inline richiesto per il generatore gratuito. Disattiva qui l'ad blocker oppure usa l'API.",
+      "blockedPrimary": "Vedi prezzi API",
+      "blockedSecondary": "Leggi la doc API"
+    }
   },
   "nav": {
     "privacy": "Privacy",

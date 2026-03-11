@@ -119,6 +119,26 @@ export function trackApiUpsellView(context?: EventContext, params?: Record<strin
   trackEvent("api_upsell_view", withContext(params, context));
 }
 
+export function trackSponsoredBlockView(context?: EventContext, params?: Record<string, unknown>): void {
+  trackEvent("sponsored_block_view", withContext(params, context));
+}
+
+export function trackSmartLinkClick(context?: EventContext, params?: Record<string, unknown>): void {
+  trackEvent("smartlink_click", withContext(params, context));
+}
+
+export function trackSocialBarLoaded(context?: EventContext, params?: Record<string, unknown>): void {
+  trackEvent("social_bar_loaded", withContext(params, context));
+}
+
+export function trackSocialBarLoadFailed(context?: EventContext, params?: Record<string, unknown>): void {
+  trackEvent("social_bar_load_failed", withContext(params, context));
+}
+
+export function trackAffiliateClick(context?: EventContext, params?: Record<string, unknown>): void {
+  trackEvent("affiliate_click", withContext(params, context));
+}
+
 let textInputTracked = false;
 
 export function trackTextInputStarted(): void {
@@ -145,4 +165,36 @@ export function trackScrollDepth(pct: number): void {
 
 export function trackFaqInteraction(question: string): void {
   trackEvent("faq_interaction", { question: question.slice(0, 100) });
+}
+
+export function trackVideoAdGateStarted(context?: EventContext, params?: Record<string, unknown>): void {
+  trackEvent("video_ad_gate_started", withContext(params, context));
+}
+
+export function trackVideoAdStarted(context?: EventContext, params?: Record<string, unknown>): void {
+  trackEvent("video_ad_started", withContext(params, context));
+}
+
+export function trackVideoAdSkipped(context?: EventContext, params?: Record<string, unknown>): void {
+  trackEvent("video_ad_skipped", withContext(params, context));
+}
+
+export function trackVideoAdCompleted(context?: EventContext, params?: Record<string, unknown>): void {
+  trackEvent("video_ad_completed", withContext(params, context));
+}
+
+export function trackVideoAdNoFill(context?: EventContext, params?: Record<string, unknown>): void {
+  trackEvent("video_ad_no_fill", withContext(params, context));
+}
+
+export function trackVideoAdBlocked(context?: EventContext, params?: Record<string, unknown>): void {
+  trackEvent("video_ad_blocked", withContext(params, context));
+}
+
+export function trackVideoAdTimeout(context?: EventContext, params?: Record<string, unknown>): void {
+  trackEvent("video_ad_timeout", withContext(params, context));
+}
+
+export function trackVideoAdTokenRejected(context?: EventContext, params?: Record<string, unknown>): void {
+  trackEvent("video_ad_token_rejected", withContext(params, context));
 }

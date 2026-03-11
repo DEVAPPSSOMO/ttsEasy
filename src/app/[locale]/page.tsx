@@ -5,10 +5,12 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
 import { webApplicationJsonLd, faqJsonLd } from "@/lib/seo/jsonLd";
 import { TtsApp } from "@/components/TtsApp";
 import { ApiCta } from "@/components/ApiCta";
+import { AdSlot } from "@/components/AdSlot";
 import { FeaturedPosts } from "@/components/FeaturedPosts";
 import { Features } from "@/components/Features";
 import { Faq } from "@/components/Faq";
 import { ScrollTracker } from "@/components/ScrollTracker";
+import { buildAdKeywordString } from "@/lib/monetization";
 
 interface HomePageProps {
   params: { locale: string };
@@ -19,9 +21,18 @@ export default async function HomePage({ params }: HomePageProps) {
   if (!isValidLocale(locale)) notFound();
 
   const dict = await getDictionary(locale as Locale);
+  const [leadParagraph, ...contextParagraphs] = dict.home.editorialIntro;
+  const trustItems = [dict.features.items[0], dict.features.items[3], dict.features.items[4]]
+    .filter(Boolean)
+    .map((item) => item.title);
+  const adKeywords = buildAdKeywordString([
+    dict.home.h1,
+    dict.home.featuredPostsTitle,
+    dict.home.featuredPostsDescription,
+  ]);
 
   return (
-    <main className="page-shell">
+    <main className="page-shell page-shell-home">
       <ScrollTracker />
       <script
         type="application/ld+json"
@@ -35,29 +46,52 @@ export default async function HomePage({ params }: HomePageProps) {
           __html: JSON.stringify(faqJsonLd(dict.faq.items)),
         }}
       />
-      <section className="editorial-intro">
-        <p className="editorial-kicker">{dict.ui.headline}</p>
-        <h1>{dict.home.h1}</h1>
-        {dict.home.editorialIntro.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
-        ))}
+      <section className="home-hero">
+        <div className="home-hero-copy">
+          <p className="editorial-kicker">{dict.ui.headline}</p>
+          <h1 className="home-hero-title">{dict.home.h1}</h1>
+          {leadParagraph ? <p className="home-hero-lead">{leadParagraph}</p> : null}
+          {trustItems.length > 0 ? (
+            <ul className="home-trust-chips" aria-label="Key product highlights">
+              {trustItems.map((item) => (
+                <li className="trust-chip" key={item}>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
+
+        <div className="home-hero-app">
+          <TtsApp
+            copy={dict.ui}
+            locale={locale}
+            pageType="home"
+            showIntro={false}
+            upsell={dict.apiCta}
+            variant="home"
+          />
+        </div>
       </section>
 
-      <TtsApp
-        compactIntro
-        copy={dict.ui}
-        introDescription={dict.home.compactSubtitle}
-        introHeadingLevel="h2"
-        introTitle={dict.home.compactH1}
-        locale={locale}
-        pageType="home"
-        upsell={dict.apiCta}
-      />
+      {contextParagraphs[0] ? (
+        <section className="home-context">
+          <div className="home-context-card">
+            <p>{contextParagraphs[0]}</p>
+          </div>
+        </section>
+      ) : null}
 
       <Features title={dict.features.title} items={dict.features.items} />
       <FeaturedPosts
         description={dict.home.featuredPostsDescription}
         title={dict.home.featuredPostsTitle}
+      />
+      <AdSlot
+        keywords={adKeywords}
+        locale={locale}
+        pageType="home"
+        placementId="home-mid"
       />
       <Faq openCount={3} title={dict.faq.title} items={dict.faq.items} />
       <ApiCta copy={dict.apiCta} locale={locale} pageType="home" />

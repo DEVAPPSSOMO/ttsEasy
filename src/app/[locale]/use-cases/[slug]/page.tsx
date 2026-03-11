@@ -9,7 +9,9 @@ import {
   getLandingContent,
   getLandingLocalizedLocales,
 } from "@/lib/landing-pages";
+import { buildAdKeywordString } from "@/lib/monetization";
 import { faqJsonLd, breadcrumbJsonLd } from "@/lib/seo/jsonLd";
+import { AdSlot } from "@/components/AdSlot";
 import { TtsApp } from "@/components/TtsApp";
 import { Faq } from "@/components/Faq";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
@@ -89,6 +91,7 @@ export default async function UseCasePage({ params }: Props) {
   const dict = await getDictionary(locale as Locale);
   const content = getLandingContent(slug, locale as Locale);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
+  const adKeywords = buildAdKeywordString([content.h1, ...content.intro]);
 
   return (
     <main className="landing-page">
@@ -127,6 +130,12 @@ export default async function UseCasePage({ params }: Props) {
           </div>
         ))}
       </div>
+      <AdSlot
+        keywords={adKeywords}
+        locale={locale}
+        pageType="use_case"
+        placementId="use-case-detail-mid"
+      />
 
       <div className="landing-steps">
         <h2>{locale === "es" ? "Como funciona" : "How it works"}</h2>

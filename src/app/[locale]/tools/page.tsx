@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LOCALES, isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { buildAdKeywordString } from "@/lib/monetization";
+import { AdSlot } from "@/components/AdSlot";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { PageViewTracker } from "@/components/PageViewTracker";
 
@@ -59,6 +61,7 @@ export default async function ToolsHubPage({ params }: Props): Promise<JSX.Eleme
 
   const dict = await getDictionary(locale as Locale);
   const hub = dict.hubs.tools;
+  const adKeywords = buildAdKeywordString([hub.title, hub.metaDescription]);
 
   return (
     <main className="landing-page">
@@ -67,6 +70,12 @@ export default async function ToolsHubPage({ params }: Props): Promise<JSX.Eleme
         <h1>{hub.title}</h1>
         <p>{hub.description}</p>
       </div>
+      <AdSlot
+        keywords={adKeywords}
+        locale={locale}
+        pageType="tool"
+        placementId="tools-hub-top"
+      />
 
       <section className="landing-benefits">
         <article className="benefit">

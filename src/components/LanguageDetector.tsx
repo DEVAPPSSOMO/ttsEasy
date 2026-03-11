@@ -1,10 +1,12 @@
 "use client";
 
+import { AdSlot } from "@/components/AdSlot";
 import { useState } from "react";
 
 interface LanguageDetectorProps {
   ctaText: string;
   ctaHref: string;
+  locale: string;
 }
 
 interface DetectResult {
@@ -14,7 +16,7 @@ interface DetectResult {
   reason: string;
 }
 
-export function LanguageDetector({ ctaText, ctaHref }: LanguageDetectorProps): JSX.Element {
+export function LanguageDetector({ ctaText, ctaHref, locale }: LanguageDetectorProps): JSX.Element {
   const [text, setText] = useState("");
   const [result, setResult] = useState<DetectResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -65,6 +67,14 @@ export function LanguageDetector({ ctaText, ctaHref }: LanguageDetectorProps): J
           <div className="stat"><span className="stat-value">{result.reason}</span><span className="stat-label">Method</span></div>
         </div>
       )}
+      {result ? (
+        <AdSlot
+          className="tool-sponsored-slot"
+          locale={locale}
+          pageType="tool"
+          placementId="tool-language-detector-mid"
+        />
+      ) : null}
       {result && (
         <a href={ctaHref} className="landing-cta" style={{ display: "inline-block", marginTop: "1.5rem", textDecoration: "none", padding: "0.8rem 2rem" }}>
           {ctaText}

@@ -12,10 +12,17 @@
 | Reordenar la home con enfoque content-first | Completado | 2026-03-10 | Se anadio header global, intro editorial, posts destacados, FAQ visible y se redujo la publicidad de la home a un solo slot. |
 | Reforzar senales E-E-A-T en blog y comparativas | Completado | 2026-03-10 | Se incorporaron author/lastUpdated, JSON-LD mejorado, CTA de API y metodologia/benchmarks en paginas compare. |
 | Monetizacion v2 con portal real y backup EthicalAds | Completado | 2026-03-10 | Los CTA publicos ya resuelven a `api.ttseasy.com`, el upsell post-sintesis empuja al portal prepago y los placements display quedan limitados a blog/compare con provider switchable. |
+| Monetizacion v3 con video ad gate y home clean-first | Completado | 2026-03-11 | Se anadieron gate de video patrocinado, deteccion de adblock, telemetria asociada, CTA post-sintesis y un rediseño de la home centrado en generar y descargar MP3, junto con deploy canonico por script. |
 
 ---
 
 ## Log de Cambios
+
+### 2026-03-11
+- Se incorporo `VideoAdGate` con sesiones `/api/ads/*`, outcomes medidos, bypass por no-fill/timeout y manejo explicito de adblock.
+- Se reforzo la monetizacion publica con smart links/slots conmutables, nuevos eventos analytics y soporte de provider en el layout y el workspace.
+- Se rediseño la home para priorizar el flujo pegar texto -> generar -> descargar, con variante `home` de `TtsApp`, chips de confianza y rail lateral compacto.
+- Se unifico el contrato de deploy en `npm run deploy` y se agregaron scripts auxiliares para entornos `public` y `api`.
 
 ### 2026-03-10
 - Se aplico la poda SEO con `noindex` condicional y sitemap reducido a URLs con mas valor.

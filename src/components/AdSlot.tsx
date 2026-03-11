@@ -3,11 +3,12 @@
 import { useEffect } from "react";
 import { trackAdSlotSuppressed, type PageType } from "@/lib/analytics";
 import {
-  getAdProvider,
+  getActiveAdProvider,
   isAdProviderConfigured,
   resolveAdDecision,
   type AdPlacementId,
 } from "@/lib/monetization";
+import { AdsterraSmartLinkCard } from "@/components/AdsterraSmartLinkCard";
 import { AdSenseSlot } from "@/components/AdSenseSlot";
 import { EthicalAdsSlot } from "@/components/EthicalAdsSlot";
 
@@ -26,8 +27,9 @@ export function AdSlot({
   pageType,
   placementId,
 }: AdSlotProps): JSX.Element | null {
-  const provider = getAdProvider();
+  const provider = getActiveAdProvider();
   const providerConfigured = isAdProviderConfigured(provider, {
+    adsterraSmartLinkUrl: process.env.NEXT_PUBLIC_ADSTERRA_SMARTLINK_URL,
     adSenseClient: process.env.NEXT_PUBLIC_ADSENSE_CLIENT,
     adSenseSlot: process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT,
     ethicalAdsPublisher: process.env.NEXT_PUBLIC_ETHICALADS_PUBLISHER,
@@ -68,6 +70,17 @@ export function AdSlot({
           slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT}
         />
       </section>
+    );
+  }
+
+  if (decision.provider === "adsterra") {
+    return (
+      <AdsterraSmartLinkCard
+        className={className}
+        locale={locale ?? "en"}
+        pageType={pageType}
+        placementId={placementId}
+      />
     );
   }
 

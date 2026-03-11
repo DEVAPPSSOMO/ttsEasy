@@ -15,6 +15,7 @@ import { AdSlot } from "@/components/AdSlot";
 import { ApiCta } from "@/components/ApiCta";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { PageViewTracker } from "@/components/PageViewTracker";
+import { TrackedAffiliateLink } from "@/components/TrackedAffiliateLink";
 import { TrackedCtaLink } from "@/components/TrackedCtaLink";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
@@ -196,9 +197,9 @@ export default async function CompareDetailPage({ params }: Props): Promise<JSX.
             <h2>Optional vendor link</h2>
             <p>External vendor references may be monetized. Review the product directly before you commit your workflow.</p>
             <p>
-              <a href={page.affiliateUrl} rel="noopener noreferrer sponsored nofollow" target="_blank">
+              <TrackedAffiliateLink href={page.affiliateUrl} locale={locale} pageType="compare">
                 Visit {page.alternativeName}
-              </a>
+              </TrackedAffiliateLink>
             </p>
           </section>
         ) : null}

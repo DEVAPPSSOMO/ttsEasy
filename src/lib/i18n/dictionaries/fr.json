@@ -43,7 +43,23 @@
     "mp3CalloutSubtitle": "Transformez n'importe quel script en fichier MP3 pret pour des videos, cours ou reseaux sociaux.",
     "mp3Ready": "MP3 pret a telecharger",
     "mp3Waiting": "Generez l'audio pour activer le MP3",
-    "share": "Partager"
+    "share": "Partager",
+    "videoAd": {
+      "sponsorLabel": "Video sponsorisee",
+      "preparing": "Preparation de votre audio pendant que nous ouvrons une courte video publicitaire.",
+      "loading": "Chargement de la video publicitaire...",
+      "playing": "La video se lit inline. Vous pouvez la passer apres 5 secondes.",
+      "skipCountdown": "La video est en cours. Vous pouvez la passer dans {seconds}s.",
+      "skipNow": "Passer l'annonce",
+      "generating": "Generation de votre audio...",
+      "noFillContinue": "Aucune video n'etait disponible. Generation de votre audio...",
+      "timeoutContinue": "La video a pris trop de temps. Generation de votre audio...",
+      "errorContinue": "La video n'a pas pu se charger. Generation de votre audio...",
+      "blockedTitle": "Desactivez votre bloqueur de pub pour utiliser le generateur web",
+      "blockedBody": "Nous n'avons pas pu charger la video inline requise pour le generateur gratuit. Desactivez votre bloqueur ici ou utilisez l'API.",
+      "blockedPrimary": "Voir le tarif API",
+      "blockedSecondary": "Lire la doc API"
+    }
   },
   "nav": {
     "privacy": "Confidentialite",

@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
   buildAdKeywordString,
+  getActiveAdProvider,
   getAdProvider,
   getBlogAdKeywords,
   getCompareAdKeywords,
+  getPrimaryAdProvider,
   isAdProviderConfigured,
   resolveAdDecision,
 } from "./monetization";
@@ -12,7 +14,17 @@ describe("monetization", () => {
   it("normalizes the configured ad provider", () => {
     expect(getAdProvider("ethicalads")).toBe("ethicalads");
     expect(getAdProvider("AdSense")).toBe("adsense");
+    expect(getAdProvider("Adsterra")).toBe("adsterra");
     expect(getAdProvider("")).toBe("none");
+  });
+
+  it("resolves active and primary provider with legacy fallback", () => {
+    expect(getActiveAdProvider("adsterra", "adsense")).toBe("adsterra");
+    expect(getActiveAdProvider("", "adsense")).toBe("adsense");
+    expect(getActiveAdProvider("none", "adsense")).toBe("none");
+    expect(getPrimaryAdProvider("adsense", "adsterra")).toBe("adsense");
+    expect(getPrimaryAdProvider("", "adsterra")).toBe("adsterra");
+    expect(getPrimaryAdProvider("none", "adsterra")).toBe("none");
   });
 
   it("validates provider-specific configuration", () => {
@@ -23,6 +35,7 @@ describe("monetization", () => {
       })
     ).toBe(true);
     expect(isAdProviderConfigured("adsense", { adSenseClient: "ca-pub-123" })).toBe(false);
+    expect(isAdProviderConfigured("adsterra", { adsterraSmartLinkUrl: "https://smart.link" })).toBe(true);
     expect(isAdProviderConfigured("ethicalads", { ethicalAdsPublisher: "ttseasy" })).toBe(true);
   });
 
@@ -74,7 +87,29 @@ describe("monetization", () => {
     ).toEqual({ provider: "adsense", eligible: false, reason: "page_type_ineligible" });
   });
 
-  it("allows AdSense on editorial pages with the new placement policy", () => {
+  it("allows AdSense on public placements across the expanded inventory", () => {
+    expect(
+      resolveAdDecision({
+        provider: "adsense",
+        providerConfigured: true,
+        appVariant: "public",
+        locale: "en",
+        pageType: "home",
+        placementId: "home-mid",
+      })
+    ).toEqual({ provider: "adsense", eligible: true });
+
+    expect(
+      resolveAdDecision({
+        provider: "adsense",
+        providerConfigured: true,
+        appVariant: "public",
+        locale: "es",
+        pageType: "tool",
+        placementId: "tool-character-counter-mid",
+      })
+    ).toEqual({ provider: "adsense", eligible: true });
+
     expect(
       resolveAdDecision({
         provider: "adsense",
@@ -85,6 +120,41 @@ describe("monetization", () => {
         placementId: "compare-post-top",
       })
     ).toEqual({ provider: "adsense", eligible: true });
+  });
+
+  it("allows Adsterra on page placements and on the post-TTS inline placement", () => {
+    expect(
+      resolveAdDecision({
+        provider: "adsterra",
+        providerConfigured: true,
+        appVariant: "public",
+        locale: "en",
+        pageType: "use_case",
+        placementId: "use-case-detail-mid",
+      })
+    ).toEqual({ provider: "adsterra", eligible: true });
+
+    expect(
+      resolveAdDecision({
+        provider: "adsterra",
+        providerConfigured: true,
+        appVariant: "public",
+        locale: "en",
+        pageType: "home",
+        placementId: "tts-success-inline",
+      })
+    ).toEqual({ provider: "adsterra", eligible: true });
+
+    expect(
+      resolveAdDecision({
+        provider: "adsense",
+        providerConfigured: true,
+        appVariant: "public",
+        locale: "en",
+        pageType: "home",
+        placementId: "tts-success-inline",
+      })
+    ).toEqual({ provider: "adsense", eligible: false, reason: "placement_ineligible" });
   });
 
   it("builds pipe-separated keyword strings for page targeting", () => {

@@ -1,12 +1,19 @@
 import type { AppVariant } from "@/lib/appVariant";
 import type { PageType } from "@/lib/analytics";
 
-export type AdProvider = "none" | "adsense" | "ethicalads";
+export type AdProvider = "none" | "adsense" | "adsterra" | "ethicalads";
 export type AdPlacementId =
+  | "home-mid"
+  | "use-case-hub-top"
+  | "use-case-detail-mid"
+  | "tools-hub-top"
+  | "tool-character-counter-mid"
+  | "tool-language-detector-mid"
   | "blog-index-top"
   | "blog-post-top"
   | "compare-index-top"
-  | "compare-post-top";
+  | "compare-post-top"
+  | "tts-success-inline";
 export type AdSuppressionReason =
   | "provider_disabled"
   | "provider_unconfigured"
@@ -32,26 +39,94 @@ interface AdDecisionInput {
   placementId: AdPlacementId;
 }
 
-const EDITORIAL_PLACEMENTS = new Set<AdPlacementId>([
+const ADSENSE_PLACEMENTS = new Set<AdPlacementId>([
+  "home-mid",
+  "use-case-hub-top",
+  "use-case-detail-mid",
+  "tools-hub-top",
+  "tool-character-counter-mid",
+  "tool-language-detector-mid",
   "blog-index-top",
   "blog-post-top",
   "compare-index-top",
   "compare-post-top",
 ]);
 
-const EDITORIAL_PAGE_TYPES = new Set<PageType>(["blog", "compare"]);
+const ETHICALADS_PLACEMENTS = new Set<AdPlacementId>([
+  "blog-index-top",
+  "blog-post-top",
+  "compare-index-top",
+  "compare-post-top",
+]);
 
-export function getAdProvider(raw = process.env.NEXT_PUBLIC_AD_PROVIDER): AdProvider {
+const ADSTERRA_PLACEMENTS = new Set<AdPlacementId>([
+  "home-mid",
+  "use-case-hub-top",
+  "use-case-detail-mid",
+  "tools-hub-top",
+  "tool-character-counter-mid",
+  "tool-language-detector-mid",
+  "blog-index-top",
+  "blog-post-top",
+  "compare-index-top",
+  "compare-post-top",
+  "tts-success-inline",
+]);
+
+const PAGE_TYPES_BY_PLACEMENT: Record<AdPlacementId, PageType[]> = {
+  "home-mid": ["home"],
+  "use-case-hub-top": ["use_case"],
+  "use-case-detail-mid": ["use_case"],
+  "tools-hub-top": ["tool"],
+  "tool-character-counter-mid": ["tool"],
+  "tool-language-detector-mid": ["tool"],
+  "blog-index-top": ["blog"],
+  "blog-post-top": ["blog"],
+  "compare-index-top": ["compare"],
+  "compare-post-top": ["compare"],
+  "tts-success-inline": ["home", "use_case"],
+};
+
+function normalizeAdProvider(raw?: string): AdProvider {
   const normalized = (raw ?? "").trim().toLowerCase();
-  if (normalized === "adsense" || normalized === "ethicalads") {
+  if (
+    normalized === "adsense" ||
+    normalized === "adsterra" ||
+    normalized === "ethicalads"
+  ) {
     return normalized;
   }
   return "none";
 }
 
+export function getAdProvider(raw = process.env.NEXT_PUBLIC_AD_PROVIDER): AdProvider {
+  return normalizeAdProvider(raw);
+}
+
+export function getActiveAdProvider(
+  rawActive = process.env.NEXT_PUBLIC_AD_PROVIDER_ACTIVE,
+  rawLegacy = process.env.NEXT_PUBLIC_AD_PROVIDER
+): AdProvider {
+  if (typeof rawActive === "string" && rawActive.trim().length > 0) {
+    return normalizeAdProvider(rawActive);
+  }
+  return normalizeAdProvider(rawLegacy);
+}
+
+export function getPrimaryAdProvider(
+  rawPrimary = process.env.NEXT_PUBLIC_AD_PROVIDER_PRIMARY,
+  rawLegacy = process.env.NEXT_PUBLIC_AD_PROVIDER
+): AdProvider {
+  if (typeof rawPrimary === "string" && rawPrimary.trim().length > 0) {
+    return normalizeAdProvider(rawPrimary);
+  }
+  return normalizeAdProvider(rawLegacy);
+}
+
 export function isAdProviderConfigured(
   provider: AdProvider,
   options?: {
+    adsterraSmartLinkUrl?: string;
     adSenseClient?: string;
     adSenseSlot?: string;
     ethicalAdsPublisher?: string;
@@ -61,12 +136,17 @@ export function isAdProviderConfigured(
   if (provider === "adsense") {
     return Boolean(options?.adSenseClient && options.adSenseSlot);
   }
+  if (provider === "adsterra") {
+    return Boolean(options?.adsterraSmartLinkUrl);
+  }
   return Boolean(options?.ethicalAdsPublisher);
 }
 
 export function resolveAdDecision(input: AdDecisionInput): AdDecision {
-  const provider = getAdProvider(input.provider);
+  const provider = normalizeAdProvider(input.provider);
   const providerConfigured = input.providerConfigured ?? true;
+  const pageType = input.pageType ?? "other";
+  const placementPageTypes = PAGE_TYPES_BY_PLACEMENT[input.placementId] ?? [];
 
   if (provider === "none") {
     return { provider, eligible: false, reason: "provider_disabled" };
@@ -80,16 +160,28 @@ export function resolveAdDecision(input: AdDecisionInput): AdDecision {
     return { provider, eligible: false, reason: "api_variant" };
   }
 
-  if (!EDITORIAL_PAGE_TYPES.has(input.pageType ?? "other")) {
+  if (!placementPageTypes.includes(pageType)) {
     return { provider, eligible: false, reason: "page_type_ineligible" };
   }
 
-  if (!EDITORIAL_PLACEMENTS.has(input.placementId)) {
+  if (provider === "adsense" && !ADSENSE_PLACEMENTS.has(input.placementId)) {
+    return { provider, eligible: false, reason: "placement_ineligible" };
+  }
+
+  if (provider === "adsterra" && !ADSTERRA_PLACEMENTS.has(input.placementId)) {
+    return { provider, eligible: false, reason: "placement_ineligible" };
+  }
+
+  if (provider === "ethicalads" && !ETHICALADS_PLACEMENTS.has(input.placementId)) {
     return { provider, eligible: false, reason: "placement_ineligible" };
   }
 
   if (provider === "ethicalads" && input.locale !== "en") {
     return { provider, eligible: false, reason: "locale_ineligible" };
+  }
+
+  if (provider === "ethicalads" && pageType !== "blog" && pageType !== "compare") {
+    return { provider, eligible: false, reason: "placement_ineligible" };
   }
 
   return { provider, eligible: true };

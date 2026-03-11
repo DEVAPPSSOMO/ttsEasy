@@ -43,7 +43,23 @@
     "mp3CalloutSubtitle": "Verwandeln Sie jedes Skript in eine MP3-Datei fur Videos, Schulungen oder Social Media.",
     "mp3Ready": "MP3 bereit zum Herunterladen",
     "mp3Waiting": "Audio erzeugen, um MP3 freizuschalten",
-    "share": "Teilen"
+    "share": "Teilen",
+    "videoAd": {
+      "sponsorLabel": "Gesponsertes Video",
+      "preparing": "Ihr Audio wird vorbereitet, wahrend wir ein kurzes Video laden.",
+      "loading": "Werbevideo wird geladen...",
+      "playing": "Das Video lauft inline. Sie konnen es nach 5 Sekunden uberspringen.",
+      "skipCountdown": "Das Video lauft. Sie konnen es in {seconds}s uberspringen.",
+      "skipNow": "Anzeige uberspringen",
+      "generating": "Ihr Audio wird jetzt erzeugt...",
+      "noFillContinue": "Kein Video verfugbar. Ihr Audio wird jetzt erzeugt...",
+      "timeoutContinue": "Das Video hat zu lange gedauert. Ihr Audio wird jetzt erzeugt...",
+      "errorContinue": "Das Video konnte nicht geladen werden. Ihr Audio wird jetzt erzeugt...",
+      "blockedTitle": "Deaktivieren Sie Ihren Adblocker fur den Web-Generator",
+      "blockedBody": "Das notwendige Inline-Video fur den kostenlosen Web-Generator konnte nicht geladen werden. Deaktivieren Sie hier den Adblocker oder nutzen Sie die API.",
+      "blockedPrimary": "API-Preise ansehen",
+      "blockedSecondary": "API-Doku lesen"
+    }
   },
   "nav": {
     "privacy": "Datenschutz",

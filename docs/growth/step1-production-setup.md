@@ -6,8 +6,11 @@ This implements the execution layer for Phase 1: measurement + SEO technical rea
 
 - Public site template: `.env.production.public.example`
 - API portal template: `.env.production.api.example`
+- Local API overlay template: `.env.api.local.example`
 
 Copy each template to your secret manager and fill real values.
+For local API work, copy `.env.api.local.example` to `.env.api.local` and keep
+shared secrets in `.env.local` or move them into the overlay.
 
 ## 2) Load env vars into Vercel
 
@@ -25,6 +28,7 @@ vercel env add NEXT_PUBLIC_SITE_URL production
 ```bash
 npm run growth:check:public
 npm run growth:check:api
+npm run growth:check:api:local
 ```
 
 Expected behavior:
@@ -44,7 +48,7 @@ Expected behavior:
   - `robots.txt` and `sitemap.xml` accessible.
   - Localized/fallback indexation rules behave as expected.
 - Measurement
-  - GA4 receives: `landing_view`, `cta_generate_click`, `tts_success`, `mp3_download`, `share_created`, `ad_slot_view`, `article_cta_click`.
+  - GA4 receives: `landing_view`, `cta_generate_click`, `tts_success`, `mp3_download`, `share_created`, `ad_slot_view`, `article_cta_click`, `sponsored_block_view`, `smartlink_click`, `affiliate_click`.
 - Social metadata
   - `og:image` resolves to `/og-image.png`.
 

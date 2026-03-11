@@ -66,6 +66,20 @@ describe("getDictionary", () => {
       expect(typeof dict.ui.mp3Ready).toBe("string");
       expect(typeof dict.ui.mp3Waiting).toBe("string");
       expect(typeof dict.ui.share).toBe("string");
+      expect(typeof dict.ui.videoAd.sponsorLabel).toBe("string");
+      expect(typeof dict.ui.videoAd.preparing).toBe("string");
+      expect(typeof dict.ui.videoAd.loading).toBe("string");
+      expect(typeof dict.ui.videoAd.playing).toBe("string");
+      expect(typeof dict.ui.videoAd.skipCountdown).toBe("string");
+      expect(typeof dict.ui.videoAd.skipNow).toBe("string");
+      expect(typeof dict.ui.videoAd.generating).toBe("string");
+      expect(typeof dict.ui.videoAd.noFillContinue).toBe("string");
+      expect(typeof dict.ui.videoAd.timeoutContinue).toBe("string");
+      expect(typeof dict.ui.videoAd.errorContinue).toBe("string");
+      expect(typeof dict.ui.videoAd.blockedTitle).toBe("string");
+      expect(typeof dict.ui.videoAd.blockedBody).toBe("string");
+      expect(typeof dict.ui.videoAd.blockedPrimary).toBe("string");
+      expect(typeof dict.ui.videoAd.blockedSecondary).toBe("string");
 
       // nav
       expect(typeof dict.nav.privacy).toBe("string");
@@ -153,6 +167,13 @@ describe("getDictionary", () => {
       const dict = await getDictionary(locale);
       expect(dict.ui.accentQuestion).toContain("{primary}");
       expect(dict.ui.accentQuestion).toContain("{secondary}");
+    }
+  });
+
+  it("videoAd.skipCountdown contains {seconds} placeholder in all locales", async () => {
+    for (const locale of LOCALES) {
+      const dict = await getDictionary(locale);
+      expect(dict.ui.videoAd.skipCountdown).toContain("{seconds}");
     }
   });
 });

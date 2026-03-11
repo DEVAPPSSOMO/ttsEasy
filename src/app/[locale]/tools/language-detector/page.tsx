@@ -83,7 +83,7 @@ export default async function LanguageDetectorPage({ params }: PageProps): Promi
         <p>{t.desc}</p>
       </div>
 
-      <LanguageDetector ctaText={cta} ctaHref={`/${locale}`} />
+      <LanguageDetector ctaText={cta} ctaHref={`/${locale}`} locale={locale} />
 
       <footer className="site-footer">
         <nav className="legal-links">

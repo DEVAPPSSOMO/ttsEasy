@@ -83,7 +83,7 @@ export default async function CharacterCounterPage({ params }: PageProps): Promi
         <p>{t.desc}</p>
       </div>
 
-      <CharacterCounter ctaText={cta} ctaHref={`/${locale}`} />
+      <CharacterCounter ctaText={cta} ctaHref={`/${locale}`} locale={locale} />
 
       <footer className="site-footer">
         <nav className="legal-links">

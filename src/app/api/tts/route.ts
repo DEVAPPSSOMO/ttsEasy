@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { consumeAdGateToken, isVideoAdGateEnabledServer, validateAdGateToken } from "@/lib/adGate";
 import { getCachedAudio, setCachedAudio } from "@/lib/audioCache";
 import { checkBudget, registerUsage } from "@/lib/costGuard";
 import { synthesizeTextToMp3 } from "@/lib/googleTts";
@@ -6,6 +7,7 @@ import { getReaderById } from "@/lib/readers";
 import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 import { verifyTurnstileToken } from "@/lib/turnstile";
 import { TtsRequest } from "@/lib/types";
+import { VIDEO_ADBLOCK_COOKIE } from "@/lib/videoAdGate";
 
 // This route uses the Google Cloud Node SDK, so it must run on the Node.js runtime (not Edge).
 export const runtime = "nodejs";
@@ -57,6 +59,26 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: "empty_text" }, { status: 400 });
   }
 
+  const requiresAdGate = isVideoAdGateEnabledServer();
+  let adGateTokenId: string | null = null;
+  if (requiresAdGate) {
+    if (request.cookies.get(VIDEO_ADBLOCK_COOKIE)?.value === "1" && !payload.adGateToken) {
+      return NextResponse.json({ error: "adblock_detected" }, { status: 403 });
+    }
+
+    const validation = await validateAdGateToken(payload.adGateToken, request.headers);
+    if (!validation.ok) {
+      return NextResponse.json(
+        {
+          error: validation.reason === "missing" ? "ad_gate_required" : "ad_gate_invalid",
+          reason: validation.reason,
+        },
+        { status: 403 }
+      );
+    }
+    adGateTokenId = validation.tokenId;
+  }
+
   const ip = getClientIp(request.headers);
 
   // Order matters:
@@ -90,6 +112,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       },
       { status: 403 }
     );
+  }
+
+  if (requiresAdGate && adGateTokenId) {
+    const consumed = await consumeAdGateToken(adGateTokenId);
+    if (!consumed) {
+      return NextResponse.json({ error: "ad_gate_invalid", reason: "used" }, { status: 403 });
+    }
   }
 
   const reader = getReaderById(payload.locale, payload.readerId);

@@ -43,7 +43,23 @@
     "mp3CalloutSubtitle": "Turn any script into a polished MP3 file ready for videos, lessons, or social media.",
     "mp3Ready": "MP3 ready to download",
     "mp3Waiting": "Generate audio to unlock MP3",
-    "share": "Share"
+    "share": "Share",
+    "videoAd": {
+      "sponsorLabel": "Sponsored video",
+      "preparing": "Preparing your audio while we open a short video ad.",
+      "loading": "Loading the video ad...",
+      "playing": "The ad is playing inline. You can skip it after 5 seconds.",
+      "skipCountdown": "The ad is playing. You can skip in {seconds}s.",
+      "skipNow": "Skip ad",
+      "generating": "Generating your audio now...",
+      "noFillContinue": "No video ad was available. Generating your audio now...",
+      "timeoutContinue": "The video ad took too long. Generating your audio now...",
+      "errorContinue": "The video ad failed to load. Generating your audio now...",
+      "blockedTitle": "Disable your ad blocker to use the web generator",
+      "blockedBody": "We could not load the inline video ad required for the free web generator. Disable your ad blocker here, or use the API instead.",
+      "blockedPrimary": "View API pricing",
+      "blockedSecondary": "Read API docs"
+    }
   },
   "nav": {
     "privacy": "Privacy",

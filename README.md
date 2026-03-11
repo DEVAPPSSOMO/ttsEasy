@@ -13,7 +13,7 @@ Este repositorio es un **Next.js App Router** con:
 - "Budget guard" mensual aproximado para contener costes (`MONTHLY_BUDGET_USD`).
 - API comercial `v1` con API key, modo legado (USD) y modo prepago (EUR) con flag de rollout.
 - Portal API en `api.ttseasy.com` con autenticación de usuario (magic link), dashboard y gestión de API keys.
-- Integración opcional de **GA4** y display ads por proveedor (`AdSense` o `EthicalAds`).
+- Integración opcional de **GA4**, display ads por proveedor (`AdSense` o `EthicalAds`) y un gate inline de video ads para la web pública.
 
 ## Arquitectura (en 2 minutos)
 
@@ -21,8 +21,10 @@ Flujo principal:
 
 1. UI (`src/app/page.tsx`) captura texto y llama a `POST /api/language/detect`.
 2. Con el locale final, la UI llama a `GET /api/readers?locale=...` para cargar voces disponibles.
-3. Turnstile genera un token (un solo uso). La UI lo envía en `POST /api/tts`.
-4. `POST /api/tts` ejecuta, en este orden:
+3. Si el gate de video está activo, la UI abre un video inline, crea una sesión efímera (`POST /api/ads/session`) y canjea el resultado por un token (`POST /api/ads/complete`).
+4. Turnstile genera un token (un solo uso). La UI lo envía en `POST /api/tts`.
+5. `POST /api/tts` ejecuta, en este orden:
+   - Validación del `adGateToken` efímero si el gate de video está activo.
    - Rate limit por IP (Upstash Redis si está configurado; si no, fallback en memoria).
    - Verificación de Turnstile (obligatoria en producción).
    - Budget guard mensual (Upstash Redis si está configurado; si no, fallback en memoria).
@@ -41,7 +43,39 @@ Por qué este orden:
 - **Vercel**: hosting recomendado para Next.js, despliegue automático y dominios. Guía: `docs/deploy-vercel.md`.
 - **Supabase (Auth + Postgres)**: login mágico del portal, cuentas y API keys productivas.
 - **Resend (SMTP)**: entrega de magic links a través de Supabase Auth.
-- **GA4 / Ads**: opcional; display ads solo se activa si defines `NEXT_PUBLIC_AD_PROVIDER` y las variables `NEXT_PUBLIC_*` del proveedor activo.
+- **GA4 / Ads**: opcional; la capa pública soporta proveedor primario y activo (`NEXT_PUBLIC_AD_PROVIDER_PRIMARY` / `NEXT_PUBLIC_AD_PROVIDER_ACTIVE`) para preparar AdSense mientras operas con fallback como Adsterra.
+
+## Deploy canónico
+
+El contrato soportado para producción es:
+
+```bash
+npm run deploy
+```
+
+Este comando despliega en Vercel primero `api` y después `public`, usando la
+misma raíz del repositorio para ambos proyectos.
+
+Variables de operador requeridas para ese flujo:
+
+- `VERCEL_TOKEN`
+- `VERCEL_API_PROJECT`
+- `VERCEL_PUBLIC_PROJECT`
+
+Opcional:
+
+- `VERCEL_SCOPE` para fijar explícitamente el team/personal scope de Vercel
+- `VERCEL_API_PROJECT_ID` y `VERCEL_PUBLIC_PROJECT_ID` como alias compatibles
+
+Ejemplo:
+
+```bash
+VERCEL_TOKEN=... \
+VERCEL_SCOPE=my-team \
+VERCEL_API_PROJECT=tts-easy-api \
+VERCEL_PUBLIC_PROJECT=tts-easy-public \
+npm run deploy
+```
 
 ## Variables de entorno
 
@@ -59,6 +93,12 @@ Resumen:
 - Turnstile (obligatorio en producción si quieres protección real):
   - `TURNSTILE_SECRET_KEY` (server-only)
   - `NEXT_PUBLIC_TURNSTILE_SITE_KEY` (client-safe)
+- Gate inline de video ads (opcional en web pública):
+  - `NEXT_PUBLIC_VIDEO_AD_GATE_ENABLED`
+  - `NEXT_PUBLIC_VIDEO_AD_PROVIDER`
+  - `NEXT_PUBLIC_VIDEO_AD_SCRIPT_URL` (si el provider no es `mock`)
+  - `NEXT_PUBLIC_VIDEO_AD_TAG_URL`
+  - `WEB_AD_GATE_SECRET`
 - Control de costes:
   - `MONTHLY_BUDGET_USD` (por defecto `50`)
 - Variante de app / dominios:
@@ -89,16 +129,20 @@ Resumen:
   - `SUPABASE_JWT_SECRET` (si tu setup lo requiere)
 - Opcional:
   - `NEXT_PUBLIC_GA_ID`
-  - `NEXT_PUBLIC_AD_PROVIDER` (`none`, `adsense`, `ethicalads`)
+  - `NEXT_PUBLIC_AD_PROVIDER_PRIMARY` (`none`, `adsense`, `adsterra`, `ethicalads`)
+  - `NEXT_PUBLIC_AD_PROVIDER_ACTIVE` (`none`, `adsense`, `adsterra`, `ethicalads`)
+  - `NEXT_PUBLIC_AD_PROVIDER` como fallback legacy
   - `NEXT_PUBLIC_ADSENSE_CLIENT`
   - `NEXT_PUBLIC_ADSENSE_SLOT_CONTENT`
+  - `NEXT_PUBLIC_ADSTERRA_SMARTLINK_URL`
+  - `ADSTERRA_SOCIAL_BAR_SNIPPET`
   - `NEXT_PUBLIC_ETHICALADS_PUBLISHER`
 
 Política actual de placements display:
 
-- La home y las páginas utilitarias monetizan por producto, no por third-party ads.
-- Los placements display se limitan a páginas editoriales (`blog` y `compare`).
-- `EthicalAds` solo se usa en páginas EN editoriales; `AdSense` queda como proveedor alternativo compatible con la misma capa.
+- `AdSense` usa placements por página (`home`, `tools`, `use-cases`, `blog`, `compare`).
+- `Adsterra` opera como fallback con `Social Bar` global y bloques `SmartLink` en esas mismas superficies; además puede aparecer tras una síntesis completada.
+- `EthicalAds` solo se usa en páginas EN editoriales.
 - Los CTA públicos hacia pricing/docs/login del portal siempre resuelven a `NEXT_PUBLIC_API_BASE_URL`.
 
 ## Ejecutar en local
@@ -107,6 +151,12 @@ Política actual de placements display:
 
 ```bash
 cp .env.example .env.local
+```
+
+Para levantar la variante API portal en local con un overlay dedicado:
+
+```bash
+cp .env.api.local.example .env.api.local
 ```
 
 2. Instala dependencias:
@@ -123,10 +173,30 @@ npm run dev
 
 4. Abre `http://localhost:3000`.
 
+Para la variante API local:
+
+```bash
+npm run growth:check:api:local
+npm run dev:api
+```
+
+Notas para la variante API local:
+
+- `dev:api` carga `.env`, `.env.local` y `.env.api.local` en ese orden.
+- El overlay fija `APP_VARIANT=api` y, por defecto, usa `http://localhost:3200`.
+- Si cambias `PORT`, actualiza también `NEXT_PUBLIC_SITE_URL` y `NEXT_PUBLIC_API_BASE_URL`.
+- El mismo overlay se reutiliza en `npm run build:api` y `npm run start:api`.
+
 Para migrar claves legacy del JSON a Supabase:
 
 ```bash
 API_BILLING_DB_ENABLED=true npm run billing:import-legacy-keys
+```
+
+Con el perfil local API:
+
+```bash
+npm run billing:import-legacy-keys:api-local
 ```
 
 Notas:
@@ -139,6 +209,8 @@ Notas:
 
 - `POST /api/language/detect`: heurística de idioma + candidatos de locale.
 - `GET /api/readers?locale=<bcp47>`: devuelve las voces (lectores) disponibles para ese locale.
+- `POST /api/ads/session`: crea una sesión efímera para el gate inline de video.
+- `POST /api/ads/complete`: canjea una sesión resuelta por un `adGateToken` de un solo uso.
 - `POST /api/tts`: genera MP3 (rate limit + turnstile + budget + Google TTS).
 - `POST /api/v1/tts`: API comercial (Bearer API key). Soporta modo legado (USD) y prepago (EUR) según `API_BILLING_PREPAID_ENABLED`.
 - `GET /api/v1/billing/summary?month=YYYY-MM`: resumen mensual (legacy o prepago).
@@ -160,6 +232,9 @@ Notas:
 
 `POST /api/tts` puede devolver:
 
+- `403 adblock_detected`: el cliente ya detectó un blocker y el generador web queda bloqueado.
+- `403 ad_gate_required`: falta el token efímero del gate inline.
+- `403 ad_gate_invalid`: token del gate inválido, expirado o ya consumido.
 - `403 captcha_failed`: Turnstile ha fallado. El backend incluye `details` con códigos tipo `timeout-or-duplicate`.
   - `timeout-or-duplicate` suele ser token caducado o reutilizado: espera a que el widget genere uno nuevo.
 - `429 rate_limited`: demasiadas peticiones por IP.
@@ -208,3 +283,16 @@ En `src/lib/analytics.ts`:
 - `ad_slot_view`
 - `ad_slot_suppressed`
 - `api_upsell_view`
+- `sponsored_block_view`
+- `smartlink_click`
+- `social_bar_loaded`
+- `social_bar_load_failed`
+- `affiliate_click`
+- `video_ad_gate_started`
+- `video_ad_started`
+- `video_ad_skipped`
+- `video_ad_completed`
+- `video_ad_no_fill`
+- `video_ad_blocked`
+- `video_ad_timeout`
+- `video_ad_token_rejected`
