@@ -1,4 +1,5 @@
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import { AdsterraSocialBar } from "@/components/AdsterraSocialBar";
 import { getActiveAdProvider, getPrimaryAdProvider } from "@/lib/monetization";
@@ -85,6 +86,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
             {`if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{})}`}
           </Script>
         )}
+
+        {isApiVariant ? null : <Analytics />}
       </body>
     </html>
   );

@@ -46,32 +46,27 @@ export default async function HomePage({ params }: HomePageProps) {
           __html: JSON.stringify(faqJsonLd(dict.faq.items)),
         }}
       />
-      <section className="home-hero">
-        <div className="home-hero-copy">
-          <p className="editorial-kicker">{dict.ui.headline}</p>
-          <h1 className="home-hero-title">{dict.home.h1}</h1>
-          {leadParagraph ? <p className="home-hero-lead">{leadParagraph}</p> : null}
-          {trustItems.length > 0 ? (
-            <ul className="home-trust-chips" aria-label="Key product highlights">
-              {trustItems.map((item) => (
-                <li className="trust-chip" key={item}>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
+      <section className="home-hero home-hero-app-first">
+        <h1 className="home-hero-title-compact">{dict.home.h1}</h1>
 
-        <div className="home-hero-app">
-          <TtsApp
-            copy={dict.ui}
-            locale={locale}
-            pageType="home"
-            showIntro={false}
-            upsell={dict.apiCta}
-            variant="home"
-          />
-        </div>
+        <TtsApp
+          copy={dict.ui}
+          locale={locale}
+          pageType="home"
+          showIntro={false}
+          upsell={dict.apiCta}
+          variant="home"
+        />
+
+        {trustItems.length > 0 ? (
+          <ul className="home-trust-chips home-trust-chips-centered" aria-label="Key product highlights">
+            {trustItems.map((item) => (
+              <li className="trust-chip" key={item}>
+                {item}
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </section>
 
       {contextParagraphs[0] ? (
