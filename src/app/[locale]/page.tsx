@@ -80,6 +80,7 @@ export default async function HomePage({ params }: HomePageProps) {
       <Features title={dict.features.title} items={dict.features.items} />
       <FeaturedPosts
         description={dict.home.featuredPostsDescription}
+        locale={locale}
         title={dict.home.featuredPostsTitle}
       />
       <AdSlot

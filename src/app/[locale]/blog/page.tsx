@@ -26,15 +26,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   languages["x-default"] = `${siteUrl}/en/blog`;
 
   return {
-    title: `${dict.nav.blog} | TTS Easy`,
+    title: dict.nav.blog,
     description: dict.metadata.description,
-    robots: locale === "en" ? undefined : { index: false, follow: true },
     alternates: {
       canonical: `${siteUrl}/${locale}/blog`,
-      languages: locale === "en" ? languages : undefined,
+      languages,
     },
     openGraph: {
-      title: `${dict.nav.blog} | TTS Easy`,
+      title: dict.nav.blog,
       description: dict.metadata.description,
       type: "website",
       url: `${siteUrl}/${locale}/blog`,
@@ -42,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${dict.nav.blog} | TTS Easy`,
+      title: dict.nav.blog,
       description: dict.metadata.description,
       images: [ogImage],
     },
@@ -53,8 +52,9 @@ export default async function BlogIndex({ params }: Props) {
   const { locale } = params;
   if (!isValidLocale(locale)) notFound();
 
-  const dict = await getDictionary(locale as Locale);
-  const posts = getAllPosts(locale as Locale);
+  const typedLocale = locale as Locale;
+  const dict = await getDictionary(typedLocale);
+  const posts = getAllPosts(typedLocale, { indexableOnly: true });
   const adKeywords = getBlogAdKeywords({
     title: dict.nav.blog,
     description: dict.metadata.description,
@@ -93,7 +93,7 @@ export default async function BlogIndex({ params }: Props) {
         <Link href={`/${locale}/tools`}>Tools</Link>
         <Link href={`/${locale}/compare`}>Compare</Link>
       </nav>
-      <LanguageSwitcher currentLocale={locale as Locale} currentPath={`/${locale}/blog`} label={dict.nav.language} />
+      <LanguageSwitcher currentLocale={typedLocale} currentPath={`/${locale}/blog`} label={dict.nav.language} />
     </main>
   );
 }

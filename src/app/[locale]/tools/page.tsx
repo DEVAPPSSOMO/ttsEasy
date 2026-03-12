@@ -32,15 +32,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   languages["x-default"] = `${siteUrl}/en/tools`;
 
   return {
-    title: `${hub.title} | TTS Easy`,
+    title: hub.title,
     description: hub.metaDescription,
-    robots: locale === "en" ? undefined : { index: false, follow: true },
     alternates: {
       canonical: `${siteUrl}/${locale}/tools`,
-      languages: locale === "en" ? languages : undefined,
+      languages,
     },
     openGraph: {
-      title: `${hub.title} | TTS Easy`,
+      title: hub.title,
       description: hub.metaDescription,
       type: "website",
       url: `${siteUrl}/${locale}/tools`,
@@ -48,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${hub.title} | TTS Easy`,
+      title: hub.title,
       description: hub.metaDescription,
       images: [ogImage],
     },

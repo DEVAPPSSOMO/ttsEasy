@@ -1,6 +1,7 @@
 import { createHash, createHmac, randomUUID, timingSafeEqual } from "crypto";
 import { Redis } from "@upstash/redis";
 import { isPublicVariant } from "@/lib/appVariant";
+import { isPublicMonetizationEnabled } from "@/lib/monetization";
 import { getClientIp } from "@/lib/rateLimit";
 import {
   VIDEO_AD_GATE_SESSION_TTL_MS,
@@ -143,7 +144,13 @@ async function writeRecord(key: string, value: string, ttlMs: number): Promise<v
 export function isVideoAdGateEnabledServer(): boolean {
   const featureEnabled = (process.env.NEXT_PUBLIC_VIDEO_AD_GATE_ENABLED ?? "").trim().toLowerCase() === "true";
   const provider = (process.env.NEXT_PUBLIC_VIDEO_AD_PROVIDER ?? "").trim();
-  return isPublicVariant() && featureEnabled && provider.length > 0 && getSecret().length > 0;
+  return (
+    isPublicVariant() &&
+    isPublicMonetizationEnabled() &&
+    featureEnabled &&
+    provider.length > 0 &&
+    getSecret().length > 0
+  );
 }
 
 export async function createAdGateSession(

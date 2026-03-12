@@ -39,6 +39,12 @@ interface AdDecisionInput {
   placementId: AdPlacementId;
 }
 
+export function isPublicMonetizationEnabled(
+  raw = process.env.NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED
+): boolean {
+  return (raw ?? "").trim().toLowerCase() === "true";
+}
+
 const ADSENSE_PLACEMENTS = new Set<AdPlacementId>([
   "home-mid",
   "use-case-hub-top",
@@ -143,6 +149,10 @@ export function isAdProviderConfigured(
 }
 
 export function resolveAdDecision(input: AdDecisionInput): AdDecision {
+  if (!isPublicMonetizationEnabled()) {
+    return { provider: normalizeAdProvider(input.provider), eligible: false, reason: "provider_disabled" };
+  }
+
   const provider = normalizeAdProvider(input.provider);
   const providerConfigured = input.providerConfigured ?? true;
   const pageType = input.pageType ?? "other";

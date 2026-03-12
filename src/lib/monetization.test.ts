@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   buildAdKeywordString,
   getActiveAdProvider,
@@ -7,10 +7,21 @@ import {
   getCompareAdKeywords,
   getPrimaryAdProvider,
   isAdProviderConfigured,
+  isPublicMonetizationEnabled,
   resolveAdDecision,
 } from "./monetization";
 
 describe("monetization", () => {
+  const originalGate = process.env.NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED;
+
+  beforeEach(() => {
+    process.env.NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED = "true";
+  });
+
+  afterEach(() => {
+    process.env.NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED = originalGate;
+  });
+
   it("normalizes the configured ad provider", () => {
     expect(getAdProvider("ethicalads")).toBe("ethicalads");
     expect(getAdProvider("AdSense")).toBe("adsense");
@@ -177,5 +188,20 @@ describe("monetization", () => {
     ).toBe(
       "The Complete Guide to Text to Speech Technology|Learn how text to speech works and how to use it in real workflows."
     );
+  });
+
+  it("disables all public monetization when the global gate is off", () => {
+    process.env.NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED = "false";
+    expect(isPublicMonetizationEnabled()).toBe(false);
+    expect(
+      resolveAdDecision({
+        provider: "adsense",
+        providerConfigured: true,
+        appVariant: "public",
+        locale: "en",
+        pageType: "home",
+        placementId: "home-mid",
+      })
+    ).toEqual({ provider: "adsense", eligible: false, reason: "provider_disabled" });
   });
 });

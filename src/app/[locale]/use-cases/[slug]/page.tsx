@@ -3,17 +3,20 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { LOCALES, isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { LANDING_PAGES, getLandingPage } from "@/lib/landing-pages";
 import {
-  LANDING_PAGES,
-  getLandingPage,
-  getLandingContent,
-  getLandingLocalizedLocales,
-} from "@/lib/landing-pages";
+  getUseCaseBySlug,
+  getUseCaseEntries,
+  getUseCaseEntryForLocale,
+  getUseCaseGroupEntries,
+  getUseCaseLocales,
+} from "@/lib/useCaseContent";
 import { buildAdKeywordString } from "@/lib/monetization";
-import { faqJsonLd, breadcrumbJsonLd } from "@/lib/seo/jsonLd";
+import { breadcrumbJsonLd } from "@/lib/seo/jsonLd";
 import { AdSlot } from "@/components/AdSlot";
+import { EditorialMeta } from "@/components/EditorialMeta";
+import { LocalizationNotice } from "@/components/LocalizationNotice";
 import { TtsApp } from "@/components/TtsApp";
-import { Faq } from "@/components/Faq";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 interface Props {
@@ -34,34 +37,42 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = params;
   if (!isValidLocale(locale)) return {};
 
-  const page = getLandingPage(slug);
-  if (!page) return {};
+  const legacyPage = getLandingPage(slug);
+  const content = getUseCaseBySlug(locale as Locale, slug);
+  if (!legacyPage && !content) return {};
 
-  const content = getLandingContent(slug, locale as Locale);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
   const ogImage = `${siteUrl}/og-image.png`;
-  const localizedLocales = getLandingLocalizedLocales(slug);
-  const isLocalized = localizedLocales.includes(locale as Locale);
-  const canonicalLocale = isLocalized ? locale : (localizedLocales[0] ?? "en");
+  const indexableLocales = getUseCaseLocales(slug, { indexableOnly: true });
+  const canonicalEntry =
+    getUseCaseEntryForLocale(slug, locale as Locale, { indexableOnly: true }) ??
+    getUseCaseEntryForLocale(slug, "en", { indexableOnly: true }) ??
+    getUseCaseEntries("en", { indexableOnly: true }).find((entry) => entry.slug === slug) ??
+    null;
 
-  const languages: Record<string, string> = {};
-  for (const loc of localizedLocales) {
-    languages[loc] = `${siteUrl}/${loc}/use-cases/${slug}`;
+  const languages =
+    indexableLocales.length > 0
+      ? Object.fromEntries(indexableLocales.map((loc) => [loc, `${siteUrl}/${loc}/use-cases/${slug}`]))
+      : undefined;
+  if (languages && canonicalEntry) {
+    languages["x-default"] = `${siteUrl}/${canonicalEntry.locale}/use-cases/${canonicalEntry.slug}`;
   }
-  languages["x-default"] = `${siteUrl}/${canonicalLocale}/use-cases/${slug}`;
+  const canonicalUrl = canonicalEntry
+    ? `${siteUrl}/${canonicalEntry.locale}/use-cases/${canonicalEntry.slug}`
+    : `${siteUrl}/${locale}/use-cases`;
 
   return {
-    title: content.h1,
-    description: content.intro[0],
+    title: content?.title ?? legacyPage?.keyword ?? slug,
+    description: content?.description ?? `Workflow support page for ${legacyPage?.keyword ?? slug}.`,
     alternates: {
-      canonical: `${siteUrl}/${canonicalLocale}/use-cases/${slug}`,
+      canonical: canonicalUrl,
       languages,
     },
-    robots: isLocalized && page.indexable !== false ? undefined : { index: false, follow: true },
+    robots: content?.indexable ? undefined : { index: false, follow: true },
     openGraph: {
-      title: content.h1,
-      description: content.intro[0],
-      url: `${siteUrl}/${canonicalLocale}/use-cases/${slug}`,
+      title: content?.title ?? legacyPage?.keyword ?? slug,
+      description: content?.description ?? `Workflow support page for ${legacyPage?.keyword ?? slug}.`,
+      url: canonicalUrl,
       type: "website",
       images: [
         {
@@ -74,8 +85,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: content.h1,
-      description: content.intro[0],
+      title: content?.title ?? legacyPage?.keyword ?? slug,
+      description: content?.description ?? `Workflow support page for ${legacyPage?.keyword ?? slug}.`,
       images: [ogImage],
     },
   };
@@ -85,72 +96,92 @@ export default async function UseCasePage({ params }: Props) {
   const { locale, slug } = params;
   if (!isValidLocale(locale)) notFound();
 
-  const page = getLandingPage(slug);
-  if (!page) notFound();
+  const legacyPage = getLandingPage(slug);
+  const entry = getUseCaseBySlug(locale as Locale, slug);
+  if (!legacyPage && !entry) notFound();
 
   const dict = await getDictionary(locale as Locale);
-  const content = getLandingContent(slug, locale as Locale);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
-  const adKeywords = buildAdKeywordString([content.h1, ...content.intro]);
+  const alternateEntries = entry ? getUseCaseGroupEntries(entry.canonicalGroup, { indexableOnly: true }) : [];
+  const canonicalEntry =
+    alternateEntries.find((candidate) => candidate.locale === locale) ??
+    getUseCaseEntryForLocale(slug, "en", { indexableOnly: true }) ??
+    alternateEntries[0] ??
+    null;
+  const adKeywords = entry ? buildAdKeywordString([entry.title, entry.description]) : undefined;
+  const supportTitle = legacyPage?.keyword ?? slug.replace(/-/g, " ");
 
   return (
     <main className="landing-page">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqJsonLd(content.faq)),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             breadcrumbJsonLd([
               { name: "TTS Easy", url: `${siteUrl}/${locale}` },
-              { name: content.h1, url: `${siteUrl}/${locale}/use-cases/${slug}` },
+              {
+                name: entry?.title ?? supportTitle,
+                url: `${siteUrl}/${locale}/use-cases/${slug}`,
+              },
             ])
           ),
         }}
       />
 
-      <div className="landing-intro">
-        <h1>{content.h1}</h1>
-        {content.intro.map((p, i) => (
-          <p key={i}>{p}</p>
-        ))}
-      </div>
-
-      <TtsApp locale={locale} pageType="use_case" copy={dict.ui} upsell={dict.apiCta} />
-
-      <div className="landing-benefits">
-        {content.benefits.map((b) => (
-          <div className="benefit" key={b.title}>
-            <h3>{b.title}</h3>
-            <p>{b.description}</p>
+      {entry ? (
+        <>
+          <div className="landing-intro">
+            <h1>{entry.title}</h1>
+            <p>{entry.description}</p>
           </div>
-        ))}
-      </div>
-      <AdSlot
-        keywords={adKeywords}
-        locale={locale}
-        pageType="use_case"
-        placementId="use-case-detail-mid"
-      />
 
-      <div className="landing-steps">
-        <h2>{locale === "es" ? "Como funciona" : "How it works"}</h2>
-        <ol>
-          {content.steps.map((step, i) => (
-            <li key={i}>{step}</li>
-          ))}
-        </ol>
-      </div>
+          <TtsApp locale={locale} pageType="use_case" copy={dict.ui} />
 
-      <Faq title={locale === "es" ? "Preguntas Frecuentes" : "FAQ"} items={content.faq} />
+          <AdSlot
+            keywords={adKeywords}
+            locale={locale}
+            pageType="use_case"
+            placementId="use-case-detail-mid"
+          />
 
-      <Link href={`/${locale}`} className="landing-cta" style={{ display: "inline-block", textAlign: "center", textDecoration: "none", lineHeight: "48px" }}>
-        {dict.home.tryNow}
-      </Link>
+          <article className="blog-post" style={{ marginTop: "2rem" }}>
+            <div className="post-content" dangerouslySetInnerHTML={{ __html: entry.contentHtml }} />
+          </article>
+
+          <EditorialMeta
+            author={entry.author}
+            locale={locale}
+            reviewedAt={entry.reviewedAt}
+            sources={entry.sources}
+          />
+
+          <Link
+            href={`/${locale}`}
+            className="landing-cta"
+            style={{ display: "inline-block", textAlign: "center", textDecoration: "none", lineHeight: "48px" }}
+          >
+            {dict.home.tryNow}
+          </Link>
+        </>
+      ) : (
+        <>
+          <div className="landing-intro">
+            <h1>{supportTitle}</h1>
+            <p>{legacyPage?.keyword}</p>
+          </div>
+          <LocalizationNotice
+            canonicalHref={
+              canonicalEntry ? `/${canonicalEntry.locale}/use-cases/${canonicalEntry.slug}` : `/${locale}/use-cases`
+            }
+            locale={locale}
+          />
+          <p style={{ marginTop: "2rem" }}>
+            <Link className="landing-cta" href={`/${locale}`}>
+              {dict.home.tryNow}
+            </Link>
+          </p>
+        </>
+      )}
 
       <footer className="site-footer">
         <nav className="legal-links">
@@ -161,7 +192,14 @@ export default async function UseCasePage({ params }: Props) {
           <Link href={`/${locale}/privacy`}>{dict.nav.privacy}</Link>
           <Link href={`/${locale}/terms`}>{dict.nav.terms}</Link>
         </nav>
-        <LanguageSwitcher currentLocale={locale as Locale} currentPath={`/${locale}/use-cases/${slug}`} label={dict.nav.language} />
+        {entry ? (
+          <LanguageSwitcher
+            availableLocales={alternateEntries.map((candidate) => candidate.locale)}
+            currentLocale={locale as Locale}
+            currentPath={`/${locale}/use-cases/${slug}`}
+            label={dict.nav.language}
+          />
+        ) : null}
       </footer>
     </main>
   );

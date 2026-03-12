@@ -11,21 +11,29 @@ const LOCALE_NAMES: Record<Locale, string> = {
 };
 
 interface LanguageSwitcherProps {
+  availableLocales?: readonly Locale[];
   currentLocale: Locale;
   currentPath: string;
   label: string;
+  pathByLocale?: Partial<Record<Locale, string>>;
 }
 
-export function LanguageSwitcher({ currentLocale, currentPath, label }: LanguageSwitcherProps): JSX.Element {
+export function LanguageSwitcher({
+  availableLocales = LOCALES,
+  currentLocale,
+  currentPath,
+  label,
+  pathByLocale,
+}: LanguageSwitcherProps): JSX.Element {
   const pathWithoutLocale = currentPath.replace(/^\/[a-z]{2}/, "") || "/";
 
   return (
     <div className="lang-switcher">
       <span>{label}:</span>
-      {LOCALES.map((loc) => (
+      {availableLocales.map((loc) => (
         <Link
           className={loc === currentLocale ? "lang-link active" : "lang-link"}
-          href={`/${loc}${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`}
+          href={pathByLocale?.[loc] ?? `/${loc}${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`}
           hrefLang={loc}
           key={loc}
         >

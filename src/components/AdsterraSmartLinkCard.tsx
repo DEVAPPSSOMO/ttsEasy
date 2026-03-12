@@ -6,7 +6,11 @@ import {
   trackSponsoredBlockView,
   type PageType,
 } from "@/lib/analytics";
-import { getActiveAdProvider, type AdPlacementId } from "@/lib/monetization";
+import {
+  getActiveAdProvider,
+  isPublicMonetizationEnabled,
+  type AdPlacementId,
+} from "@/lib/monetization";
 
 interface SmartLinkCopy {
   kicker: string;
@@ -79,12 +83,13 @@ export function AdsterraSmartLinkCard({
   pageType,
   placementId,
 }: AdsterraSmartLinkCardProps): JSX.Element | null {
+  const monetizationEnabled = isPublicMonetizationEnabled();
   const activeProvider = getActiveAdProvider();
   const href = process.env.NEXT_PUBLIC_ADSTERRA_SMARTLINK_URL;
   const resolvedCopy = getSmartLinkCopy(locale, copy);
 
   useEffect(() => {
-    if (activeProvider !== "adsterra" || !href) {
+    if (!monetizationEnabled || activeProvider !== "adsterra" || !href) {
       return;
     }
 
@@ -92,9 +97,9 @@ export function AdsterraSmartLinkCard({
       placement_id: placementId,
       provider: "adsterra",
     });
-  }, [activeProvider, href, locale, pageType, placementId]);
+  }, [activeProvider, href, locale, monetizationEnabled, pageType, placementId]);
 
-  if (activeProvider !== "adsterra" || !href) {
+  if (!monetizationEnabled || activeProvider !== "adsterra" || !href) {
     return null;
   }
 

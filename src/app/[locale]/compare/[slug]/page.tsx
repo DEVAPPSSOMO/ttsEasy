@@ -4,30 +4,29 @@ import { notFound } from "next/navigation";
 import { LOCALES, isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import {
+  getCompareEntries,
+  getCompareEntryBySlug,
+  getCompareEntryForLocale,
+  getCompareGroupEntries,
+  getCompareLocales,
+} from "@/lib/compareContent";
+import {
   getComparePage,
-  getCompareLocalizedLocales,
   getCompareSlugs,
-  hasCompareLocalizedContent,
 } from "@/lib/compare-pages";
 import { getCompareAdKeywords } from "@/lib/monetization";
-import { breadcrumbJsonLd, faqJsonLd } from "@/lib/seo/jsonLd";
+import { breadcrumbJsonLd } from "@/lib/seo/jsonLd";
 import { AdSlot } from "@/components/AdSlot";
-import { ApiCta } from "@/components/ApiCta";
+import { EditorialMeta } from "@/components/EditorialMeta";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { LocalizationNotice } from "@/components/LocalizationNotice";
 import { PageViewTracker } from "@/components/PageViewTracker";
-import { TrackedAffiliateLink } from "@/components/TrackedAffiliateLink";
 import { TrackedCtaLink } from "@/components/TrackedCtaLink";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
 
 interface Props {
   params: { locale: string; slug: string };
-}
-
-function toLocalePath(path: string, locale: string): string {
-  if (path === "/en") return `/${locale}`;
-  if (path.startsWith("/en/")) return `/${locale}/${path.slice(4)}`;
-  return path;
 }
 
 export function generateStaticParams() {
@@ -44,41 +43,59 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = params;
   if (!isValidLocale(locale)) return {};
 
-  const localizedLocales = getCompareLocalizedLocales(slug);
-  if (localizedLocales.length === 0) return {};
+  const curated = getCompareEntryBySlug(locale as Locale, slug);
+  const legacy = getComparePage(slug, "en");
+  if (!curated && !legacy) return {};
 
-  const isLocalized = hasCompareLocalizedContent(slug, locale as Locale);
-  const canonicalLocale = isLocalized ? locale : localizedLocales[0];
-  const page = getComparePage(slug, canonicalLocale);
-  if (!page) return {};
-
-  const languages: Record<string, string> = {};
-  for (const loc of localizedLocales) {
-    languages[loc] = `${siteUrl}/${loc}/compare/${slug}`;
+  const availableLocales = curated
+    ? getCompareLocales(curated.canonicalGroup)
+    : legacy
+      ? ["en"]
+      : [];
+  const languages =
+    availableLocales.length > 0
+      ? Object.fromEntries(availableLocales.map((loc) => [loc, `${siteUrl}/${loc}/compare/${slug}`]))
+      : undefined;
+  const canonicalEntry =
+    getCompareEntryForLocale(slug, locale as Locale) ??
+    getCompareEntryForLocale(slug, "en") ??
+    getCompareEntries("en").find((entry) => entry.slug === slug) ??
+    null;
+  if (languages && canonicalEntry) {
+    languages["x-default"] = `${siteUrl}/${canonicalEntry.locale}/compare/${canonicalEntry.slug}`;
+  } else if (languages && legacy) {
+    languages["x-default"] = `${siteUrl}/en/compare/${slug}`;
   }
-  languages["x-default"] = `${siteUrl}/${canonicalLocale}/compare/${slug}`;
 
   const ogImage = `${siteUrl}/og-image.png`;
+  const title = curated?.title ?? legacy?.title ?? slug;
+  const description =
+    curated?.description ??
+    legacy?.description ??
+    "Editorial support page while this comparison is being rebuilt.";
+  const canonicalUrl = canonicalEntry
+    ? `${siteUrl}/${canonicalEntry.locale}/compare/${canonicalEntry.slug}`
+    : `${siteUrl}/en/compare/${slug}`;
 
   return {
-    title: page.title,
-    description: page.description,
+    title,
+    description,
     alternates: {
-      canonical: `${siteUrl}/${canonicalLocale}/compare/${slug}`,
+      canonical: canonicalUrl,
       languages,
     },
-    robots: isLocalized ? undefined : { index: false, follow: true },
+    robots: { index: false, follow: true },
     openGraph: {
-      title: page.title,
-      description: page.description,
-      url: `${siteUrl}/${canonicalLocale}/compare/${slug}`,
+      title,
+      description,
+      url: canonicalUrl,
       type: "article",
       images: [{ url: ogImage, width: 1200, height: 630, alt: "TTS Easy" }],
     },
     twitter: {
       card: "summary_large_image",
-      title: page.title,
-      description: page.description,
+      title,
+      description,
       images: [ogImage],
     },
   };
@@ -88,20 +105,36 @@ export default async function CompareDetailPage({ params }: Props): Promise<JSX.
   const { locale, slug } = params;
   if (!isValidLocale(locale)) notFound();
 
-  const localizedLocales = getCompareLocalizedLocales(slug);
-  if (localizedLocales.length === 0) notFound();
-
-  const contentLocale = hasCompareLocalizedContent(slug, locale as Locale)
-    ? (locale as Locale)
-    : localizedLocales[0];
-  const page = getComparePage(slug, contentLocale);
-  if (!page) notFound();
+  const entry = getCompareEntryBySlug(locale as Locale, slug);
+  const legacy = getComparePage(slug, "en");
+  if (!entry && !legacy) notFound();
 
   const dict = await getDictionary(locale as Locale);
-  const adKeywords = getCompareAdKeywords({
-    primaryKeyword: page.contract.primaryKeyword,
-    secondaryKeywords: page.contract.secondaryKeywords,
-  });
+  const alternateEntries = entry ? getCompareGroupEntries(entry.canonicalGroup) : [];
+  const canonicalHref =
+    entry
+      ? `/${entry.locale}/compare/${entry.slug}`
+      : legacy
+        ? `/en/compare/${slug}`
+        : `/${locale}`;
+  const adKeywords = entry
+    ? getCompareAdKeywords({
+        primaryKeyword: entry.title,
+        secondaryKeywords: [entry.description],
+      })
+    : undefined;
+  const supportTitle =
+    locale === "es"
+      ? `Comparativa en revision: ${legacy?.alternativeName ?? slug}`
+      : locale === "pt"
+        ? `Comparacao em revisao: ${legacy?.alternativeName ?? slug}`
+        : locale === "fr"
+          ? `Comparatif en revision : ${legacy?.alternativeName ?? slug}`
+          : locale === "de"
+            ? `Vergleich in Uberarbeitung: ${legacy?.alternativeName ?? slug}`
+            : locale === "it"
+              ? `Confronto in revisione: ${legacy?.alternativeName ?? slug}`
+              : `Comparison under review: ${legacy?.alternativeName ?? slug}`;
 
   return (
     <article className="blog-post">
@@ -115,113 +148,43 @@ export default async function CompareDetailPage({ params }: Props): Promise<JSX.
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqJsonLd(page.contract.faq)),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
           __html: JSON.stringify(
             breadcrumbJsonLd([
               { name: "TTS Easy", url: `${siteUrl}/${locale}` },
               { name: "Compare", url: `${siteUrl}/${locale}/compare` },
-              { name: page.h1, url: `${siteUrl}/${locale}/compare/${slug}` },
+              { name: entry?.title ?? supportTitle, url: `${siteUrl}/${locale}/compare/${slug}` },
             ])
           ),
         }}
       />
 
-      <h1>{page.h1}</h1>
-      <div className="post-content">
-        {page.intro.map((line) => (
-          <p key={line}>{line}</p>
-        ))}
-
-        <h2>Where TTS Easy wins for this workflow</h2>
-        <ul>
-          {page.strengths.map((item) => (
-            <li key={item.title}>
-              <strong>{item.title}:</strong> {item.detail}
-            </li>
-          ))}
-        </ul>
-
-        <h2>When this option makes sense</h2>
-        <ul>
-          {page.whenToUse.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-
-        <h2>Methodology</h2>
-        <ul>
-          {page.methodology.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-
-        <h2>Benchmark snapshot</h2>
-        <div className="compare-table-wrap">
-          <table className="compare-table">
-            <thead>
-              <tr>
-                <th>Metric</th>
-                <th>TTS Easy</th>
-                <th>{page.alternativeName}</th>
-                <th>Why it matters</th>
-              </tr>
-            </thead>
-            <tbody>
-              {page.benchmarks.map((row) => (
-                <tr key={row.metric}>
-                  <td>{row.metric}</td>
-                  <td>{row.ttsEasy}</td>
-                  <td>{row.alternative}</td>
-                  <td>{row.whyItMatters}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <h2>FAQ</h2>
-        {page.contract.faq.map((item) => (
-          <details key={item.question}>
-            <summary>{item.question}</summary>
-            <p>{item.answer}</p>
-          </details>
-        ))}
-
-        {page.affiliateUrl ? (
-          <section className="compare-disclosure">
-            <h2>Optional vendor link</h2>
-            <p>External vendor references may be monetized. Review the product directly before you commit your workflow.</p>
-            <p>
-              <TrackedAffiliateLink href={page.affiliateUrl} locale={locale} pageType="compare">
-                Visit {page.alternativeName}
-              </TrackedAffiliateLink>
-            </p>
-          </section>
-        ) : null}
-
-        <h2>Related pages</h2>
-        <ul>
-          {page.contract.internalLinksRequired.map((href) => {
-            const nextHref = toLocalePath(href, locale);
-            return (
-              <li key={href}>
-                <Link href={nextHref}>{nextHref}</Link>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-      <ApiCta copy={dict.apiCta} locale={locale} pageType="compare" />
+      {entry ? (
+        <>
+          <h1>{entry.title}</h1>
+          <div className="post-meta">
+            {entry.date ? <span>{entry.date}</span> : null}
+            <span>{entry.readingTime}</span>
+            {entry.author ? <span>By {entry.author}</span> : null}
+            {entry.reviewedAt ? <span>Reviewed {entry.reviewedAt}</span> : null}
+          </div>
+          <div className="post-content" dangerouslySetInnerHTML={{ __html: entry.contentHtml }} />
+          <EditorialMeta
+            author={entry.author}
+            locale={locale}
+            reviewedAt={entry.reviewedAt}
+            sources={entry.sources}
+          />
+        </>
+      ) : (
+        <>
+          <h1>{supportTitle}</h1>
+          <LocalizationNotice canonicalHref={canonicalHref} locale={locale} />
+        </>
+      )}
 
       <p style={{ marginTop: "2rem" }}>
         <TrackedCtaLink
           className="landing-cta"
-          ctaVariant={page.contract.ctaVariant}
           href={`/${locale}`}
           locale={locale}
           pageType="compare"
@@ -235,11 +198,14 @@ export default async function CompareDetailPage({ params }: Props): Promise<JSX.
         <Link href={`/${locale}/use-cases`}>Use Cases</Link>
         <Link href={`/${locale}/blog`}>{dict.nav.blog}</Link>
       </nav>
-      <LanguageSwitcher
-        currentLocale={locale as Locale}
-        currentPath={`/${locale}/compare/${slug}`}
-        label={dict.nav.language}
-      />
+      {entry ? (
+        <LanguageSwitcher
+          availableLocales={alternateEntries.map((candidate) => candidate.locale)}
+          currentLocale={locale as Locale}
+          currentPath={`/${locale}/compare/${slug}`}
+          label={dict.nav.language}
+        />
+      ) : null}
     </article>
   );
 }

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LOCALES, isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { getComparePage, getCompareSlugs } from "@/lib/compare-pages";
+import { getCompareEntries } from "@/lib/compareContent";
 import { buildAdKeywordString } from "@/lib/monetization";
 import { AdSlot } from "@/components/AdSlot";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
@@ -33,15 +33,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   languages["x-default"] = `${siteUrl}/en/compare`;
 
   return {
-    title: `${hub.title} | TTS Easy`,
+    title: hub.title,
     description: hub.metaDescription,
-    robots: locale === "en" ? undefined : { index: false, follow: true },
+    robots: { index: false, follow: true },
     alternates: {
       canonical: `${siteUrl}/${locale}/compare`,
-      languages: locale === "en" ? languages : undefined,
+      languages,
     },
     openGraph: {
-      title: `${hub.title} | TTS Easy`,
+      title: hub.title,
       description: hub.metaDescription,
       type: "website",
       url: `${siteUrl}/${locale}/compare`,
@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${hub.title} | TTS Easy`,
+      title: hub.title,
       description: hub.metaDescription,
       images: [ogImage],
     },
@@ -63,9 +63,7 @@ export default async function CompareHubPage({ params }: Props): Promise<JSX.Ele
   const dict = await getDictionary(locale as Locale);
   const hub = dict.hubs.compare;
   const adKeywords = buildAdKeywordString([hub.title, hub.metaDescription]);
-  const pages = getCompareSlugs()
-    .map((slug) => getComparePage(slug, locale as Locale) ?? getComparePage(slug, "en"))
-    .filter((page): page is NonNullable<typeof page> => Boolean(page));
+  const pages = getCompareEntries(locale as Locale);
 
   return (
     <main className="landing-page">
@@ -85,7 +83,7 @@ export default async function CompareHubPage({ params }: Props): Promise<JSX.Ele
         {pages.map((page) => (
           <article className="benefit" key={page.slug}>
             <h3>
-              <Link href={`/${locale}/compare/${page.slug}`}>{page.h1}</Link>
+              <Link href={`/${locale}/compare/${page.slug}`}>{page.title}</Link>
             </h3>
             <p>{page.description}</p>
           </article>

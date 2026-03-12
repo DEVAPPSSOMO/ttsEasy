@@ -3,11 +3,11 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { LOCALES, isValidLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { getPostBySlug, getPostSlugs } from "@/lib/blog";
+import { getPostBySlug, getPostGroupEntries, getPostSlugs } from "@/lib/blog";
 import { getBlogAdKeywords } from "@/lib/monetization";
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo/jsonLd";
 import { AdSlot } from "@/components/AdSlot";
-import { ApiCta } from "@/components/ApiCta";
+import { EditorialMeta } from "@/components/EditorialMeta";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { PageViewTracker } from "@/components/PageViewTracker";
 import { TrackedCtaLink } from "@/components/TrackedCtaLink";
@@ -36,21 +36,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
   const ogImage = `${siteUrl}/og-image.png`;
-  const isEnglish = locale === "en";
+  const alternatesByGroup = post.indexable ? getPostGroupEntries(post.canonicalGroup, { indexableOnly: true }) : [];
+  const languageAlternates =
+    post.indexable && alternatesByGroup.length > 0
+      ? Object.fromEntries(
+          alternatesByGroup.map((entry) => [entry.locale, `${siteUrl}/${entry.locale}/blog/${entry.slug}`])
+        )
+      : undefined;
+  if (languageAlternates) {
+    languageAlternates["x-default"] = `${siteUrl}/en/blog/${
+      alternatesByGroup.find((entry) => entry.locale === "en")?.slug ?? post.slug
+    }`;
+  }
 
   return {
     title: post.title,
     description: post.description,
     alternates: {
       canonical: `${siteUrl}/${locale}/blog/${slug}`,
-      languages: isEnglish
-        ? {
-            en: `${siteUrl}/en/blog/${slug}`,
-            "x-default": `${siteUrl}/en/blog/${slug}`,
-          }
-        : undefined,
+      languages: languageAlternates,
     },
-    robots: isEnglish ? undefined : { index: false, follow: true },
+    robots: post.indexable ? undefined : { index: false, follow: true },
     openGraph: {
       title: post.title,
       description: post.description,
@@ -84,6 +90,12 @@ export default async function BlogPostPage({ params }: Props) {
 
   const dict = await getDictionary(locale as Locale);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
+  const alternateEntries = post.indexable ? getPostGroupEntries(post.canonicalGroup, { indexableOnly: true }) : [];
+  const publishedTime = post.date ?? post.reviewedAt ?? "2026-03-11";
+  const modifiedTime = post.reviewedAt ?? post.date;
+  const pathByLocale = Object.fromEntries(
+    alternateEntries.map((entry) => [entry.locale, `/${entry.locale}/blog/${entry.slug}`])
+  ) as Partial<Record<Locale, string>>;
   const adKeywords = getBlogAdKeywords({
     title: post.title,
     description: post.description,
@@ -107,8 +119,8 @@ export default async function BlogPostPage({ params }: Props) {
               description: post.description,
               url: `${siteUrl}/${locale}/blog/${slug}`,
               author: post.author,
-              modifiedTime: post.lastUpdated,
-              publishedTime: post.date,
+              modifiedTime,
+              publishedTime,
             })
           ),
         }}
@@ -128,13 +140,18 @@ export default async function BlogPostPage({ params }: Props) {
 
       <h1>{post.title}</h1>
       <div className="post-meta">
-        <span>{post.date}</span>
+        {post.date ? <span>{post.date}</span> : null}
         <span>{post.readingTime}</span>
         {post.author ? <span>By {post.author}</span> : null}
-        {post.lastUpdated ? <span>Updated {post.lastUpdated}</span> : null}
+        {post.reviewedAt ? <span>Reviewed {post.reviewedAt}</span> : null}
       </div>
       <div className="post-content" dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
-      <ApiCta copy={dict.apiCta} locale={locale} pageType="blog" />
+      <EditorialMeta
+        author={post.author}
+        locale={locale}
+        reviewedAt={post.reviewedAt}
+        sources={post.sources}
+      />
 
       <p style={{ marginTop: "2rem" }}>
         <TrackedCtaLink className="landing-cta" href={`/${locale}`} locale={locale} pageType="blog">
@@ -148,7 +165,13 @@ export default async function BlogPostPage({ params }: Props) {
         <Link href={`/${locale}/use-cases`}>Use Cases</Link>
         <Link href={`/${locale}`}>TTS Easy</Link>
       </nav>
-      <LanguageSwitcher currentLocale={locale as Locale} currentPath={`/${locale}/blog/${slug}`} label={dict.nav.language} />
+      <LanguageSwitcher
+        availableLocales={alternateEntries.length > 0 ? alternateEntries.map((entry) => entry.locale) : [locale as Locale]}
+        currentLocale={locale as Locale}
+        currentPath={`/${locale}/blog/${slug}`}
+        label={dict.nav.language}
+        pathByLocale={pathByLocale}
+      />
     </article>
   );
 }

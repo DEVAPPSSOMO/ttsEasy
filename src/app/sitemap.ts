@@ -1,24 +1,19 @@
 import type { MetadataRoute } from "next";
 import { getAppVariant } from "@/lib/appVariant";
 import { LOCALES } from "@/lib/i18n/config";
-import { getPostSlugs } from "@/lib/blog";
-import { LANDING_PAGES, getLandingLocalizedLocales } from "@/lib/landing-pages";
-import { getCompareLocalizedLocales, getCompareSlugs } from "@/lib/compare-pages";
+import { getAllPosts, getPostGroupEntries } from "@/lib/blog";
+import { getUseCaseEntries, getUseCaseGroupEntries } from "@/lib/useCaseContent";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ttseasy.com";
 
 const localizedStaticPages = [
   "",
   "/about",
-  "/tools/character-counter",
-  "/tools/language-detector",
-];
-
-const englishOnlyStaticPages = [
   "/blog",
   "/use-cases",
   "/tools",
-  "/compare",
+  "/tools/character-counter",
+  "/tools/language-detector",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -48,68 +43,53 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  for (const page of englishOnlyStaticPages) {
-    entries.push({
-      url: `${siteUrl}/en${page}`,
-      lastModified: new Date(),
-      alternates: {
-        languages: {
-          en: `${siteUrl}/en${page}`,
-          "x-default": `${siteUrl}/en${page}`,
-        },
-      },
-    });
-  }
+  const useCaseSlugs = new Set<string>();
+  for (const locale of LOCALES) {
+    for (const entry of getUseCaseEntries(locale, { indexableOnly: true })) {
+      if (useCaseSlugs.has(entry.slug)) continue;
+      useCaseSlugs.add(entry.slug);
 
-  for (const page of LANDING_PAGES) {
-    if (page.indexable === false) continue;
-    const localizedLocales = getLandingLocalizedLocales(page.slug);
-    if (localizedLocales.length === 0) continue;
-
-    for (const locale of localizedLocales) {
+      const groupEntries = getUseCaseGroupEntries(entry.canonicalGroup, { indexableOnly: true });
       const languages: Record<string, string> = {};
-      for (const alt of localizedLocales) {
-        languages[alt] = `${siteUrl}/${alt}/use-cases/${page.slug}`;
+      for (const localizedEntry of groupEntries) {
+        languages[localizedEntry.locale] = `${siteUrl}/${localizedEntry.locale}/use-cases/${localizedEntry.slug}`;
       }
-      languages["x-default"] = `${siteUrl}/${localizedLocales[0]}/use-cases/${page.slug}`;
+      if (languages.en) {
+        languages["x-default"] = languages.en;
+      }
 
-      entries.push({
-        url: `${siteUrl}/${locale}/use-cases/${page.slug}`,
-        lastModified: new Date(),
-        alternates: { languages },
-      });
+      for (const localizedEntry of groupEntries) {
+        entries.push({
+          url: `${siteUrl}/${localizedEntry.locale}/use-cases/${localizedEntry.slug}`,
+          lastModified: new Date(localizedEntry.reviewedAt ?? Date.now()),
+          alternates: { languages },
+        });
+      }
     }
   }
 
-  for (const slug of getPostSlugs("en")) {
-    entries.push({
-      url: `${siteUrl}/en/blog/${slug}`,
-      lastModified: new Date(),
-      alternates: {
-        languages: {
-          en: `${siteUrl}/en/blog/${slug}`,
-          "x-default": `${siteUrl}/en/blog/${slug}`,
-        },
-      },
-    });
-  }
+  const canonicalGroups = new Set<string>();
+  for (const locale of LOCALES) {
+    for (const post of getAllPosts(locale, { indexableOnly: true })) {
+      if (canonicalGroups.has(post.canonicalGroup)) continue;
+      canonicalGroups.add(post.canonicalGroup);
 
-  for (const slug of getCompareSlugs()) {
-    const localizedLocales = getCompareLocalizedLocales(slug);
-    if (localizedLocales.length === 0) continue;
-
-    for (const locale of localizedLocales) {
+      const groupEntries = getPostGroupEntries(post.canonicalGroup, { indexableOnly: true });
       const languages: Record<string, string> = {};
-      for (const alt of localizedLocales) {
-        languages[alt] = `${siteUrl}/${alt}/compare/${slug}`;
+      for (const entry of groupEntries) {
+        languages[entry.locale] = `${siteUrl}/${entry.locale}/blog/${entry.slug}`;
       }
-      languages["x-default"] = `${siteUrl}/${localizedLocales[0]}/compare/${slug}`;
+      if (languages.en) {
+        languages["x-default"] = languages.en;
+      }
 
-      entries.push({
-        url: `${siteUrl}/${locale}/compare/${slug}`,
-        lastModified: new Date(),
-        alternates: { languages },
-      });
+      for (const entry of groupEntries) {
+        entries.push({
+          url: `${siteUrl}/${entry.locale}/blog/${entry.slug}`,
+          lastModified: new Date(entry.reviewedAt ?? entry.date ?? Date.now()),
+          alternates: { languages },
+        });
+      }
     }
   }
 

@@ -14,10 +14,18 @@
 | Monetizacion v2 con portal real y backup EthicalAds | Completado | 2026-03-10 | Los CTA publicos ya resuelven a `api.ttseasy.com`, el upsell post-sintesis empuja al portal prepago y los placements display quedan limitados a blog/compare con provider switchable. |
 | Monetizacion v3 con video ad gate y home clean-first | Completado | 2026-03-11 | Se anadieron gate de video patrocinado, deteccion de adblock, telemetria asociada, CTA post-sintesis y un rediseño de la home centrado en generar y descargar MP3, junto con deploy canonico por script. |
 | Pulido visual UI y Vercel Analytics | Completado | 2026-03-11 | Rediseño app-first del hero, botones neutrales, inputs refinados, hover states, Vercel Analytics integrado. |
+| Saneamiento AdSense multilenguaje y poda editorial | Completado | 2026-03-12 | Se migro el inventario curado a MDX por locale, se apago la monetizacion publica por gate global, compare quedo en `noindex` y el sitemap paso a generarse desde metadata editorial indexable. |
 
 ---
 
 ## Log de Cambios
+
+### 2026-03-12
+- Se introdujo un loader editorial unificado para `blog`, `use-cases` y `compare`, con frontmatter obligatorio, minimos de palabras y validacion en tests.
+- Se regenero el inventario curado multilenguaje en MDX, manteniendo solo las piezas indexables definidas para blog y use-cases, y dejando compare en `noindex`.
+- Se desactivo la monetizacion publica mediante `NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED`, suprimiendo slots, SmartLinks y scripts publicitarios cuando el gate esta apagado.
+- Se corrigieron `alternates`, `LanguageSwitcher` y el sitemap para publicar solo locales con contenido nativo indexable.
+- Se ampliaron About y los metadatos de hubs publicos para reflejar propiedad editorial, revision y localizacion real.
 
 ### 2026-03-11
 - Se incorporo `VideoAdGate` con sesiones `/api/ads/*`, outcomes medidos, bypass por no-fill/timeout y manejo explicito de adblock.

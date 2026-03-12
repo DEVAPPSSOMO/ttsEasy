@@ -1,3 +1,5 @@
+import { isPublicMonetizationEnabled } from "@/lib/monetization";
+
 export const VIDEO_AD_GATE_SESSION_TTL_MS = 5 * 60_000;
 export const VIDEO_AD_GATE_TOKEN_TTL_MS = 2 * 60_000;
 export const VIDEO_AD_GATE_MAX_DURATION_MS = 12_000;
@@ -74,8 +76,11 @@ export interface VideoAdGateClientConfig {
 }
 
 export function getVideoAdGateClientConfig(): VideoAdGateClientConfig {
+  const monetizationEnabled = isPublicMonetizationEnabled();
   return {
-    enabled: (process.env.NEXT_PUBLIC_VIDEO_AD_GATE_ENABLED ?? "").trim().toLowerCase() === "true",
+    enabled:
+      monetizationEnabled &&
+      (process.env.NEXT_PUBLIC_VIDEO_AD_GATE_ENABLED ?? "").trim().toLowerCase() === "true",
     provider: (process.env.NEXT_PUBLIC_VIDEO_AD_PROVIDER ?? "").trim(),
     scriptUrl: (process.env.NEXT_PUBLIC_VIDEO_AD_SCRIPT_URL ?? "").trim(),
     tagUrl: (process.env.NEXT_PUBLIC_VIDEO_AD_TAG_URL ?? "").trim(),

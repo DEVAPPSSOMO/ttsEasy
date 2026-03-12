@@ -51,6 +51,7 @@ async function createToken(ip = "203.0.113.10"): Promise<string> {
 describe("video ad gate routes", () => {
   beforeEach(() => {
     process.env.APP_VARIANT = "public";
+    process.env.NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED = "true";
     process.env.NEXT_PUBLIC_VIDEO_AD_GATE_ENABLED = "true";
     process.env.NEXT_PUBLIC_VIDEO_AD_PROVIDER = "mock";
     process.env.WEB_AD_GATE_SECRET = "test_secret";

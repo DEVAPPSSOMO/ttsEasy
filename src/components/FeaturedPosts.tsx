@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/blog";
+import type { Locale } from "@/lib/i18n/config";
 
 interface FeaturedPostsProps {
   description: string;
+  locale: Locale;
   title: string;
 }
 
-export function FeaturedPosts({ description, title }: FeaturedPostsProps): JSX.Element | null {
-  const posts = getAllPosts("en").slice(0, 3);
+export function FeaturedPosts({ description, locale, title }: FeaturedPostsProps): JSX.Element | null {
+  const posts = getAllPosts(locale, { indexableOnly: true }).slice(0, 3);
 
   if (posts.length === 0) return null;
 
@@ -26,7 +28,7 @@ export function FeaturedPosts({ description, title }: FeaturedPostsProps): JSX.E
               <span>{post.readingTime}</span>
             </div>
             <h3>
-              <Link href={`/en/blog/${post.slug}`}>{post.title}</Link>
+              <Link href={`/${locale}/blog/${post.slug}`}>{post.title}</Link>
             </h3>
             <p>{post.description}</p>
           </article>
