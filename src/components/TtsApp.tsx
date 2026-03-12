@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AccentPrompt } from "@/components/AccentPrompt";
-import { AdsterraSmartLinkCard } from "@/components/AdsterraSmartLinkCard";
 import { History } from "@/components/History";
 import { LanguageBar } from "@/components/LanguageBar";
 import { TrackedCtaLink } from "@/components/TrackedCtaLink";
@@ -785,15 +784,6 @@ export function TtsApp({
               </div>
               <p className="workspace-upsell-note">{upsell.note}</p>
             </div>
-          ) : null}
-
-          {isAudioReady ? (
-            <AdsterraSmartLinkCard
-              className="workspace-sponsored-slot"
-              locale={locale}
-              pageType={pageType}
-              placementId="tts-success-inline"
-            />
           ) : null}
 
           {isHomeVariant ? null : captchaNode}

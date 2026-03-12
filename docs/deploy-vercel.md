@@ -110,19 +110,20 @@ proyecto. El script tambien acepta `VERCEL_API_PROJECT_ID` y
 - `NEXT_PUBLIC_API_BASE_URL=https://api.ttseasy.com`
 - Analytics/Ads opcionales:
   - `NEXT_PUBLIC_GA_ID`
-  - `NEXT_PUBLIC_AD_PROVIDER_PRIMARY=adsense|adsterra|ethicalads|none`
-  - `NEXT_PUBLIC_AD_PROVIDER_ACTIVE=adsense|adsterra|ethicalads|none`
-  - `NEXT_PUBLIC_AD_PROVIDER` como fallback legacy si aún no migraste
+  - `NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED=true|false` para display
+  - `NEXT_PUBLIC_AD_PROVIDER_PRIMARY=adsense|ethicalads|none`
+  - `NEXT_PUBLIC_AD_PROVIDER_FALLBACK=ethicalads|none`
+  - `NEXT_PUBLIC_AD_PROVIDER` como alias legacy temporal del provider primario
   - `NEXT_PUBLIC_ADSENSE_CLIENT` + `NEXT_PUBLIC_ADSENSE_SLOT_CONTENT` si usas AdSense
-  - `NEXT_PUBLIC_ADSTERRA_SMARTLINK_URL` + `ADSTERRA_SOCIAL_BAR_SNIPPET` si usas Adsterra
   - `NEXT_PUBLIC_ETHICALADS_PUBLISHER` si usas EthicalAds
-  - Activar solo un proveedor display por deploy; la capa pública no mezcla redes en la misma URL
+  - La capa pública intenta `AdSense` primero y cae a `EthicalAds` solo en EN editorial elegible
 - Si activas el gate inline de video:
   - `NEXT_PUBLIC_VIDEO_AD_GATE_ENABLED=true`
   - `NEXT_PUBLIC_VIDEO_AD_PROVIDER=<partner o mock>`
   - `NEXT_PUBLIC_VIDEO_AD_SCRIPT_URL=<script del adapter>` (si no usas `mock`)
   - `NEXT_PUBLIC_VIDEO_AD_TAG_URL=<tag o placement>`
   - `WEB_AD_GATE_SECRET=<secreto fuerte>`
+  - Este gate puede vivir encendido aunque `NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED=false`
 
 ## 3) Supabase (auth + DB)
 
@@ -162,8 +163,9 @@ contra los mismos secretos que luego subirás a Vercel.
 - Home y páginas locales cargan.
 - `/api/tts` funciona con Turnstile.
 - Los CTA públicos de API (`pricing`, `docs`, `login`) apuntan a `api.ttseasy.com` y no a rutas locales.
-- Si `NEXT_PUBLIC_AD_PROVIDER_ACTIVE=adsterra`, el sitio usa `Social Bar` global y bloques `SmartLink` en las superficies públicas aprobadas.
-- Si `NEXT_PUBLIC_AD_PROVIDER_ACTIVE=ethicalads`, solo aparecen placements display en `blog` y `compare`.
+- Si `NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED=true`, `AdSense` intenta cubrir los placements públicos aprobados.
+- Si `NEXT_PUBLIC_AD_PROVIDER_FALLBACK=ethicalads`, solo aparece como fallback en `blog` y `compare` EN cuando `AdSense` no aplica.
+- Si `NEXT_PUBLIC_VIDEO_AD_GATE_ENABLED=true`, el flujo `session -> complete -> /api/tts` funciona aunque el display público esté apagado.
 
 ### 6.2 API portal
 

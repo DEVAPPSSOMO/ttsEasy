@@ -96,6 +96,32 @@ describe("video ad gate routes", () => {
     expect(completePayload.adGateToken).toContain(".");
   });
 
+  it("keeps the gate active even when display monetization is off", async () => {
+    process.env.NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED = "false";
+
+    const sessionResponse = await sessionPost(buildRequest("http://localhost/api/ads/session"));
+    expect(sessionResponse.status).toBe(200);
+
+    const token = await createToken("203.0.113.19");
+    const response = await webTtsPost(
+      buildRequest("http://localhost/api/tts", {
+        body: {
+          adGateToken: token,
+          captchaToken: "dev-token",
+          locale: "en-US",
+          localeSource: "auto",
+          readerId: "natural",
+          speed: 1,
+          text: "Display ads are off but the gate still runs",
+        },
+        ip: "203.0.113.19",
+      })
+    );
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("content-type")).toBe("audio/mpeg");
+  });
+
   it("rejects /api/tts without an ad gate token when the gate is enabled", async () => {
     const response = await webTtsPost(
       buildRequest("http://localhost/api/tts", {

@@ -1,7 +1,6 @@
 import { createHash, createHmac, randomUUID, timingSafeEqual } from "crypto";
 import { Redis } from "@upstash/redis";
 import { isPublicVariant } from "@/lib/appVariant";
-import { isPublicMonetizationEnabled } from "@/lib/monetization";
 import { getClientIp } from "@/lib/rateLimit";
 import {
   VIDEO_AD_GATE_SESSION_TTL_MS,
@@ -146,7 +145,6 @@ export function isVideoAdGateEnabledServer(): boolean {
   const provider = (process.env.NEXT_PUBLIC_VIDEO_AD_PROVIDER ?? "").trim();
   return (
     isPublicVariant() &&
-    isPublicMonetizationEnabled() &&
     featureEnabled &&
     provider.length > 0 &&
     getSecret().length > 0

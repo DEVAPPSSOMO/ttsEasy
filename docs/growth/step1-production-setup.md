@@ -48,7 +48,7 @@ Expected behavior:
   - `robots.txt` and `sitemap.xml` accessible.
   - Localized/fallback indexation rules behave as expected.
 - Measurement
-  - GA4 receives: `landing_view`, `cta_generate_click`, `tts_success`, `mp3_download`, `share_created`, `ad_slot_view`, `article_cta_click`, `sponsored_block_view`, `smartlink_click`, `affiliate_click`.
+  - GA4 receives: `landing_view`, `cta_generate_click`, `tts_success`, `mp3_download`, `share_created`, `ad_slot_view`, `article_cta_click`, `sponsored_block_view`, `affiliate_click`.
 - Social metadata
   - `og:image` resolves to `/og-image.png`.
 

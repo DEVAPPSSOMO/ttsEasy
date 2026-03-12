@@ -43,7 +43,7 @@ Por qué este orden:
 - **Vercel**: hosting recomendado para Next.js, despliegue automático y dominios. Guía: `docs/deploy-vercel.md`.
 - **Supabase (Auth + Postgres)**: login mágico del portal, cuentas y API keys productivas.
 - **Resend (SMTP)**: entrega de magic links a través de Supabase Auth.
-- **GA4 / Ads**: opcional; la capa pública soporta proveedor primario y activo (`NEXT_PUBLIC_AD_PROVIDER_PRIMARY` / `NEXT_PUBLIC_AD_PROVIDER_ACTIVE`) para preparar AdSense mientras operas con fallback como Adsterra.
+- **GA4 / Ads**: opcional; la capa pública soporta proveedor primario y fallback (`NEXT_PUBLIC_AD_PROVIDER_PRIMARY` / `NEXT_PUBLIC_AD_PROVIDER_FALLBACK`) para priorizar AdSense y caer en EthicalAds solo donde aplique.
 
 ## Deploy canónico
 
@@ -99,6 +99,7 @@ Resumen:
   - `NEXT_PUBLIC_VIDEO_AD_SCRIPT_URL` (si el provider no es `mock`)
   - `NEXT_PUBLIC_VIDEO_AD_TAG_URL`
   - `WEB_AD_GATE_SECRET`
+  - Puede mantenerse activo aunque `NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED=false`
 - Control de costes:
   - `MONTHLY_BUDGET_USD` (por defecto `50`)
 - Variante de app / dominios:
@@ -129,20 +130,19 @@ Resumen:
   - `SUPABASE_JWT_SECRET` (si tu setup lo requiere)
 - Opcional:
   - `NEXT_PUBLIC_GA_ID`
-  - `NEXT_PUBLIC_AD_PROVIDER_PRIMARY` (`none`, `adsense`, `adsterra`, `ethicalads`)
-  - `NEXT_PUBLIC_AD_PROVIDER_ACTIVE` (`none`, `adsense`, `adsterra`, `ethicalads`)
-  - `NEXT_PUBLIC_AD_PROVIDER` como fallback legacy
+  - `NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED` para display público
+  - `NEXT_PUBLIC_AD_PROVIDER_PRIMARY` (`none`, `adsense`, `ethicalads`)
+  - `NEXT_PUBLIC_AD_PROVIDER_FALLBACK` (`none`, `ethicalads`)
+  - `NEXT_PUBLIC_AD_PROVIDER` como alias legacy temporal del primario
   - `NEXT_PUBLIC_ADSENSE_CLIENT`
   - `NEXT_PUBLIC_ADSENSE_SLOT_CONTENT`
-  - `NEXT_PUBLIC_ADSTERRA_SMARTLINK_URL`
-  - `ADSTERRA_SOCIAL_BAR_SNIPPET`
   - `NEXT_PUBLIC_ETHICALADS_PUBLISHER`
 
 Política actual de placements display:
 
 - `AdSense` usa placements por página (`home`, `tools`, `use-cases`, `blog`, `compare`).
-- `Adsterra` opera como fallback con `Social Bar` global y bloques `SmartLink` en esas mismas superficies; además puede aparecer tras una síntesis completada.
-- `EthicalAds` solo se usa en páginas EN editoriales.
+- `EthicalAds` actúa como fallback automático solo en páginas EN editoriales (`blog`, `compare`) donde sea elegible.
+- El gate inline de video puede seguir activo aunque el display público esté apagado.
 - Los CTA públicos hacia pricing/docs/login del portal siempre resuelven a `NEXT_PUBLIC_API_BASE_URL`.
 
 ## Ejecutar en local
@@ -284,9 +284,6 @@ En `src/lib/analytics.ts`:
 - `ad_slot_suppressed`
 - `api_upsell_view`
 - `sponsored_block_view`
-- `smartlink_click`
-- `social_bar_loaded`
-- `social_bar_load_failed`
 - `affiliate_click`
 - `video_ad_gate_started`
 - `video_ad_started`

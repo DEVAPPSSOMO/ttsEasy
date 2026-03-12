@@ -3,12 +3,11 @@
 import { useEffect } from "react";
 import { trackAdSlotSuppressed, type PageType } from "@/lib/analytics";
 import {
-  getActiveAdProvider,
+  getAdProviderChain,
   isAdProviderConfigured,
   resolveAdDecision,
   type AdPlacementId,
 } from "@/lib/monetization";
-import { AdsterraSmartLinkCard } from "@/components/AdsterraSmartLinkCard";
 import { AdSenseSlot } from "@/components/AdSenseSlot";
 import { EthicalAdsSlot } from "@/components/EthicalAdsSlot";
 
@@ -27,21 +26,29 @@ export function AdSlot({
   pageType,
   placementId,
 }: AdSlotProps): JSX.Element | null {
-  const provider = getActiveAdProvider();
-  const providerConfigured = isAdProviderConfigured(provider, {
-    adsterraSmartLinkUrl: process.env.NEXT_PUBLIC_ADSTERRA_SMARTLINK_URL,
-    adSenseClient: process.env.NEXT_PUBLIC_ADSENSE_CLIENT,
-    adSenseSlot: process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT,
-    ethicalAdsPublisher: process.env.NEXT_PUBLIC_ETHICALADS_PUBLISHER,
-  });
+  const providerChain = getAdProviderChain();
   const decision = resolveAdDecision({
-    provider,
-    providerConfigured,
+    fallbackProvider: process.env.NEXT_PUBLIC_AD_PROVIDER_FALLBACK,
+    primaryProvider: process.env.NEXT_PUBLIC_AD_PROVIDER_PRIMARY,
+    providerOptions: {
+      adSenseClient: process.env.NEXT_PUBLIC_ADSENSE_CLIENT,
+      adSenseSlot: process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT,
+      ethicalAdsPublisher: process.env.NEXT_PUBLIC_ETHICALADS_PUBLISHER,
+    },
     appVariant: "public",
     locale,
     pageType,
     placementId,
   });
+  const configuredProviders = providerChain.filter((provider) =>
+    isAdProviderConfigured(provider, {
+      adSenseClient: process.env.NEXT_PUBLIC_ADSENSE_CLIENT,
+      adSenseSlot: process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT,
+      ethicalAdsPublisher: process.env.NEXT_PUBLIC_ETHICALADS_PUBLISHER,
+    })
+  );
+  const attemptedProvidersKey = decision.attemptedProviders.join("|");
+  const configuredProvidersKey = configuredProviders.join("|");
 
   useEffect(() => {
     if (decision.eligible) {
@@ -49,11 +56,22 @@ export function AdSlot({
     }
 
     trackAdSlotSuppressed(placementId, { locale, pageType }, {
-      ad_provider: provider,
+      ad_provider: decision.provider,
+      ad_providers_attempted: attemptedProvidersKey,
+      ad_providers_configured: configuredProvidersKey,
       placement_id: placementId,
       reason: decision.reason,
     });
-  }, [decision.eligible, decision.reason, locale, pageType, placementId, provider]);
+  }, [
+    attemptedProvidersKey,
+    configuredProvidersKey,
+    decision.eligible,
+    decision.provider,
+    decision.reason,
+    locale,
+    pageType,
+    placementId,
+  ]);
 
   if (!decision.eligible) {
     return null;
@@ -70,17 +88,6 @@ export function AdSlot({
           slot={process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT}
         />
       </section>
-    );
-  }
-
-  if (decision.provider === "adsterra") {
-    return (
-      <AdsterraSmartLinkCard
-        className={className}
-        locale={locale ?? "en"}
-        pageType={pageType}
-        placementId={placementId}
-      />
     );
   }
 

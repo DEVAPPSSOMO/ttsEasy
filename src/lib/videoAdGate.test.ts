@@ -1,7 +1,34 @@
-import { describe, expect, it } from "vitest";
-import { classifyVideoAdOutcome, transitionVideoAdGateState } from "@/lib/videoAdGate";
+import { afterEach, describe, expect, it } from "vitest";
+import {
+  classifyVideoAdOutcome,
+  getVideoAdGateClientConfig,
+  isVideoAdGateClientEnabled,
+  transitionVideoAdGateState,
+} from "@/lib/videoAdGate";
 
 describe("videoAdGate helpers", () => {
+  const originalEnabled = process.env.NEXT_PUBLIC_VIDEO_AD_GATE_ENABLED;
+  const originalProvider = process.env.NEXT_PUBLIC_VIDEO_AD_PROVIDER;
+  const originalPublicMonetization = process.env.NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED;
+
+  afterEach(() => {
+    process.env.NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED = originalPublicMonetization;
+    process.env.NEXT_PUBLIC_VIDEO_AD_GATE_ENABLED = originalEnabled;
+    process.env.NEXT_PUBLIC_VIDEO_AD_PROVIDER = originalProvider;
+  });
+
+  it("remains client-enabled even when display monetization is off", () => {
+    process.env.NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED = "false";
+    process.env.NEXT_PUBLIC_VIDEO_AD_GATE_ENABLED = "true";
+    process.env.NEXT_PUBLIC_VIDEO_AD_PROVIDER = "mock";
+
+    expect(getVideoAdGateClientConfig()).toMatchObject({
+      enabled: true,
+      provider: "mock",
+    });
+    expect(isVideoAdGateClientEnabled()).toBe(true);
+  });
+
   it("classifies blockers only when bait detection aligns with loader failure", () => {
     const result = classifyVideoAdOutcome({
       baitBlocked: true,

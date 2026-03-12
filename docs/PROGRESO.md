@@ -15,6 +15,7 @@
 | Monetizacion v3 con video ad gate y home clean-first | Completado | 2026-03-11 | Se anadieron gate de video patrocinado, deteccion de adblock, telemetria asociada, CTA post-sintesis y un rediseño de la home centrado en generar y descargar MP3, junto con deploy canonico por script. |
 | Pulido visual UI y Vercel Analytics | Completado | 2026-03-11 | Rediseño app-first del hero, botones neutrales, inputs refinados, hover states, Vercel Analytics integrado. |
 | Saneamiento AdSense multilenguaje y poda editorial | Completado | 2026-03-12 | Se migro el inventario curado a MDX por locale, se apago la monetizacion publica por gate global, compare quedo en `noindex` y el sitemap paso a generarse desde metadata editorial indexable. |
+| Migracion display a AdSense con fallback EthicalAds | Completado | 2026-03-12 | Se retiro el proveedor legacy, se resolvieron slots por cadena `AdSense -> EthicalAds`, se elimino el bloque post-TTS y el video gate quedo desacoplado del display. |
 
 ---
 
@@ -26,6 +27,8 @@
 - Se desactivo la monetizacion publica mediante `NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED`, suprimiendo slots, SmartLinks y scripts publicitarios cuando el gate esta apagado.
 - Se corrigieron `alternates`, `LanguageSwitcher` y el sitemap para publicar solo locales con contenido nativo indexable.
 - Se ampliaron About y los metadatos de hubs publicos para reflejar propiedad editorial, revision y localizacion real.
+- Se anadio `docs/growth/ad-monetization-platforms.md` con una comparativa interna de plataformas de monetizacion publisher, metricas clave y recomendacion operativa para TTS Easy.
+- Se retiro el proveedor display legacy del runtime y de la documentacion operativa, se introdujo fallback `AdSense -> EthicalAds` por slot y se desacoplo el video ad gate del flag global de display.
 
 ### 2026-03-11
 - Se incorporo `VideoAdGate` con sesiones `/api/ads/*`, outcomes medidos, bypass por no-fill/timeout y manejo explicito de adblock.

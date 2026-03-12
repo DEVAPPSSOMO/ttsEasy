@@ -123,18 +123,6 @@ export function trackSponsoredBlockView(context?: EventContext, params?: Record<
   trackEvent("sponsored_block_view", withContext(params, context));
 }
 
-export function trackSmartLinkClick(context?: EventContext, params?: Record<string, unknown>): void {
-  trackEvent("smartlink_click", withContext(params, context));
-}
-
-export function trackSocialBarLoaded(context?: EventContext, params?: Record<string, unknown>): void {
-  trackEvent("social_bar_loaded", withContext(params, context));
-}
-
-export function trackSocialBarLoadFailed(context?: EventContext, params?: Record<string, unknown>): void {
-  trackEvent("social_bar_load_failed", withContext(params, context));
-}
-
 export function trackAffiliateClick(context?: EventContext, params?: Record<string, unknown>): void {
   trackEvent("affiliate_click", withContext(params, context));
 }

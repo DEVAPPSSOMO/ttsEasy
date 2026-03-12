@@ -1,29 +1,38 @@
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
-import { AdsterraSocialBar } from "@/components/AdsterraSocialBar";
 import {
-  getActiveAdProvider,
+  getAdProviderChain,
+  getFallbackAdProvider,
   getPrimaryAdProvider,
+  isAdProviderConfigured,
   isPublicMonetizationEnabled,
 } from "@/lib/monetization";
 import "./globals.css";
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
 const isApiVariant = (process.env.APP_VARIANT ?? "").trim().toLowerCase() === "api";
-const activeAdProvider = getActiveAdProvider();
 const primaryAdProvider = getPrimaryAdProvider();
+const fallbackAdProvider = getFallbackAdProvider();
+const configuredAdProviders = getAdProviderChain();
 const publicMonetizationEnabled = isPublicMonetizationEnabled();
 const adSenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
 const ethicalAdsPublisher = process.env.NEXT_PUBLIC_ETHICALADS_PUBLISHER;
-const adsterraSocialBarSnippet = process.env.ADSTERRA_SOCIAL_BAR_SNIPPET;
 const shouldLoadAdSense =
-  !isApiVariant && publicMonetizationEnabled && activeAdProvider === "adsense" && Boolean(adSenseClient);
+  !isApiVariant &&
+  publicMonetizationEnabled &&
+  configuredAdProviders.includes("adsense") &&
+  isAdProviderConfigured("adsense", {
+    adSenseClient,
+    adSenseSlot: process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT,
+  });
 const shouldLoadEthicalAds =
   !isApiVariant &&
   publicMonetizationEnabled &&
-  activeAdProvider === "ethicalads" &&
-  Boolean(ethicalAdsPublisher);
+  configuredAdProviders.includes("ethicalads") &&
+  isAdProviderConfigured("ethicalads", {
+    ethicalAdsPublisher,
+  });
 const displayFont = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-display",
@@ -63,7 +72,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
       </head>
       <body
         className={`${displayFont.variable} ${uiFont.variable}`}
-        data-ad-provider-active={activeAdProvider}
+        data-ad-provider-chain={configuredAdProviders.join("|") || "none"}
+        data-ad-provider-fallback={fallbackAdProvider}
         data-ad-provider-primary={primaryAdProvider}
       >
         {children}
@@ -85,10 +95,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
               `}
             </Script>
           </>
-        ) : null}
-
-        {!isApiVariant && publicMonetizationEnabled && activeAdProvider === "adsterra" ? (
-          <AdsterraSocialBar snippet={adsterraSocialBarSnippet} />
         ) : null}
 
         {isApiVariant ? null : (

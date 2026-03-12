@@ -1,7 +1,7 @@
 import type { AppVariant } from "@/lib/appVariant";
 import type { PageType } from "@/lib/analytics";
 
-export type AdProvider = "none" | "adsense" | "adsterra" | "ethicalads";
+export type AdProvider = "none" | "adsense" | "ethicalads";
 export type AdPlacementId =
   | "home-mid"
   | "use-case-hub-top"
@@ -12,8 +12,7 @@ export type AdPlacementId =
   | "blog-index-top"
   | "blog-post-top"
   | "compare-index-top"
-  | "compare-post-top"
-  | "tts-success-inline";
+  | "compare-post-top";
 export type AdSuppressionReason =
   | "provider_disabled"
   | "provider_unconfigured"
@@ -25,18 +24,24 @@ export type AdSuppressionReason =
   | "client_unavailable";
 
 export interface AdDecision {
+  attemptedProviders: AdProvider[];
   provider: AdProvider;
   eligible: boolean;
   reason?: AdSuppressionReason;
 }
 
 interface AdDecisionInput {
-  provider?: string;
-  providerConfigured?: boolean;
   appVariant?: AppVariant;
+  fallbackProvider?: string;
   locale?: string;
   pageType?: PageType;
   placementId: AdPlacementId;
+  primaryProvider?: string;
+  providerOptions?: {
+    adSenseClient?: string;
+    adSenseSlot?: string;
+    ethicalAdsPublisher?: string;
+  };
 }
 
 export function isPublicMonetizationEnabled(
@@ -65,20 +70,6 @@ const ETHICALADS_PLACEMENTS = new Set<AdPlacementId>([
   "compare-post-top",
 ]);
 
-const ADSTERRA_PLACEMENTS = new Set<AdPlacementId>([
-  "home-mid",
-  "use-case-hub-top",
-  "use-case-detail-mid",
-  "tools-hub-top",
-  "tool-character-counter-mid",
-  "tool-language-detector-mid",
-  "blog-index-top",
-  "blog-post-top",
-  "compare-index-top",
-  "compare-post-top",
-  "tts-success-inline",
-]);
-
 const PAGE_TYPES_BY_PLACEMENT: Record<AdPlacementId, PageType[]> = {
   "home-mid": ["home"],
   "use-case-hub-top": ["use_case"],
@@ -90,16 +81,11 @@ const PAGE_TYPES_BY_PLACEMENT: Record<AdPlacementId, PageType[]> = {
   "blog-post-top": ["blog"],
   "compare-index-top": ["compare"],
   "compare-post-top": ["compare"],
-  "tts-success-inline": ["home", "use_case"],
 };
 
 function normalizeAdProvider(raw?: string): AdProvider {
   const normalized = (raw ?? "").trim().toLowerCase();
-  if (
-    normalized === "adsense" ||
-    normalized === "adsterra" ||
-    normalized === "ethicalads"
-  ) {
+  if (normalized === "adsense" || normalized === "ethicalads") {
     return normalized;
   }
   return "none";
@@ -109,92 +95,130 @@ export function getAdProvider(raw = process.env.NEXT_PUBLIC_AD_PROVIDER): AdProv
   return normalizeAdProvider(raw);
 }
 
-export function getActiveAdProvider(
-  rawActive = process.env.NEXT_PUBLIC_AD_PROVIDER_ACTIVE,
-  rawLegacy = process.env.NEXT_PUBLIC_AD_PROVIDER
-): AdProvider {
-  if (typeof rawActive === "string" && rawActive.trim().length > 0) {
-    return normalizeAdProvider(rawActive);
-  }
-  return normalizeAdProvider(rawLegacy);
-}
-
 export function getPrimaryAdProvider(
   rawPrimary = process.env.NEXT_PUBLIC_AD_PROVIDER_PRIMARY,
+  rawLegacyActive = process.env.NEXT_PUBLIC_AD_PROVIDER_ACTIVE,
   rawLegacy = process.env.NEXT_PUBLIC_AD_PROVIDER
 ): AdProvider {
   if (typeof rawPrimary === "string" && rawPrimary.trim().length > 0) {
     return normalizeAdProvider(rawPrimary);
   }
+  if (typeof rawLegacyActive === "string" && rawLegacyActive.trim().length > 0) {
+    const normalizedLegacyActive = normalizeAdProvider(rawLegacyActive);
+    if (normalizedLegacyActive !== "none" || rawLegacyActive.trim().toLowerCase() === "none") {
+      return normalizedLegacyActive;
+    }
+  }
   return normalizeAdProvider(rawLegacy);
+}
+
+export function getFallbackAdProvider(
+  rawFallback = process.env.NEXT_PUBLIC_AD_PROVIDER_FALLBACK
+): AdProvider {
+  if (typeof rawFallback === "string" && rawFallback.trim().length > 0) {
+    return normalizeAdProvider(rawFallback);
+  }
+  return "none";
+}
+
+export function getAdProviderChain(
+  rawPrimary = process.env.NEXT_PUBLIC_AD_PROVIDER_PRIMARY,
+  rawFallback = process.env.NEXT_PUBLIC_AD_PROVIDER_FALLBACK,
+  rawLegacyActive = process.env.NEXT_PUBLIC_AD_PROVIDER_ACTIVE,
+  rawLegacy = process.env.NEXT_PUBLIC_AD_PROVIDER
+): Array<Exclude<AdProvider, "none">> {
+  const primary = getPrimaryAdProvider(rawPrimary, rawLegacyActive, rawLegacy);
+  const fallback = getFallbackAdProvider(rawFallback);
+  return [...new Set([primary, fallback])].filter((provider): provider is Exclude<AdProvider, "none"> => provider !== "none");
 }
 
 export function isAdProviderConfigured(
   provider: AdProvider,
   options?: {
-    adsterraSmartLinkUrl?: string;
     adSenseClient?: string;
     adSenseSlot?: string;
     ethicalAdsPublisher?: string;
   }
 ): boolean {
-  if (provider === "none") return false;
+  if (provider === "none") {
+    return false;
+  }
   if (provider === "adsense") {
     return Boolean(options?.adSenseClient && options.adSenseSlot);
-  }
-  if (provider === "adsterra") {
-    return Boolean(options?.adsterraSmartLinkUrl);
   }
   return Boolean(options?.ethicalAdsPublisher);
 }
 
-export function resolveAdDecision(input: AdDecisionInput): AdDecision {
-  if (!isPublicMonetizationEnabled()) {
-    return { provider: normalizeAdProvider(input.provider), eligible: false, reason: "provider_disabled" };
-  }
-
-  const provider = normalizeAdProvider(input.provider);
-  const providerConfigured = input.providerConfigured ?? true;
+function evaluateProviderDecision(
+  provider: Exclude<AdProvider, "none">,
+  input: Pick<AdDecisionInput, "appVariant" | "locale" | "pageType" | "placementId">
+): AdDecision {
   const pageType = input.pageType ?? "other";
   const placementPageTypes = PAGE_TYPES_BY_PLACEMENT[input.placementId] ?? [];
 
-  if (provider === "none") {
-    return { provider, eligible: false, reason: "provider_disabled" };
-  }
-
-  if (!providerConfigured) {
-    return { provider, eligible: false, reason: "provider_unconfigured" };
-  }
-
   if (input.appVariant === "api") {
-    return { provider, eligible: false, reason: "api_variant" };
+    return { attemptedProviders: [provider], provider, eligible: false, reason: "api_variant" };
   }
 
   if (!placementPageTypes.includes(pageType)) {
-    return { provider, eligible: false, reason: "page_type_ineligible" };
+    return { attemptedProviders: [provider], provider, eligible: false, reason: "page_type_ineligible" };
   }
 
   if (provider === "adsense" && !ADSENSE_PLACEMENTS.has(input.placementId)) {
-    return { provider, eligible: false, reason: "placement_ineligible" };
-  }
-
-  if (provider === "adsterra" && !ADSTERRA_PLACEMENTS.has(input.placementId)) {
-    return { provider, eligible: false, reason: "placement_ineligible" };
+    return { attemptedProviders: [provider], provider, eligible: false, reason: "placement_ineligible" };
   }
 
   if (provider === "ethicalads" && !ETHICALADS_PLACEMENTS.has(input.placementId)) {
-    return { provider, eligible: false, reason: "placement_ineligible" };
+    return { attemptedProviders: [provider], provider, eligible: false, reason: "placement_ineligible" };
   }
 
   if (provider === "ethicalads" && input.locale !== "en") {
-    return { provider, eligible: false, reason: "locale_ineligible" };
+    return { attemptedProviders: [provider], provider, eligible: false, reason: "locale_ineligible" };
   }
 
-  if (provider === "ethicalads" && pageType !== "blog" && pageType !== "compare") {
-    return { provider, eligible: false, reason: "placement_ineligible" };
+  return { attemptedProviders: [provider], provider, eligible: true };
+}
+
+export function resolveAdDecision(input: AdDecisionInput): AdDecision {
+  const attemptedProviders: AdProvider[] = [];
+  const providers = getAdProviderChain(input.primaryProvider, input.fallbackProvider);
+
+  if (!isPublicMonetizationEnabled()) {
+    return { attemptedProviders: providers, provider: "none", eligible: false, reason: "provider_disabled" };
   }
 
-  return { provider, eligible: true };
+  if (providers.length === 0) {
+    return { attemptedProviders, provider: "none", eligible: false, reason: "provider_disabled" };
+  }
+
+  let lastReason: AdSuppressionReason = "provider_disabled";
+
+  for (const provider of providers) {
+    attemptedProviders.push(provider);
+
+    if (!isAdProviderConfigured(provider, input.providerOptions)) {
+      lastReason = "provider_unconfigured";
+      continue;
+    }
+
+    const decision = evaluateProviderDecision(provider, input);
+    if (decision.eligible) {
+      return {
+        attemptedProviders: [...attemptedProviders],
+        provider,
+        eligible: true,
+      };
+    }
+
+    lastReason = decision.reason ?? lastReason;
+  }
+
+  return {
+    attemptedProviders,
+    provider: "none",
+    eligible: false,
+    reason: lastReason,
+  };
 }
 
 export function buildAdKeywordString(values: Array<string | undefined | null>): string | undefined {

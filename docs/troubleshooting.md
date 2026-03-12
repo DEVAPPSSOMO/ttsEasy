@@ -56,6 +56,7 @@ Casos típicos:
 - `ad_gate_required`
   - La UI llamó a `/api/tts` sin el token efímero emitido por `/api/ads/complete`.
   - Solución: revisar que `NEXT_PUBLIC_VIDEO_AD_GATE_ENABLED=true`, que el flujo `session -> complete` responde `200`, y que la UI envía `adGateToken`.
+  - Nota: el gate de vídeo ya no depende de `NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED`; puede estar activo aunque el display público esté apagado.
 
 - `ad_gate_invalid`
   - El token expiró, no coincide con la IP/User-Agent original o ya fue consumido.
