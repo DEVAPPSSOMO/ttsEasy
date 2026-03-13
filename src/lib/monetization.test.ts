@@ -30,10 +30,10 @@ describe("monetization", () => {
     expect(getAdProvider("")).toBe("none");
   });
 
-  it("builds a primary/fallback provider chain with legacy primary fallback only", () => {
-    expect(getPrimaryAdProvider("adsense", "ethicalads", "none")).toBe("adsense");
-    expect(getPrimaryAdProvider("", "AdSense", "none")).toBe("adsense");
-    expect(getPrimaryAdProvider("", "legacy-provider", "EthicalAds")).toBe("ethicalads");
+  it("builds a primary/fallback provider chain with legacy alias fallback only", () => {
+    expect(getPrimaryAdProvider("adsense", "none")).toBe("adsense");
+    expect(getPrimaryAdProvider("", "AdSense")).toBe("adsense");
+    expect(getPrimaryAdProvider("", "EthicalAds")).toBe("ethicalads");
     expect(getFallbackAdProvider("ethicalads")).toBe("ethicalads");
     expect(getFallbackAdProvider("legacy-provider")).toBe("none");
     expect(getAdProviderChain("adsense", "ethicalads")).toEqual(["adsense", "ethicalads"]);

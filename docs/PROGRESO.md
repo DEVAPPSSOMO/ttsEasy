@@ -16,10 +16,18 @@
 | Pulido visual UI y Vercel Analytics | Completado | 2026-03-11 | Rediseño app-first del hero, botones neutrales, inputs refinados, hover states, Vercel Analytics integrado. |
 | Saneamiento AdSense multilenguaje y poda editorial | Completado | 2026-03-12 | Se migro el inventario curado a MDX por locale, se apago la monetizacion publica por gate global, compare quedo en `noindex` y el sitemap paso a generarse desde metadata editorial indexable. |
 | Migracion display a AdSense con fallback EthicalAds | Completado | 2026-03-12 | Se retiro el proveedor legacy, se resolvieron slots por cadena `AdSense -> EthicalAds`, se elimino el bloque post-TTS y el video gate quedo desacoplado del display. |
+| Cierre operativo de monetizacion publica | Completado | 2026-03-13 | Se alineo el contrato de entorno publico, el checker paso a exigir solo providers activos por flags y el typecheck quedo estable en checkout limpio. |
 
 ---
 
 ## Log de Cambios
+
+### 2026-03-13
+- Se extrajo la logica del checker de fase 1 a una libreria reutilizable con tests especificos para la variante publica.
+- Se endurecio `growth:check:public` para exigir solo las credenciales del display/video gate realmente activados por flags y se eliminaron referencias legacy fuera del runtime actual.
+- Se simplifico la resolucion del provider display quitando `NEXT_PUBLIC_AD_PROVIDER_ACTIVE` del runtime y actualizando tests asociados.
+- Se alinearon `README`, ejemplos de entorno y guias de Vercel con el contrato publico objetivo `AdSense -> EthicalAds` y gate inline de video.
+- Se ajusto `typecheck` para no depender de artefactos previos de `.next` mediante `tsc --noEmit --incremental false`.
 
 ### 2026-03-12
 - Se introdujo un loader editorial unificado para `blog`, `use-cases` y `compare`, con frontmatter obligatorio, minimos de palabras y validacion en tests.

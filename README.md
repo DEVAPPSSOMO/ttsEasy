@@ -43,7 +43,7 @@ Por qué este orden:
 - **Vercel**: hosting recomendado para Next.js, despliegue automático y dominios. Guía: `docs/deploy-vercel.md`.
 - **Supabase (Auth + Postgres)**: login mágico del portal, cuentas y API keys productivas.
 - **Resend (SMTP)**: entrega de magic links a través de Supabase Auth.
-- **GA4 / Ads**: opcional; la capa pública soporta proveedor primario y fallback (`NEXT_PUBLIC_AD_PROVIDER_PRIMARY` / `NEXT_PUBLIC_AD_PROVIDER_FALLBACK`) para priorizar AdSense y caer en EthicalAds solo donde aplique.
+- **GA4 / Ads**: opcional; la capa pública usa `AdSense` como primario y `EthicalAds` sólo como fallback editorial EN cuando así lo configuras en `NEXT_PUBLIC_AD_PROVIDER_PRIMARY` / `NEXT_PUBLIC_AD_PROVIDER_FALLBACK`.
 
 ## Deploy canónico
 
@@ -133,7 +133,6 @@ Resumen:
   - `NEXT_PUBLIC_PUBLIC_MONETIZATION_ENABLED` para display público
   - `NEXT_PUBLIC_AD_PROVIDER_PRIMARY` (`none`, `adsense`, `ethicalads`)
   - `NEXT_PUBLIC_AD_PROVIDER_FALLBACK` (`none`, `ethicalads`)
-  - `NEXT_PUBLIC_AD_PROVIDER` como alias legacy temporal del primario
   - `NEXT_PUBLIC_ADSENSE_CLIENT`
   - `NEXT_PUBLIC_ADSENSE_SLOT_CONTENT`
   - `NEXT_PUBLIC_ETHICALADS_PUBLISHER`
@@ -144,6 +143,12 @@ Política actual de placements display:
 - `EthicalAds` actúa como fallback automático solo en páginas EN editoriales (`blog`, `compare`) donde sea elegible.
 - El gate inline de video puede seguir activo aunque el display público esté apagado.
 - Los CTA públicos hacia pricing/docs/login del portal siempre resuelven a `NEXT_PUBLIC_API_BASE_URL`.
+
+Notas operativas del checker:
+
+- `.env.example` conserva defaults seguros para desarrollo local, con display y video apagados.
+- `.env.production.public.example` refleja el contrato objetivo para producción pública: display activo (`AdSense -> EthicalAds`) y video gate activo.
+- `npm run growth:check:public` exige sólo la configuración del proveedor realmente activado por flags: AdSense/EthicalAds para display y claves del video gate sólo si el gate está encendido.
 
 ## Ejecutar en local
 

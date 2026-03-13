@@ -97,17 +97,10 @@ export function getAdProvider(raw = process.env.NEXT_PUBLIC_AD_PROVIDER): AdProv
 
 export function getPrimaryAdProvider(
   rawPrimary = process.env.NEXT_PUBLIC_AD_PROVIDER_PRIMARY,
-  rawLegacyActive = process.env.NEXT_PUBLIC_AD_PROVIDER_ACTIVE,
   rawLegacy = process.env.NEXT_PUBLIC_AD_PROVIDER
 ): AdProvider {
   if (typeof rawPrimary === "string" && rawPrimary.trim().length > 0) {
     return normalizeAdProvider(rawPrimary);
-  }
-  if (typeof rawLegacyActive === "string" && rawLegacyActive.trim().length > 0) {
-    const normalizedLegacyActive = normalizeAdProvider(rawLegacyActive);
-    if (normalizedLegacyActive !== "none" || rawLegacyActive.trim().toLowerCase() === "none") {
-      return normalizedLegacyActive;
-    }
   }
   return normalizeAdProvider(rawLegacy);
 }
@@ -124,10 +117,9 @@ export function getFallbackAdProvider(
 export function getAdProviderChain(
   rawPrimary = process.env.NEXT_PUBLIC_AD_PROVIDER_PRIMARY,
   rawFallback = process.env.NEXT_PUBLIC_AD_PROVIDER_FALLBACK,
-  rawLegacyActive = process.env.NEXT_PUBLIC_AD_PROVIDER_ACTIVE,
   rawLegacy = process.env.NEXT_PUBLIC_AD_PROVIDER
 ): Array<Exclude<AdProvider, "none">> {
-  const primary = getPrimaryAdProvider(rawPrimary, rawLegacyActive, rawLegacy);
+  const primary = getPrimaryAdProvider(rawPrimary, rawLegacy);
   const fallback = getFallbackAdProvider(rawFallback);
   return [...new Set([primary, fallback])].filter((provider): provider is Exclude<AdProvider, "none"> => provider !== "none");
 }

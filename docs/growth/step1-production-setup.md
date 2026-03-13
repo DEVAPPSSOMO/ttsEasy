@@ -35,6 +35,10 @@ Expected behavior:
 - Exit code 0: required setup is ready for deployment.
 - Exit code 1: missing required vars and/or setup issues.
 
+For `public`, the checker is conditional:
+- If display monetization is enabled, it requires only the active provider chain (`AdSense` / `EthicalAds`).
+- If the inline video gate is enabled, it requires only the gate contract (`provider`, `tag`, `secret`, and `script` for non-`mock` providers).
+
 ## 4) Deploy sequence
 
 1. Deploy `tts-easy-api` first.
