@@ -21,7 +21,8 @@
     "growth:check:api": "node scripts/phase1-env-check.mjs api",
     "growth:check:api:local": "node scripts/phase1-env-check.mjs api .env.api.local",
     "billing:import-legacy-keys": "node scripts/import-legacy-api-keys.mjs",
-    "billing:import-legacy-keys:api-local": "node scripts/run-node-script-with-env-file.mjs .env.api.local scripts/import-legacy-api-keys.mjs"
+    "billing:import-legacy-keys:api-local": "node scripts/run-node-script-with-env-file.mjs .env.api.local scripts/import-legacy-api-keys.mjs",
+    "sale:check": "node scripts/sale-readiness-check.mjs"
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^5.7.0",

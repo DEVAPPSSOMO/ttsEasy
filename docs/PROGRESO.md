@@ -8,6 +8,8 @@
 
 | Tarea | Estado | Fecha | Notas |
 |---|---|---|---|
+| Recuperar `api.ttseasy.com` en produccion | Completado | 2026-03-14 | Se corrigio la configuracion del proyecto `tts-easy-api` en Vercel, se reanclo el dominio API al deployment de produccion y el portal volvio a responder `200` en landing, docs, pricing, status, login y healthcheck. |
+| Preparar sale kit para listing y handoff | Completado | 2026-03-14 | Se anadio `npm run sale:check`, dossier de venta para Flippa, checklist de evidencia/transferencia y runbook para el redeploy del API. |
 | Reducir superficie indexable para SEO y AdSense | Completado | 2026-03-10 | Se añadieron `noindex` a blogs no-EN, legales, hubs no-EN y landings debiles; el sitemap publica solo URLs prioritarias. |
 | Reordenar la home con enfoque content-first | Completado | 2026-03-10 | Se anadio header global, intro editorial, posts destacados, FAQ visible y se redujo la publicidad de la home a un solo slot. |
 | Reforzar senales E-E-A-T en blog y comparativas | Completado | 2026-03-10 | Se incorporaron author/lastUpdated, JSON-LD mejorado, CTA de API y metodologia/benchmarks en paginas compare. |
@@ -21,6 +23,14 @@
 ---
 
 ## Log de Cambios
+
+### 2026-03-14
+- Se recupero `api.ttseasy.com` en Vercel corrigiendo el `Framework Preset` del proyecto API a `Next.js`, reasociando el dominio al deployment de produccion y desactivando `Vercel Authentication` para el portal publico.
+- Se revalido el portal en produccion: `/`, `/pricing`, `/docs`, `/status`, `/auth/login` y `/api/health` responden `200`, mientras que `/api/v1/*` y `/api/portal/*` ya contestan errores funcionales (`401`) en vez de `404`.
+- Se actualizo la documentacion operativa y de venta para reflejar que el bloqueo tecnico ya no es el host del API sino la evidencia comercial pendiente.
+- Se anadio `scripts/sale-readiness-check.mjs` y el comando `npm run sale:check` para generar un reporte reproducible del estado publico del asset, el sitemap y la evidencia minima de buyer diligence.
+- Se creo `docs/sale/` con el kit de venta: dossier de listing para Flippa, checklist de evidencia, checklist de transferencia y runbook de redeploy del API.
+- Se documento el caso `api.ttseasy.com -> 404 DEPLOYMENT_NOT_FOUND` en troubleshooting para que el riesgo quede explicitado y sea corregible antes de listar como SaaS operativo.
 
 ### 2026-03-13
 - Se extrajo la logica del checker de fase 1 a una libreria reutilizable con tests especificos para la variante publica.

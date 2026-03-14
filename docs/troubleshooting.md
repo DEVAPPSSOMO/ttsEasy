@@ -20,6 +20,55 @@ Notas:
 - El perfil local recomendado vive en `.env.api.local` y se apoya en `.env.local` como base.
 - Si defines `PORT`, ambos `NEXT_PUBLIC_*_URL` deben usar ese mismo puerto.
 
+## `api.ttseasy.com` devuelve `404 DEPLOYMENT_NOT_FOUND`
+
+Causa tipica:
+
+- El dominio del proyecto API apunta a un deployment que ya no existe.
+- El proyecto `tts-easy-api` no tiene un deploy activo o no esta configurado con `APP_VARIANT=api`.
+- En Vercel, el proyecto `tts-easy-api` esta configurado con `Framework Preset = Other` o con un `Output Directory` incorrecto, asi que el deploy no publica el portal Next.js.
+- El dominio responde, pero Vercel Authentication esta activado y deja el portal en `401` para compradores anonimos.
+
+Acciones:
+
+- Verifica que `tts-easy-api` existe y que `api.ttseasy.com` sigue asociado a ese proyecto en Vercel.
+- Verifica que `tts-easy-api` usa `Framework Preset = Next.js` y `Output Directory = Next.js default`.
+- Verifica que `api.ttseasy.com` esta anclado al proyecto `tts-easy-api`, no solo a un deployment antiguo.
+- Si el portal debe ser publico, desactiva `Settings -> Deployment Protection -> Vercel Authentication`.
+- Revisa las variables del contrato de deploy:
+  - `VERCEL_TOKEN`
+  - `VERCEL_API_PROJECT`
+  - `VERCEL_PUBLIC_PROJECT`
+- Ejecuta el deploy canonico:
+
+```bash
+VERCEL_TOKEN=... \
+VERCEL_SCOPE=... \
+VERCEL_API_PROJECT=tts-easy-api \
+VERCEL_PUBLIC_PROJECT=tts-easy-public \
+npm run deploy
+```
+
+- Valida despues del deploy:
+  - `https://api.ttseasy.com/`
+  - `https://api.ttseasy.com/pricing`
+  - `https://api.ttseasy.com/docs`
+  - `https://api.ttseasy.com/api/health`
+  - `https://api.ttseasy.com/auth/login`
+  - `https://api.ttseasy.com/status`
+
+Recuperacion confirmada el 2026-03-14:
+
+- Se corrigio `Framework Preset` de `Other` a `Next.js` en `tts-easy-api`.
+- Se volvio a asociar `api.ttseasy.com` al deployment de produccion del proyecto API.
+- Se desactivo `Vercel Authentication` para que el portal vuelva a ser publico.
+- Tras ello, `landing`, `pricing`, `docs`, `status`, `auth/login` y `api/health` respondieron `200`.
+
+Referencia operativa:
+
+- `docs/deploy-vercel.md`
+- `docs/sale/api-redeploy-runbook.md`
+
 ## `captcha_failed` (403) en `POST /api/tts`
 
 El backend devuelve:
